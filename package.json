@@ -1,0 +1,30 @@
+{
+  "name": "wordpress-theme-starter-pack",
+  "version": "1.0.0",
+  "description": "A starter pack for create a new Wordpress Theme based on Bootstrap 4 and Gulp",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://andrearufo@github.com/andrearufo/wordpress-theme-starter-pack.git"
+  },
+  "author": "andrearufo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andrearufo/wordpress-theme-starter-pack/issues"
+  },
+  "homepage": "https://github.com/andrearufo/wordpress-theme-starter-pack#readme",
+  "devDependencies": {
+    "autoprefixer": "^6.5.3",
+    "bootstrap": "^4.0.0-alpha.5",
+    "gulp": "^3.9.1",
+    "gulp-jshint": "^2.0.4",
+    "gulp-postcss": "^6.2.0",
+    "gulp-sass": "^2.3.2",
+    "gulp-sourcemaps": "^1.9.1",
+    "gulp-uglify": "^2.0.0",
+    "jshint": "^2.9.4"
+  }
+}
