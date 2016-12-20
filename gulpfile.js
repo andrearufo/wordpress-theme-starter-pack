@@ -13,7 +13,7 @@ var uglify 			= require('gulp-uglify');
 gulp.task('styles', function () {
 
 	var processors = [
-        autoprefixer({browsers: ['last 1 version']})
+        autoprefixer({browsers: ['last 2 versions']})
     ];
 
 	return gulp.src('dev/styles/*.scss')
