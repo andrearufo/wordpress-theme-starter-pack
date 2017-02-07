@@ -18,15 +18,9 @@
 	
 	<!--[if lt IE 8]><p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p><![endif]-->
 
-	<div class="logo">
+	<div class="logo display-1">
 
-		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
-			<img 
-				src="<?php echo get_template_directory_uri() ?>/images/logo.png" 
-				alt="<?php bloginfo('name'); ?>" 
-				class="img-fluid hidden-md-down" 
-			>
-		</a>
+		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo('name'); ?></a>
 
 	</div>
 

@@ -12,8 +12,8 @@ function odd_my_styles_method() {
 	
 	wp_enqueue_style(
 		'main',
-		get_template_directory_uri() . '/dis/styles/main.css',
-		array('fonts', 'style'),
+		get_template_directory_uri() . '/dist/styles/main.css',
+		array('style'),
 		'0.1'
 	);
 	
@@ -43,7 +43,7 @@ function odd_my_scripts_method() {
 	
 	wp_enqueue_script(
 		'bootstrap',
-		get_template_directory_uri() . '/dis/scripts/bootstrap.min.js',
+		get_template_directory_uri() . '/dist/scripts/bootstrap.min.js',
 		array('jquery', 'tether'),
 		'4.0.0-alpha.5',
 		true
@@ -51,7 +51,7 @@ function odd_my_scripts_method() {
 	
 	wp_enqueue_script(
 		'main',
-		get_template_directory_uri() . '/dis/scripts/main.min.js',
+		get_template_directory_uri() . '/dist/scripts/main.min.js',
 		array('jquery', 'bootstrap'),
 		'0.1',
 		true
@@ -59,7 +59,7 @@ function odd_my_scripts_method() {
 
 	wp_enqueue_script(
 		'acfpromaps',
-		get_template_directory_uri() . '/dis/scripts/acfpromaps.js',
+		get_template_directory_uri() . '/dist/scripts/acfpromaps.js',
 		array('googleapis'),
 		'0.1',
 		true
