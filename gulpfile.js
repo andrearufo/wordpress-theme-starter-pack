@@ -2,37 +2,48 @@
 
 var gulp 			= require('gulp');
 
+// Plugins
+
+var pump 			= require('pump');
+
 var sass 			= require('gulp-sass');
 var sourcemaps      = require('gulp-sourcemaps');
 var postcss 		= require('gulp-postcss');
 var autoprefixer 	= require('autoprefixer');
 
 var jshint 			= require('gulp-jshint');
-var uglify 			= require('gulp-uglify'); 
+var concat 			= require('gulp-concat');
+var uglify 			= require('gulp-uglify');
 
-gulp.task('styles', function () {
+// Tasks
 
-	var processors = [
-        autoprefixer({browsers: ['last 2 versions']})
-    ];
-
-	return gulp.src('dev/styles/*.scss')
-		.pipe(sourcemaps.init())
-		.pipe(sass().on('error', sass.logError))
-		.pipe(postcss(processors))
-		.pipe(sourcemaps.write('.'))
-		.pipe(gulp.dest('dis/styles'));
-
+gulp.task('styles', function (cb) {
+	pump([
+		gulp.src('dev/styles/*.scss'),
+		sourcemaps.init(),
+		sass().on('error', sass.logError),
+		postcss([autoprefixer({browsers: ['last 1 version']})]),
+		sourcemaps.write('.'),
+		gulp.dest('dist/styles')
+	], cb)
 });
 
-gulp.task('scripts', function () {
+gulp.task('scripts', function (cb) {
+	pump([
+		gulp.src('dev/scripts/*.js'),
+		sourcemaps.init(),
+		jshint(),
+		jshint.reporter('jshint-stylish'),
+		concat('main.min.js'),
+		uglify(),
+		sourcemaps.write('.'),
+		gulp.dest('dist/scripts')
+	], cb)
+});
 
-	return gulp.src('dev/scripts/*.js')
-        .pipe(jshint())
-        .pipe(jshint.reporter('default'))
-        .pipe(uglify())
-        .pipe(gulp.dest( 'dis/scripts'))
-
+gulp.task('copy', function () {
+	gulp.src('./node_modules/bootstrap/dist/js/bootstrap.min.js')
+        .pipe(gulp.dest('./dist/scripts/'));
 });
 
 gulp.task('watch', function () {
@@ -42,4 +53,4 @@ gulp.task('watch', function () {
 
 });
 
-gulp.task('default', ['watch']);
+gulp.task('default', ['styles', 'scripts', 'copy', 'watch']);
