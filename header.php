@@ -17,26 +17,25 @@
 </head>
 <body>
 
-	<div class="logo display-1">
+	<div class="container">
 
-		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
-			<?php bloginfo('name'); ?>
-		</a>
+      	<div class="header clearfix py-3">
+			<nav>
+				<?php
 
-	</div>
+				if( has_nav_menu('mainmenu') ) :
+					wp_nav_menu( array(
+						'theme_location'	=> 'mainmenu',
+						'depth'				=> 1
+					)
+				);
+				endif;
 
-	<nav>
-		<?php
-
-		if( has_nav_menu('mainmenu') ) :
-			wp_nav_menu( array(
-				'theme_location'	=> 'mainmenu',
-				'depth'				=> 1
-			)
-		);
-		endif;
-
-		?>
-	</nav>
-
-	<main>
+				?>
+			</nav>
+        	<h3 class="text-muted">
+				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+					<?php bloginfo('name'); ?>
+				</a>
+			</h3>
+      	</div>

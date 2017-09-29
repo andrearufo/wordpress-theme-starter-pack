@@ -1,13 +1,11 @@
-	
-	</main>
 
-	<footer>
+		<footer class="footer">
+			<p>&copy; <?php bloginfo('name'); ?> <?php echo date('Y') ?></p>
+		</footer>
 
-		Footer
+	</div>
 
-	</footer>
-	
 	<?php wp_footer() ?>
-	
+
 </body>
 </html>

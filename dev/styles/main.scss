@@ -3,18 +3,18 @@
 $var:			#fedcba;
 
 // import
- 
-@import 'variables';
+
 @import '../../node_modules/bootstrap/scss/bootstrap';
+@import 'variables';
 @import 'defaults';
 
 body{
-	content: 'dummy';
+
 }
-	
+
 
 /*
-	
+
 	@include media-breakpoint-up(xs) { ... }
 	@include media-breakpoint-up(sm) { ... }
 	@include media-breakpoint-up(md) { ... }

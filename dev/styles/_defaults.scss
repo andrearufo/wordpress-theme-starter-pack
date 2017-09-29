@@ -1,7 +1,7 @@
 
 // colori
-.color-white{	color: white;	}
-.color-black{	color: black;	}
+.color-white			{ color: white; }
+.color-black			{ color: black; }
 
 // stili font
 .font-100, .font-thin	{ font-weight: 100; }
@@ -11,12 +11,11 @@
 .font-700, .font-bold	{ font-weight: 700; }
 .font-900, .font-black	{ font-weight: 900; }
 
-.font-italic	{	font-style: italic; }
+.font-italic			{ font-style: italic; }
 
 // dimensioni
-.font-size-xs{ font-size: $font-size-xs; }
-.font-size-sm{ font-size: $font-size-sm; }
-.font-size-lg{ font-size: $font-size-lg; }
+.font-size-sm			{ font-size: $font-size-sm; }
+.font-size-lg			{ font-size: $font-size-lg; }
 
 // grid no gutter
 .row.row-nogutters {

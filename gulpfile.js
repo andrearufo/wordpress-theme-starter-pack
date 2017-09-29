@@ -41,11 +41,6 @@ gulp.task('scripts', function (cb) {
 	], cb)
 });
 
-gulp.task('copy', function () {
-	gulp.src('./node_modules/bootstrap/dist/js/bootstrap.min.js')
-        .pipe(gulp.dest('./dist/scripts/'));
-});
-
 gulp.task('watch', function () {
 
 	gulp.watch('dev/styles/*.scss', ['styles']);
@@ -53,4 +48,4 @@ gulp.task('watch', function () {
 
 });
 
-gulp.task('default', ['styles', 'scripts', 'copy', 'watch']);
+gulp.task('default', ['styles', 'scripts', 'watch']);
