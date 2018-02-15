@@ -5,8 +5,6 @@
 	<meta charset="<?php bloginfo('charset') ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<title><?php is_front_page() ? bloginfo('description') : wp_title(''); ?>, <?php bloginfo('name'); ?></title>
-
 	<!-- icons -->
 	<link href="<?php echo get_template_directory_uri() ?>/images/favicon.png" rel="icon" type="image/png" />
 	<link href="<?php echo get_template_directory_uri() ?>/images/favicon.png" rel="apple-touch-icon" />

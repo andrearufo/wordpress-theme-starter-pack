@@ -70,3 +70,12 @@ function odd_post_thumbnail_url($size = 'large', $id = null){
 	$image = wp_get_attachment_image_src( $thumb_id, $size );
 	return $image[0];
 }
+
+/* Title Tag */
+if ( ! function_exists( '_wp_render_title_tag' ) ) {
+
+	function theme_slug_render_title() { ?>
+		<title><?php wp_title( '-', true, 'right' ); ?></title>
+	<?php }
+	add_action( 'wp_head', 'theme_slug_render_title' );
+}
