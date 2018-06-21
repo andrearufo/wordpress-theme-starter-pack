@@ -15,9 +15,13 @@
 </head>
 <body>
 
-	<div class="container">
+	<header>
+		<div class="container">
 
-      	<div class="header clearfix py-3">
+			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+				<?php bloginfo('name'); ?>
+			</a>
+
 			<nav>
 				<?php
 
@@ -31,9 +35,9 @@
 
 				?>
 			</nav>
-        	<h3 class="text-muted">
-				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
-					<?php bloginfo('name'); ?>
-				</a>
-			</h3>
-      	</div>
+
+		</div>
+	</header>
+
+	<main>
+		<div class="container">
