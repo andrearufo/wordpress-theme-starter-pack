@@ -1,0 +1,26 @@
+@font-face {
+	font-family: "icons";
+	src: url('icons.eot');
+	src: url('icons.eot?#iefix') format('eot'),
+		url('icons.woff2') format('woff2'),
+		url('icons.woff') format('woff'),
+		url('icons.ttf') format('truetype'),
+		url('icons.svg#icons') format('svg');
+}
+
+.icon:before {
+	font-family: "icons";
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	/* speak: none; only necessary if not using the private unicode range (firstGlyph option) */
+	text-decoration: none;
+	text-transform: none;
+}
+
+
+.icon-noun_word_95000:before {
+	content: "\E001";
+}
