@@ -30,9 +30,11 @@ var jshint 			= require('gulp-jshint'),
 
 gulp.task('scripts', function() {
 	gulp.src('dev/scripts/*.js')
+		.pipe( sourcemaps.init() )
 		.pipe( jshint() )
 		.pipe( jshint.reporter('jshint-stylish') )
 		.pipe( uglify() )
+		.pipe( sourcemaps.write('.') )
 		.pipe( gulp.dest('dist/scripts') )
 		.pipe( notify("Scripts compiled!") );
 });

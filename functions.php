@@ -28,7 +28,7 @@ function odd_my_scripts_method() {
 
 	wp_enqueue_script(
 		'main',
-		get_template_directory_uri() . '/dist/scripts/main.min.js',
+		get_template_directory_uri() . '/dist/scripts/main.js',
 		array('jquery'),
 		'0.1',
 		true
