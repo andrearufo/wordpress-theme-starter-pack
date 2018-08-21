@@ -1,50 +1,70 @@
 'use strict';
 
-var gulp 			= require('gulp');
-var notify 			= require("gulp-notify");
-
-/* Styles */
-
-var sass 			= require('gulp-sass'),
+var gulp 			= require('gulp'),
+	notify 			= require('gulp-notify'),
+	sass 			= require('gulp-sass'),
 	sourcemaps      = require('gulp-sourcemaps'),
 	postcss 		= require('gulp-postcss'),
-	autoprefixer 	= require('autoprefixer');
+	autoprefixer 	= require('autoprefixer'),
+	plumber 		= require('gulp-plumber'),
+	jshint 			= require('gulp-jshint'),
+	uglify 			= require('gulp-uglify'),
+	iconfont 		= require('gulp-iconfont'),
+	iconfontCss 	= require('gulp-iconfont-css');
 
+var onError = function(err) {
+	notify.onError({
+		title:    'Gulp',
+		subtitle: 'Failure!',
+		message:  'Error: <%= error.message %>',
+		sound:    'Basso'
+	})(err);
+
+	this.emit('end');
+};
+
+/* Styles */
 gulp.task('styles', function(){
-	gulp.src('dev/styles/*.scss')
+	return gulp.src('dev/styles/*.scss')
+		.pipe(plumber({errorHandler: onError}))
 		.pipe( sourcemaps.init() )
-		.pipe( sass().on('error', function(err) {
-				return notify().write(err);
-			})
-		)
+		.pipe(sass({ style: 'expanded' }))
 		.pipe( postcss([autoprefixer({browsers: ['last 1 version']})]) )
 		.pipe( sourcemaps.write('.') )
 		.pipe( gulp.dest('dist/styles') )
-		.pipe( notify("Styles compiled!") );
+		.pipe(notify({
+			title: 'Gulp',
+			subtitle: 'Success!',
+			message: 'Styles compiled',
+			sound: 'Pop',
+			onLast: true
+		}));
 });
 
 /* Scripts */
-
-var jshint 			= require('gulp-jshint'),
-	uglify 			= require('gulp-uglify');
-
 gulp.task('scripts', function() {
-	gulp.src('dev/scripts/*.js')
+	return gulp.src('dev/scripts/*.js')
+		.pipe(plumber({errorHandler: onError}))
 		.pipe( sourcemaps.init() )
 		.pipe( jshint() )
 		.pipe( jshint.reporter('jshint-stylish') )
 		.pipe( uglify() )
 		.pipe( sourcemaps.write('.') )
 		.pipe( gulp.dest('dist/scripts') )
-		.pipe( notify("Scripts compiled!") );
+		.pipe(notify({
+			title: 'Gulp',
+			subtitle: 'Success!',
+			message: 'Scripts compiled',
+			sound: 'Pop',
+			onLast: true
+		}));
+
 });
 
 /* Icon font */
-var iconfont 		= require('gulp-iconfont'),
-	iconfontCss 	= require('gulp-iconfont-css');
-
 gulp.task('icons', function(){
-  	gulp.src(['assets/icons/*.svg'])
+  	return gulp.src(['assets/icons/*.svg'])
+		.pipe(plumber({errorHandler: onError}))
 		.pipe( iconfontCss({
 			fontName: 'icons',
 			path: 'dev/templates/icons.css',
@@ -60,11 +80,16 @@ gulp.task('icons', function(){
 			timestamp: Math.round(Date.now()/1000)
 		}) )
 		.pipe( gulp.dest('dist/icons/') )
-		.pipe( notify("Icons compiled!") );
+		.pipe(notify({
+			title: 'Gulp',
+			subtitle: 'Success!',
+			message: 'Icons compiled',
+			sound: 'Pop',
+			onLast: true
+		}));
 });
 
 /* Whatch and default */
-
 gulp.task('watch', function () {
 	gulp.watch('dev/styles/*.scss', ['styles']);
 	gulp.watch('dev/scripts/*.js', ['scripts']);
@@ -79,4 +104,4 @@ gulp.task('watch styles', function () {
 	gulp.watch('dev/styles/*.js', ['styles']);
 });
 
-gulp.task('default', ['styles', 'scripts', 'watch']);
+gulp.task('default', ['icons', 'styles', 'scripts', 'watch']);
