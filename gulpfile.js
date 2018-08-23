@@ -7,7 +7,7 @@ var gulp 			= require('gulp'),
 	postcss 		= require('gulp-postcss'),
 	autoprefixer 	= require('autoprefixer'),
 	plumber 		= require('gulp-plumber'),
-	jshint 			= require('gulp-jshint'),
+	eslint 			= require('gulp-eslint'),
 	uglify 			= require('gulp-uglify'),
 	iconfont 		= require('gulp-iconfont'),
 	iconfontCss 	= require('gulp-iconfont-css');
@@ -46,8 +46,14 @@ gulp.task('scripts', function() {
 	return gulp.src('dev/scripts/*.js')
 		.pipe(plumber({errorHandler: onError}))
 		.pipe( sourcemaps.init() )
-		.pipe( jshint() )
-		.pipe( jshint.reporter('jshint-stylish') )
+        .pipe(eslint({
+			'rules':{
+				'quotes': [1, 'single'],
+				'semi': [1, 'always']
+			}
+		}))
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError())
 		.pipe( uglify() )
 		.pipe( sourcemaps.write('.') )
 		.pipe( gulp.dest('dist/scripts') )
