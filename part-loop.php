@@ -16,11 +16,11 @@
 
                 <?php if( has_post_thumbnail() ) : ?>
 
-                    <div class="post_thumbnail"><?php the_post_thumbnail() ?></div>
+                    <div class="article-thumbnail"><?php the_post_thumbnail() ?></div>
 
                 <?php endif; ?>
 
-                <?php the_content() ?>
+                <div class="article-content"><?php (is_single()) ? the_content() : the_excerpt(); ?></div>
 
                 <hr>
 

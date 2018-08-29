@@ -396,7 +396,7 @@ mark,
   max-width: 100%;
   height: auto; }
 
-.img-thumbnail, article .post_thumbnail img {
+.img-thumbnail, article .article-thumbnail img {
   padding: 0.25rem;
   background-color: #fff;
   border: 1px solid #dee2e6;
@@ -6481,8 +6481,22 @@ ul.page-numbers {
 body {
   margin: 2rem; }
 
-article .post_thumbnail {
+article .article-thumbnail {
   margin-bottom: 1rem; }
+
+.aligncenter, .alignright, .alignleft {
+  display: block;
+  margin: 1rem auto; }
+
+@media (min-width: 576px) {
+  .alignright {
+    float: right;
+    margin: 1rem 0 1rem 1rem; } }
+
+@media (min-width: 576px) {
+  .alignleft {
+    float: right;
+    margin: 1rem 0 1rem 1rem; } }
 
 /*
 

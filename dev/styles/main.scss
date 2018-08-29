@@ -17,12 +17,31 @@ img{
 }
 
 article{
-    .post_thumbnail{
+    .article-thumbnail{
         margin-bottom: $spacer;
-        
+
         img{
             @extend .img-thumbnail;
         }
+    }
+}
+
+.aligncenter, .alignright, .alignleft{
+    display: block;
+    margin: $spacer auto;
+}
+
+.alignright{
+    @include media-breakpoint-up(sm) {
+        float: right;
+        margin: $spacer 0 $spacer $spacer;
+    }
+}
+
+.alignleft{
+    @include media-breakpoint-up(sm) {
+        float: right;
+        margin: $spacer 0 $spacer $spacer;
     }
 }
 
