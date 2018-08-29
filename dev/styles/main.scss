@@ -1,16 +1,30 @@
 //vars
 
-$var:			#fedcba;
+$primary:			#16a085;
 
 // import
 
 @import '../../node_modules/bootstrap/scss/bootstrap';
 @import 'defaults';
+@import 'pagination';
 
 body{
     margin: 2rem;
 }
 
+img{
+    @extend .img-fluid;
+}
+
+article{
+    .post_thumbnail{
+        margin-bottom: $spacer;
+        
+        img{
+            @extend .img-thumbnail;
+        }
+    }
+}
 
 /*
 

@@ -1,7 +1,5 @@
 <?php
 
-require_once('functions/plugins.php');
-
 /* Add the default style and some other */
 add_action( 'wp_enqueue_scripts', 'odd_my_styles_method');
 function odd_my_styles_method() {
@@ -12,11 +10,34 @@ function odd_my_styles_method() {
 	);
 
 	wp_enqueue_style(
-		'main',
-		get_template_directory_uri() . '/dist/styles/main.css',
+		'fontawesome',
+		'https://use.fontawesome.com/releases/v5.2.0/css/all.css',
+		array(),
+		'5.2.0'
+	);
+
+	wp_enqueue_style(
+		'icons',
+		get_template_directory_uri() . '/dist/icons/icons.css',
 		array('style'),
 		'0.1'
 	);
+
+	wp_enqueue_style(
+		'main',
+		get_template_directory_uri() . '/dist/styles/main.css',
+		array('style', 'fontawesome', 'icons'),
+		'0.1'
+	);
+
+	/*
+	wp_enqueue_style(
+		'flag-icon',
+		'https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css',
+		array(),
+		'3.1.0'
+	);
+	*/
 
 }
 
@@ -27,9 +48,25 @@ function odd_my_scripts_method() {
 	wp_enqueue_script( 'jquery' );
 
 	wp_enqueue_script(
+		'popper.js',
+		'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js',
+		array('jquery'),
+		'1.14.3',
+		true
+	);
+
+	wp_enqueue_script(
+		'bootstrap',
+		'https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js',
+		array('jquery', 'popper.js'),
+		'4.1.1',
+		true
+	);
+
+	wp_enqueue_script(
 		'main',
 		get_template_directory_uri() . '/dist/scripts/main.js',
-		array('jquery'),
+		array('jquery', 'bootstrap'),
 		'0.1',
 		true
 	);

@@ -1,16 +1,19 @@
-// stili font
-.font-100, .font-thin	{ font-weight: 100; }
-.font-300, .font-light	{ font-weight: 300; }
-.font-400, .font-regular{ font-weight: 400; }
-.font-500, .font-medium	{ font-weight: 500; }
-.font-700, .font-bold	{ font-weight: 700; }
-.font-900, .font-black	{ font-weight: 900; }
+// font styles
+.font-100, .font-thin		{ font-weight: 100; }
+.font-200, .font-extralight	{ font-weight: 200; }
+.font-300, .font-light		{ font-weight: 300; }
+.font-400, .font-regular	{ font-weight: 400; }
+.font-500, .font-medium		{ font-weight: 500; }
+.font-600, .font-semibold	{ font-weight: 600; }
+.font-700, .font-bold		{ font-weight: 700; }
+.font-800, .font-extrabold	{ font-weight: 800; }
+.font-900, .font-black		{ font-weight: 900; }
 
-.font-italic			{ font-style: italic; }
+.font-italic				{ font-style: italic; }
 
-// dimensioni
-.font-size-sm			{ font-size: $font-size-sm; }
-.font-size-lg			{ font-size: $font-size-lg; }
+// font sizes
+.font-size-sm				{ font-size: $font-size-sm; }
+.font-size-lg				{ font-size: $font-size-lg; }
 
 // grid no gutter
 .row.row-nogutters {

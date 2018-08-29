@@ -1,17 +1,42 @@
-<?php if( have_posts() ) : while( have_posts() ) : the_post(); ?>
+<?php if( have_posts() ) : ?>
+    <div class="post-list">
 
-    <article <?php post_class() ?>>
+        <?php while( have_posts() ) : the_post(); ?>
 
-        <?php the_title('<h1>', '</h1>') ?>
+            <article <?php post_class() ?>>
 
-        <?php if( has_post_thumbnail() ) : ?>
+                <?php
+                the_title(
+                    (is_single())?'<h1>':'<h2>',
+                    (is_single())?'</h1>':'</h2>'
+                )
+                ?>
 
-            <div><?php the_post_thumbnail() ?></div>
+                <p><a href="<?php the_permalink() ?>"><?php the_permalink() ?></a></p>
 
-        <?php endif; ?>
+                <?php if( has_post_thumbnail() ) : ?>
 
-        <?php the_content() ?>
+                    <div class="post_thumbnail"><?php the_post_thumbnail() ?></div>
 
-    </article>
+                <?php endif; ?>
 
-<?php endwhile; endif; ?>
+                <?php the_content() ?>
+
+                <hr>
+
+            </article>
+
+        <?php endwhile; ?>
+
+        <div class="pages">
+            <?php echo paginate_links([
+                'type' => 'list',
+                'end_size' => 2,
+                'mid_size' => 2,
+                'prev_text' => __('Prev'),
+                'next_text' => __('Next'),
+            ]); ?>
+        </div>
+
+    </div>
+<?php endif; ?>
