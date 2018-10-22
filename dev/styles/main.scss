@@ -1,9 +1,9 @@
-//vars
+// Vars & Override (ref. https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss)
+$primary: #16a085;
+$font-family-san-serif: 'IBM Plex Sans', sans-serif;
 
-$primary:			#16a085;
-
-// import
-
+// Import
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i');
 @import '../../node_modules/bootstrap/scss/bootstrap';
 @import 'defaults';
 @import 'pagination';
@@ -14,6 +14,14 @@ body{
 
 img{
     @extend .img-fluid;
+}
+
+header, main, footer{
+    padding: 2rem 0;
+}
+
+header, footer{
+    background: $gray-100;
 }
 
 article{
