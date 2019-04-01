@@ -7,6 +7,13 @@
  * @package wtsp
  */
 
+function register_my_session(){
+ 	if( !session_id() ) {
+ 		session_start();
+ 	}
+}
+add_action('init', 'register_my_session');
+
 if ( ! function_exists( 'wtsp_setup' ) ) :
 	/**
 	 * Sets up theme defaults and registers support for various WordPress features.
@@ -88,15 +95,6 @@ function wtsp_my_styles_method() {
 		'0.1'
 	);
 
-	/*
-	wp_enqueue_style(
-		'flag-icon',
-		'https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css',
-		array(),
-		'3.1.0'
-	);
-	*/
-
 }
 
 /* Add some js scripts */
@@ -107,17 +105,17 @@ function wtsp_my_scripts_method() {
 
 	wp_enqueue_script(
 		'popper.js',
-		'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js',
+		'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js',
 		array('jquery'),
-		'1.14.3',
+		'1.14.6',
 		true
 	);
 
 	wp_enqueue_script(
 		'bootstrap',
-		'https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js',
+		'https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js',
 		array('jquery', 'popper.js'),
-		'4.1.1',
+		'4.2.1',
 		true
 	);
 
@@ -133,7 +131,7 @@ function wtsp_my_scripts_method() {
 
 /* Enamble custom thumbnail sizes */
 if ( function_exists( 'add_image_size' ) ) {
-	add_image_size( 'full', 1920 );
+	add_image_size( '1920', 1920 );
 }
 
 /* Customize the excerpt lenght */

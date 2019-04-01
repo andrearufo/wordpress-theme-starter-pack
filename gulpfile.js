@@ -10,7 +10,8 @@ var gulp 			= require('gulp'),
 	eslint 			= require('gulp-eslint'),
 	uglify 			= require('gulp-uglify'),
 	iconfont 		= require('gulp-iconfont'),
-	iconfontCss 	= require('gulp-iconfont-css');
+	iconfontCss 	= require('gulp-iconfont-css'),
+	browserSync 	= require('browser-sync').create();
 
 var onError = function(err) {
 	notify.onError({
@@ -93,6 +94,21 @@ gulp.task('icons', function(){
 			sound: 'Pop',
 			onLast: true
 		}));
+});
+
+/* Browsersync */
+gulp.task('serve', ['icons', 'styles', 'scripts'], function() {
+    browserSync.init({
+		proxy: "http://romacamp.test",
+		// reloadDelay: 2000
+    });
+
+	gulp.watch('dev/styles/*.scss', ['styles']);
+	gulp.watch('dev/scripts/*.js', ['scripts']);
+	gulp.watch('assets/icons/*.svg', ['icons']);
+
+	gulp.watch('dist/*.*').on('change', browserSync.reload);
+    gulp.watch('*.php').on('change', browserSync.reload);
 });
 
 /* Whatch and default */
