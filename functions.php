@@ -65,6 +65,18 @@ if ( ! function_exists( 'wtsp_setup' ) ) :
 endif;
 add_action( 'after_setup_theme', 'wtsp_setup' );
 
+// Function to change email address
+function wpb_sender_email( $original_email_address ) {
+	return 'no-reply@wordpress.test';
+}
+add_filter( 'wp_mail_from', 'wpb_sender_email' );
+
+// Function to change sender name
+function wpb_sender_name( $original_email_from ) {
+	return get_bloginfo('name'); //ex. 'Wordpress Test';
+}
+add_filter( 'wp_mail_from_name', 'wpb_sender_name' );
+
 /* Add the default style and some other */
 add_action( 'wp_enqueue_scripts', 'wtsp_my_styles_method');
 function wtsp_my_styles_method() {
@@ -76,7 +88,7 @@ function wtsp_my_styles_method() {
 
 	wp_enqueue_style(
 		'fontawesome',
-		'https://use.fontawesome.com/releases/v5.2.0/css/all.css',
+        'https://use.fontawesome.com/releases/v5.8.1/css/all.css',
 		array(),
 		'5.2.0'
 	);
@@ -105,24 +117,24 @@ function wtsp_my_scripts_method() {
 
 	wp_enqueue_script(
 		'popper.js',
-		'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js',
-		array('jquery'),
-		'1.14.6',
+		'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/popper.min.js',
+		['jquery'],
+		'1.15.0',
 		true
 	);
 
 	wp_enqueue_script(
 		'bootstrap',
-		'https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js',
-		array('jquery', 'popper.js'),
-		'4.2.1',
+		'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js',
+		['jquery', 'popper.js'],
+		'4.3.1',
 		true
 	);
 
 	wp_enqueue_script(
 		'main',
 		get_template_directory_uri() . '/dist/scripts/main.js',
-		array('jquery', 'bootstrap'),
+		['jquery', 'bootstrap'],
 		'0.1',
 		true
 	);
@@ -131,7 +143,8 @@ function wtsp_my_scripts_method() {
 
 /* Enamble custom thumbnail sizes */
 if ( function_exists( 'add_image_size' ) ) {
-	add_image_size( '1920', 1920 );
+    add_image_size( '1920', 1920 );
+	add_image_size( '800x600', 800, 600, true );
 }
 
 /* Customize the excerpt lenght */
@@ -147,6 +160,9 @@ function wtsp_register_my_menu( ) {
 }
 
 /* Add some theme support */
+add_theme_support( 'automatic-feed-links' );
+add_theme_support( 'title-tag' );
+
 function wtsp_content_width() {
 	$GLOBALS['content_width'] = apply_filters( 'wtsp_content_width', 1200 );
 }
