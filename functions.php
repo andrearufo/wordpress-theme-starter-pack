@@ -53,13 +53,13 @@ if ( ! function_exists( 'wtsp_setup' ) ) :
 		 * Switch default core markup for search form, comment form, and comments
 		 * to output valid HTML5.
 		 */
-		add_theme_support( 'html5', array(
+		add_theme_support( 'html5',[
 			'search-form',
 			'comment-form',
 			'comment-list',
 			'gallery',
 			'caption',
-		) );
+		]);
 	}
 
 endif;
@@ -89,21 +89,21 @@ function wtsp_my_styles_method() {
 	wp_enqueue_style(
 		'fontawesome',
         'https://use.fontawesome.com/releases/v5.8.1/css/all.css',
-		array(),
-		'5.2.0'
+		[ ],
+		'5.8.1'
 	);
 
 	wp_enqueue_style(
 		'icons',
 		get_template_directory_uri() . '/dist/icons/icons.css',
-		array('style'),
+		['style'],
 		'0.1'
 	);
 
 	wp_enqueue_style(
 		'main',
 		get_template_directory_uri() . '/dist/styles/main.css',
-		array('style', 'fontawesome', 'icons'),
+		['style', 'fontawesome', 'icons'],
 		'0.1'
 	);
 
@@ -117,9 +117,9 @@ function wtsp_my_scripts_method() {
 
 	wp_enqueue_script(
 		'popper.js',
-		'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/popper.min.js',
-		['jquery'],
-		'1.15.0',
+		'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js',
+		[ ],
+		'1.14.7',
 		true
 	);
 

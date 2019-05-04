@@ -32,11 +32,10 @@
 						<?php
 
 						if( has_nav_menu('mainmenu') ) :
-							wp_nav_menu( array(
+							wp_nav_menu([
 								'theme_location' => 'mainmenu',
 								'depth' => 1
-							)
-						);
+							]);
 						endif;
 
 						?>

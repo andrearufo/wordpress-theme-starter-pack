@@ -1,129 +1,97 @@
-'use strict';
-
-var gulp 			= require('gulp'),
-	notify 			= require('gulp-notify'),
-	sass 			= require('gulp-sass'),
-	sourcemaps      = require('gulp-sourcemaps'),
-	postcss 		= require('gulp-postcss'),
-	autoprefixer 	= require('autoprefixer'),
-	plumber 		= require('gulp-plumber'),
-	eslint 			= require('gulp-eslint'),
-	uglify 			= require('gulp-uglify'),
-	iconfont 		= require('gulp-iconfont'),
-	iconfontCss 	= require('gulp-iconfont-css'),
-	browserSync 	= require('browser-sync').create();
-
-var onError = function(err) {
-	notify.onError({
-		title:    'Gulp',
-		subtitle: 'Failure!',
-		message:  'Error: <%= error.message %>',
-		sound:    'Basso'
-	})(err);
-
-	this.emit('end');
+var paths = {
+    styles: {
+        src: 'dev/styles/**/*.scss',
+        dest: 'dist/styles'
+    },
+    scripts: {
+        src: 'dev/scripts/**/*.js',
+        dest: 'dist/scripts'
+    },
+    icons: {
+        src: 'assets/icons/*.svg',
+        template: 'dev/templates/icons.css',
+        dest: 'dist/icons/'
+    }
 };
+var fontName = 'Icons';
 
-/* Styles */
-gulp.task('styles', function(){
-	return gulp.src('dev/styles/*.scss')
-		.pipe(plumber({errorHandler: onError}))
-		.pipe( sourcemaps.init() )
-		.pipe(sass({ style: 'expanded' }))
-		.pipe( postcss([autoprefixer({browsers: ['last 1 version']})]) )
-		.pipe( sourcemaps.write('.') )
-		.pipe( gulp.dest('dist/styles') )
-		.pipe(notify({
-			title: 'Gulp',
-			subtitle: 'Success!',
-			message: 'Styles compiled',
-			sound: 'Pop',
-			onLast: true
-		}));
-});
+var gulp = require('gulp');
+var log = require('fancy-log');
+var sourcemaps = require('gulp-sourcemaps');
+var sass = require('gulp-sass');
+var postcss = require('gulp-postcss');
+var autoprefixer = require('autoprefixer');
+var uglify = require('gulp-uglify');
+var eslint = require('gulp-eslint');
+var iconfont = require('gulp-iconfont');
+var iconfontCss = require('gulp-iconfont-css');
 
-/* Scripts */
-gulp.task('scripts', function() {
-	return gulp.src('dev/scripts/*.js')
-		.pipe(plumber({errorHandler: onError}))
-		.pipe( sourcemaps.init() )
-        .pipe(eslint({
-			'rules':{
-				'quotes': [1, 'single'],
-				'semi': [1, 'always']
-			}
-		}))
-        .pipe(eslint.format())
-        .pipe(eslint.failAfterError())
-		.pipe( uglify() )
-		.pipe( sourcemaps.write('.') )
-		.pipe( gulp.dest('dist/scripts') )
-		.pipe(notify({
-			title: 'Gulp',
-			subtitle: 'Success!',
-			message: 'Scripts compiled',
-			sound: 'Pop',
-			onLast: true
-		}));
+function styles() {
+    log.info('Starting styles!');
+    return (
+        gulp
+            .src(paths.styles.src)
+            .pipe(sourcemaps.init())
+            .pipe(sass().on('error', sass.logError))
+            .pipe(postcss([autoprefixer()]))
+            .pipe(sourcemaps.write('.'))
+            .pipe( gulp.dest(paths.styles.dest) )
+    );
+}
+exports.styles = styles;
 
-});
+function scripts() {
+    log.info('Starting scripts!');
+    return (
+        gulp
+            .src(paths.scripts.src)
+            .pipe(eslint({
+                'rules':{
+                    'quotes': [1, 'single'],
+                    'semi': [1, 'always']
+                }
+            }))
+            .pipe(eslint.format())
+            .pipe(eslint.failAfterError())
+    		.pipe( uglify() )
+    		.pipe( gulp.dest(paths.scripts.dest) )
+    );
+}
+exports.scripts = scripts;
 
-/* Icon font */
-gulp.task('icons', function(){
-  	return gulp.src(['assets/icons/*.svg'])
-		.pipe(plumber({errorHandler: onError}))
-		.pipe( iconfontCss({
-			fontName: 'icons',
-			path: 'dev/templates/icons.css',
-			targetPath: 'icons.css',
-			fontPath: ''
-		}) )
-		.pipe( iconfont({
-			fontName: 'icons',
-			normalize: true,
-			fontHeight: 1001,
-			prependUnicode: true,
-			formats: ['ttf', 'eot', 'woff'],
-			timestamp: Math.round(Date.now()/1000)
-		}) )
-		.pipe( gulp.dest('dist/icons/') )
-		.pipe(notify({
-			title: 'Gulp',
-			subtitle: 'Success!',
-			message: 'Icons compiled',
-			sound: 'Pop',
-			onLast: true
-		}));
-});
+function icons() {
+    log.info('Starting icons!');
+    return (
+        gulp
+            .src(paths.icons.src)
+            .pipe( iconfontCss({
+    			fontName: fontName,
+    			path: paths.icons.template,
+    			targetPath: 'icons.css',
+    			fontPath: ''
+    		}) )
+    		.pipe( iconfont({
+    			fontName: fontName,
+    			normalize: true,
+    			fontHeight: 1001,
+    			prependUnicode: true,
+    			formats: ['ttf', 'eot', 'woff'],
+    			timestamp: Math.round(Date.now()/1000)
+    		}) )
+    		.pipe( gulp.dest(paths.icons.dest) )
+    );
+}
+exports.icons = icons;
 
-/* Browsersync */
-gulp.task('serve', ['icons', 'styles', 'scripts'], function() {
-    browserSync.init({
-		proxy: "http://romacamp.test",
-		// reloadDelay: 2000
-    });
+function watch(){
+    log.info('Starting watch!');
+    gulp.watch(paths.styles.src, gulp.series('styles'));
+    gulp.watch(paths.scripts.src, gulp.series('scripts'));
+    gulp.watch(paths.icons.src, gulp.series('icons'));
+}
+exports.watch = watch;
 
-	gulp.watch('dev/styles/*.scss', ['styles']);
-	gulp.watch('dev/scripts/*.js', ['scripts']);
-	gulp.watch('assets/icons/*.svg', ['icons']);
-
-	gulp.watch('dist/*.*').on('change', browserSync.reload);
-    gulp.watch('*.php').on('change', browserSync.reload);
-});
-
-/* Whatch and default */
-gulp.task('watch', function () {
-	gulp.watch('dev/styles/*.scss', ['styles']);
-	gulp.watch('dev/scripts/*.js', ['scripts']);
-	gulp.watch('assets/icons/*.svg', ['icons']);
-});
-
-gulp.task('watch scripts', function () {
-	gulp.watch('dev/scripts/*.js', ['scripts']);
-});
-
-gulp.task('watch styles', function () {
-	gulp.watch('dev/styles/*.js', ['styles']);
-});
-
-gulp.task('default', ['icons', 'styles', 'scripts', 'watch']);
+function start(){
+    watch();
+}
+exports.default = start;

@@ -1,5 +1,7 @@
 <?php get_header(); ?>
 
-	<?php get_template_part('part-loop') ?>
+	<h1>404</h1>
+
+	<p>Page not found</p>
 
 <?php get_footer(); ?>
