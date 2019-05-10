@@ -13,7 +13,6 @@ var paths = {
         dest: 'dist/icons/'
     }
 };
-var fontName = 'Icons';
 
 var gulp = require('gulp');
 var log = require('fancy-log');
@@ -21,26 +20,29 @@ var sourcemaps = require('gulp-sourcemaps');
 var sass = require('gulp-sass');
 var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer');
+var cssnano = require('cssnano');
 var uglify = require('gulp-uglify');
 var eslint = require('gulp-eslint');
 var iconfont = require('gulp-iconfont');
 var iconfontCss = require('gulp-iconfont-css');
 
-function styles() {
+function styles(cb) {
     log.info('Starting styles!');
     return (
         gulp
             .src(paths.styles.src)
             .pipe(sourcemaps.init())
-            .pipe(sass().on('error', sass.logError))
-            .pipe(postcss([autoprefixer()]))
+            .pipe(sass())
+            .on('error', sass.logError)
+            .pipe(postcss([autoprefixer(), cssnano()]))
             .pipe(sourcemaps.write('.'))
             .pipe( gulp.dest(paths.styles.dest) )
     );
+	cb();
 }
 exports.styles = styles;
 
-function scripts() {
+function scripts(cb) {
     log.info('Starting scripts!');
     return (
         gulp
@@ -56,22 +58,23 @@ function scripts() {
     		.pipe( uglify() )
     		.pipe( gulp.dest(paths.scripts.dest) )
     );
+	cb();
 }
 exports.scripts = scripts;
 
-function icons() {
+function icons(cb) {
     log.info('Starting icons!');
     return (
         gulp
             .src(paths.icons.src)
             .pipe( iconfontCss({
-    			fontName: fontName,
+    			fontName: 'icons',
     			path: paths.icons.template,
     			targetPath: 'icons.css',
     			fontPath: ''
     		}) )
     		.pipe( iconfont({
-    			fontName: fontName,
+    			fontName: 'icons',
     			normalize: true,
     			fontHeight: 1001,
     			prependUnicode: true,
@@ -80,6 +83,7 @@ function icons() {
     		}) )
     		.pipe( gulp.dest(paths.icons.dest) )
     );
+	cb();
 }
 exports.icons = icons;
 
@@ -92,6 +96,9 @@ function watch(){
 exports.watch = watch;
 
 function start(){
+    styles();
+    scripts();
+    icons();
     watch();
 }
 exports.default = start;
