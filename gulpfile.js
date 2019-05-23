@@ -1,4 +1,8 @@
 var paths = {
+    sync: {
+        proxy: 'wordpress.test',
+        delay: 2000
+    },
     styles: {
         src: 'dev/styles/**/*.scss',
         dest: 'dist/styles'
@@ -25,18 +29,25 @@ var uglify = require('gulp-uglify');
 var eslint = require('gulp-eslint');
 var iconfont = require('gulp-iconfont');
 var iconfontCss = require('gulp-iconfont-css');
+var notify = require('gulp-notify');
+var browserSync = require('browser-sync').create();
 
 function styles(cb) {
     log.info('Starting styles!');
     return (
         gulp
             .src(paths.styles.src)
-            .pipe(sourcemaps.init())
+            // .pipe(sourcemaps.init())
             .pipe(sass())
-            .on('error', sass.logError)
+            .on('error', notify.onError({
+                message: 'Error: <%= error.message %>',
+                title: 'Styles error!'
+            }))
             .pipe(postcss([autoprefixer(), cssnano()]))
-            .pipe(sourcemaps.write('.'))
+            // .pipe(sourcemaps.write('.'))
             .pipe( gulp.dest(paths.styles.dest) )
+            .pipe(browserSync.stream())
+            .pipe(notify('Complete styles!'))
     );
 	cb();
 }
@@ -55,8 +66,13 @@ function scripts(cb) {
             }))
             .pipe(eslint.format())
             .pipe(eslint.failAfterError())
+            .on('error', notify.onError({
+                message: 'Error: <%= error.message %>',
+                title: 'Scripts error!'
+            }))
     		.pipe( uglify() )
     		.pipe( gulp.dest(paths.scripts.dest) )
+            .pipe(notify('Complete scripts!'))
     );
 	cb();
 }
@@ -82,10 +98,22 @@ function icons(cb) {
     			timestamp: Math.round(Date.now()/1000)
     		}) )
     		.pipe( gulp.dest(paths.icons.dest) )
+            .pipe(notify('Complete icons!'))
     );
 	cb();
 }
 exports.icons = icons;
+
+function serve(){
+    browserSync.init({
+        proxy: paths.sync.proxy,
+        reloadDelay: paths.sync.delay
+    });
+
+    watch();
+    gulp.watch("*.php").on('change', browserSync.reload);
+}
+exports.serve = serve;
 
 function watch(){
     log.info('Starting watch!');
@@ -96,9 +124,6 @@ function watch(){
 exports.watch = watch;
 
 function start(){
-    styles();
-    scripts();
-    icons();
-    watch();
+    serve();
 }
 exports.default = start;
