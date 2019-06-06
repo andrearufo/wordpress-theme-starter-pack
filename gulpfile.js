@@ -72,6 +72,7 @@ function scripts(cb) {
             }))
     		.pipe( uglify() )
     		.pipe( gulp.dest(paths.scripts.dest) )
+            .pipe(browserSync.stream())
             .pipe(notify('Complete scripts!'))
     );
 	cb();
@@ -98,6 +99,7 @@ function icons(cb) {
     			timestamp: Math.round(Date.now()/1000)
     		}) )
     		.pipe( gulp.dest(paths.icons.dest) )
+            .pipe(browserSync.stream())
             .pipe(notify('Complete icons!'))
     );
 	cb();
