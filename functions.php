@@ -159,10 +159,6 @@ function wtsp_register_my_menu( ) {
 	register_nav_menu( 'mainmenu', 'Main menu of the theme');
 }
 
-/* Add some theme support */
-add_theme_support( 'automatic-feed-links' );
-add_theme_support( 'title-tag' );
-
 function wtsp_content_width() {
 	$GLOBALS['content_width'] = apply_filters( 'wtsp_content_width', 1200 );
 }
