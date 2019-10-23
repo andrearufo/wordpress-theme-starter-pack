@@ -4,26 +4,35 @@
         <?php while( have_posts() ) : the_post(); ?>
 
             <article <?php post_class() ?>>
+                <div class="row">
 
-                <?php
-                the_title(
-                    (is_single())?'<h1>':'<h2>',
-                    (is_single())?'</h1>':'</h2>'
-                )
-                ?>
+                    <?php if( has_post_thumbnail() ) : ?>
+                        <div class="col-lg-2 text-center">
 
-                <p><a href="<?php the_permalink() ?>"><?php the_permalink() ?></a></p>
+                            <div class="article-thumbnail">
+                                <?php the_post_thumbnail(is_single() ? 'large' : 'medium') ?>
+                            </div>
 
-                <?php if( has_post_thumbnail() ) : ?>
+                        </div>
+                    <?php endif; ?>
 
-                    <div class="article-thumbnail"><?php the_post_thumbnail() ?></div>
+                    <div class="col-lg">
 
-                <?php endif; ?>
+                        <?php
+                        the_title(
+                            is_single() ? '<h1>' : '<h2>',
+                            is_single() ? '</h1>' : '</h2>'
+                        )
+                        ?>
 
-                <div class="article-content"><?php (is_single()) ? the_content() : the_excerpt(); ?></div>
+                        <div class="article-content">
+                            <?php is_single() ? the_content() : the_excerpt(); ?>
+                        </div>
 
-                <hr>
+                        <a class="btn btn-primary" href="<?php the_permalink() ?>"><?php the_permalink() ?></a>
 
+                    </div>
+                </div>
             </article>
 
         <?php endwhile; ?>

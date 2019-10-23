@@ -9,7 +9,7 @@ $font-family-sans-serif: 'IBM Plex Sans', sans-serif;
 @import 'pagination';
 
 body{
-    margin: 2rem;
+    margin: $spacer;
 }
 
 img{
@@ -17,7 +17,7 @@ img{
 }
 
 header, main, footer{
-    padding: 2rem 0;
+    padding: $spacer 0;
 }
 
 header, footer{
@@ -25,12 +25,22 @@ header, footer{
 }
 
 article{
+    margin-bottom: $spacer;
+
     .article-thumbnail{
         margin-bottom: $spacer;
 
         img{
             @extend .img-thumbnail;
         }
+    }
+
+    &::after{
+        content: '***';
+        text-align: center;
+        display: block;
+        padding: $spacer;
+        color: $primary;
     }
 }
 
