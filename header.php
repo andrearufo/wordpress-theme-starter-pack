@@ -38,6 +38,8 @@
 								'theme_location' => 'mainmenu',
 								'depth' => 1
 							]);
+						else:
+							echo 'Accedi al pannello per popolare il menu...';
 						endif;
 						?>
 					</nav>

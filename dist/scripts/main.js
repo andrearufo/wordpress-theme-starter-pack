@@ -1,1 +1,1 @@
-!function(n){var u={dummy:function(){console.log("dummy")}};n(document).ready(function(){u.dummy()})}(jQuery);
+!function(i){var n={slider:function(){i("#slide").slick({dots:!0,arrows:!1})}};i(document).ready(function(){n.slider()})}(jQuery);

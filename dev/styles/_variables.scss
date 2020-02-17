@@ -1,0 +1,36 @@
+// Vars & Override (ref. https://github.com/twbs/bootstrap/blob/master/scss/_variables.scss)
+
+$spacer: 2rem;
+
+$primary: #227093;
+
+$font-family-monospace: 'Space Mono', monospace;
+$font-family-sans-serif: 'Syncopate', sans-serif;
+$font-family-base: $font-family-monospace;
+
+$font-size-base: 1rem;
+$font-size-lg: $font-size-base * 1.25;
+$font-size-sm: $font-size-base * .875;
+$font-size-xs: $font-size-base * .7;
+
+$headings-font-family: $font-family-sans-serif;
+$headings-font-weight: 700;
+
+$grid-breakpoints: (
+    xs: 0,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+    ol: 1600px,
+    ul: 1740px
+);
+
+$container-max-widths: (
+    sm: 540px,
+    md: 720px,
+    lg: 960px,
+    xl: 1140px,
+    ol: 1300px,
+    ul: 1600px
+);

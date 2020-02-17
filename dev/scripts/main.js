@@ -4,9 +4,12 @@
 
 	/* Define Functions */
 
-	script.dummy = function(){
+	script.slider = function(){
 
-		console.log('dummy');
+		$('#slide').slick({
+			dots: true,
+			arrows: false
+		});
 
 	};
 
@@ -14,7 +17,7 @@
 
 	$(document).ready(function() {
 
-		script.dummy();
+		script.slider();
 
 	});
 

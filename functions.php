@@ -88,23 +88,37 @@ function wtsp_my_styles_method() {
 
 	wp_enqueue_style(
 		'fontawesome',
-        'https://use.fontawesome.com/releases/v5.8.1/css/all.css',
+        'https://use.fontawesome.com/releases/v5.12.0/css/all.css',
 		[ ],
-		'5.8.1'
+		'5.12.0'
 	);
 
 	wp_enqueue_style(
 		'icons',
 		get_template_directory_uri() . '/dist/icons/icons.css',
 		['style'],
-		'0.1'
+		'20200126'
+	);
+
+	wp_enqueue_style(
+		'slick-carousel',
+		'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css',
+		[ ],
+		'1.9.0'
+	);
+
+	wp_enqueue_style(
+		'slick-carousel-theme',
+		'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.css',
+		['slick-carousel'],
+		'1.9.0'
 	);
 
 	wp_enqueue_style(
 		'main',
 		get_template_directory_uri() . '/dist/styles/main.css',
 		['style', 'fontawesome', 'icons'],
-		'0.1'
+		'20200126'
 	);
 
 }
@@ -114,6 +128,7 @@ add_action( 'wp_enqueue_scripts', 'wtsp_my_scripts_method');
 function wtsp_my_scripts_method() {
 
 	wp_enqueue_script( 'jquery' );
+	wp_enqueue_script( 'lodash' );
 
 	wp_enqueue_script(
 		'popper.js',
@@ -132,10 +147,18 @@ function wtsp_my_scripts_method() {
 	);
 
 	wp_enqueue_script(
+		'slick',
+		'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js',
+		['jquery'],
+		'1.9.0',
+		true
+	);
+
+	wp_enqueue_script(
 		'main',
 		get_template_directory_uri() . '/dist/scripts/main.js',
-		['jquery', 'bootstrap'],
-		'0.1',
+		['jquery', 'bootstrap', 'slick'],
+		'20200126',
 		true
 	);
 
@@ -157,6 +180,7 @@ function wtsp_new_excerpt_more( $more ) {
 add_action( 'init', 'wtsp_register_my_menu' );
 function wtsp_register_my_menu( ) {
 	register_nav_menu( 'mainmenu', 'Main menu of the theme');
+	register_nav_menu( 'footermenu', 'Footer menu of the theme');
 }
 
 function wtsp_content_width() {
@@ -164,21 +188,10 @@ function wtsp_content_width() {
 }
 add_action( 'after_setup_theme', 'wtsp_content_width', 0 );
 
-/* Get the post thumbnail url */
-function wtsp_post_thumbnail_url($size = 'large', $id = null){
-	if( is_null($id) )
-		$id = $post->id;
-	$thumb_id = get_post_thumbnail_id( $id );
-	$image = wp_get_attachment_image_src( $thumb_id, $size );
-	return $image[0];
-}
-
 /* Title Tag */
 if ( ! function_exists( '_wp_render_title_tag' ) ) {
-
 	function wtsp_render_title() { ?>
 		<title><?php wp_title( '-', true, 'right' ); ?></title>
 	<?php }
 	add_action( 'wp_head', 'wtsp_render_title' );
-
 }
