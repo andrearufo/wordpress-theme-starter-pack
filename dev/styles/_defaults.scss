@@ -15,15 +15,3 @@
 .font-size-xs				{ font-size: $font-size-xs; }
 .font-size-sm				{ font-size: $font-size-sm; }
 .font-size-lg				{ font-size: $font-size-lg; }
-
-// grid no gutter
-.row.row-nogutters {
-	margin-right: 0;
-	margin-left: 0;
-
-	& > [class^="col-"],
-	& > [class*=" col-"] {
-		padding-right: 0;
-		padding-left: 0;
-	}
-}

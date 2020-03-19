@@ -28,9 +28,11 @@
     "gulp-iconfont-css": "^3.0.0",
     "gulp-notify": "^3.2.0",
     "gulp-postcss": "^8.0.0",
-    "gulp-real-favicon": "^0.3.2",
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-uglify": "^3.0.2"
+  },
+  "dependencies": {
+    "console-clear": "^1.1.1"
   }
 }
