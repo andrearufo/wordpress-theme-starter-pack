@@ -2,35 +2,54 @@
 
 $spacer: 2rem;
 
-$primary: #227093;
+$body-color: #000000;
+$primary: #EE802E;
 
-$font-family-monospace: 'Space Mono', monospace;
-$font-family-sans-serif: 'Syncopate', sans-serif;
-$font-family-base: $font-family-monospace;
+$link-color: $body-color;
+$link-decoration: underline;
+$link-hover-color: $body-color;
+$link-hover-decoration: none;
 
-$font-size-base: 1rem;
+$font-family-sans-serif: 'Inter', sans-serif;;
+
+$font-weight-base: 300;
+
+$font-size-base: 1.2rem;
 $font-size-lg: $font-size-base * 1.25;
 $font-size-sm: $font-size-base * .875;
 $font-size-xs: $font-size-base * .7;
 
+$line-height-base: 1.8;
+
 $headings-font-family: $font-family-sans-serif;
-$headings-font-weight: 700;
+$headings-font-weight: 600;
+$headings-margin-bottom: $spacer;
 
-$grid-breakpoints: (
-    xs: 0,
-    sm: 576px,
-    md: 768px,
-    lg: 992px,
-    xl: 1200px,
-    ol: 1600px,
-    ul: 1740px
-);
+$h1-font-size: 6rem;
+$h2-font-size: 3.6rem;
+$h3-font-size: 2rem;
+$h4-font-size: 2rem;
+$h5-font-size: 2rem;
+$h6-font-size: 1rem;
 
-$container-max-widths: (
-    sm: 540px,
-    md: 720px,
-    lg: 960px,
-    xl: 1140px,
-    ol: 1300px,
-    ul: 1600px
-);
+// Proj var
+$before-hover-color: rgba(#000, .5);
+
+// $grid-breakpoints: (
+//     xs: 0,
+//     sm: 576px,
+//     md: 768px,
+//     lg: 992px,
+//     xl: 1200px,
+//     ol: 1600px,
+//     ul: 1740px
+// );
+//
+// $container-max-widths: (
+//     sm: 540px,
+//     md: 720px,
+//     lg: 960px,
+//     xl: 1140px,
+//     ol: 1300px,
+//     ul: 1600px
+// );
