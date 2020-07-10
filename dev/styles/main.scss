@@ -15,7 +15,7 @@
     width: 100%;
     top: 0;
     height: 100%;
-    background: $body-bg;
+    background: $body-color;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -26,8 +26,8 @@
         height: 120px;
 
         svg{
-            .cls-1{ fill: $body-color; }
-            .cls-2{ fill: $body-bg; }
+            .cls-1{ fill: $body-bg; }
+            .cls-2{ fill: $body-color; }
         }
 
         animation: spin 1s ease infinite;
@@ -116,8 +116,7 @@ header{
 
     a#logo{
         display: block;
-        margin-top: $spacer/2;
-        margin-bottom: $spacer/2;
+        padding: $spacer;
 
         img{
             height: 60px;
@@ -217,6 +216,25 @@ footer{
 
         li{
             @extend .list-inline-item;
+
+            a{
+                $d: 28px;
+
+                width: $d;
+                height: $d;
+                line-height: $d;
+                border-radius: 100%;
+                color: $white;
+                background: $body-color;
+                transition: all .4s;
+                text-decoration: none;
+                display: inline-block;
+                text-align: center;
+
+                &:hover{
+                    opacity: .8;
+                }
+            }
         }
     }
 }
@@ -258,7 +276,7 @@ footer{
                     width: 100%;
                     top: 0;
                     height: 100%;
-                    padding: ($spacer * 2);
+                    padding: ($spacer * 4);
                     color: white;
                     display: flex;
                     align-items: flex-end;
@@ -302,6 +320,20 @@ footer{
             }
         }
 
+        .slick-arrow{
+            z-index: 1010;
+            top: auto;
+            bottom: $spacer;
+
+            &.slick-prev{
+                left: $spacer;
+            }
+
+            &.slick-next{
+                right: $spacer;
+            }
+        }
+
         .slick-dots {
             bottom: $spacer;
             color: $white;
@@ -332,7 +364,7 @@ footer{
         display: none;
         position: absolute;
         left: 50%;
-        bottom: $spacer * 1.5;
+        bottom: $spacer * 1.3;
         font-size: $font-size-xs;
         padding-left: $spacer / 2;
         text-transform: uppercase;
@@ -381,6 +413,11 @@ footer{
             h1{
                 position: relative;
                 color: white;
+                font-size: $h1-font-size * .6;
+
+                @include media-breakpoint-up(lg){
+                    font-size: $h1-font-size;
+                }
             }
         }
 
@@ -448,9 +485,13 @@ footer{
                 &.lavori-media-galleria-list-left{
                     img{
                         margin: $spacer;
-                        height: 600px;
+                        height: 340px;
                         width: auto;
                         max-height: 60vh;
+
+                        @include media-breakpoint-up(lg){
+                            height: 600px;
+                        }
                     }
                 }
 
@@ -546,6 +587,15 @@ footer{
 #archive{
     @extend .marged;
 
+    .archive-lavori{
+        .archive-settore-list-item{
+            margin-bottom: $spacer * 2;
+            padding-top: $spacer * 2;
+            height: 100%;
+            border-bottom: 1px solid $body-color;
+        }
+    }
+
     #archive-menutaxonomy{
         @extend .list-inline;
         @extend .marged;
@@ -573,11 +623,32 @@ footer{
     .archive-settore{
         @extend .marged;
 
+        h2{
+            position: relative;
+
+            span{
+                background: $body-bg;
+                position: relative;
+                padding-left: 2%;
+                padding-right: 2%;
+                margin-left: 2%
+            }
+
+            &::before{
+                content: '';
+                position: absolute;
+                width: 100%;
+                left: 0;
+                bottom: 15px;
+                border-bottom: 6px solid $body-color;
+            }
+        }
+
         .archive-settore-list{
             .archive-settore-list-item{
-                margin: ($spacer * 2) 0;
 
                 a{
+                    display: block;
                     text-decoration: none;
 
                     img{

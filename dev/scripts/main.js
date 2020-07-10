@@ -25,7 +25,7 @@
 	script.slider = function(){
 		$('#homepage-slider').slick({
 			dots: true,
-			arrows: false,
+			arrows: true,
 			infinite: true,
 			slidesToShow: 3,
 			slidesToScroll: 1,
@@ -38,6 +38,7 @@
 					breakpoint: 1024,
 					settings: {
 						slidesToShow: 1,
+						dots: false,
 					}
 				}
 			]
@@ -89,6 +90,16 @@
 		});
 	};
 
+	script.clienti = function(){
+		$('.archive-clienti .archive-settore-list').slick({
+			dots: true,
+			arrows: false,
+			infinite: false,
+			slidesToShow: 4,
+		});
+
+	};
+
 	/* Start Functions */
 
 	$(document).ready(function() {
@@ -98,6 +109,7 @@
 		script.menu();
 		script.localscroll();
 		script.galleria();
+		script.clienti();
 
 	});
 

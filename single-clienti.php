@@ -63,20 +63,28 @@
 								}
 
 							endwhile;
+
+							?>
+
+							<div class="sticky-top">
+								<ul id="cliente-header-content-elenco">
+									<?php foreach ($list as $key => $value): ?>
+										<li>
+											<a href="#lavoro-<?php echo $key ?>">
+												<?php echo $value ?>
+											</a>
+										</li>
+									<?php endforeach; ?>
+								</ul>
+							</div>
+
+							<?php
 						endif;
 
+						wp_reset_query();
+						wp_reset_postdata();
+
 						?>
-
-						<ul id="cliente-header-content-elenco">
-							<?php foreach ($list as $key => $value): ?>
-								<li>
-									<a href="#lavoro-<?php echo $key ?>">
-										<?php echo $value ?>
-									</a>
-								</li>
-							<?php endforeach; ?>
-						</ul>
-
 
 					</div>
 				</div>
@@ -125,8 +133,11 @@
 														echo $servizi[0]->name;
 													}
 													?>
-													—
-													<?php the_field('anno') ?>
+
+													<?php if (get_field('anno')): ?>
+														—
+														<?php the_field('anno') ?>
+													<?php endif; ?>
 												</small>
 
 											</div>
@@ -166,6 +177,9 @@
 														break;
 													case 'video':
 														get_template_part('part-media-video');
+														break;
+													case 'galleriavideo':
+														get_template_part('part-media-galleriavideo');
 														break;
 													case 'testogrande':
 														get_template_part('part-media-testogrande');

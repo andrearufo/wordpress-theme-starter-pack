@@ -8,7 +8,7 @@
 	</div>
 </div>
 
-<div id="archive">
+<div id="archive" class="archive-lavori">
 	<div class="container">
 
 		<?php
@@ -48,54 +48,56 @@
 
 				?>
 
-				<div class="archive-settore" id="<?php echo $servizio->slug ?>">
+				<section>
+					<div class="archive-settore" id="<?php echo $servizio->slug ?>">
 
-					<h2><?php echo $servizio->name ?></h2>
+						<h2><span><?php echo $servizio->name ?></span></h2>
 
-					<div class="archive-settore-list">
-						<div class="row">
+						<div class="archive-settore-list">
+							<div class="row">
 
-							<?php while ( $query->have_posts() ) : $query->the_post(); ?>
-								<div class="col-lg-6">
+								<?php while ( $query->have_posts() ) : $query->the_post(); ?>
+									<div class="col-lg-6">
 
-									<?php
+										<?php
 
-									$cliente = get_field('cliente');
-									$cliente = $cliente[0];
-									$permalink = get_the_permalink($cliente->ID) ?: '#';
+										$cliente = get_field('cliente');
+										$cliente = $cliente[0];
+										$permalink = get_the_permalink($cliente->ID).'#lavoro-'.get_the_ID() ?: '#';
 
-									?>
+										?>
 
-									<div class="archive-settore-list-item">
-										<article <?php post_class() ?>>
+										<div class="archive-settore-list-item">
+											<article <?php post_class() ?>>
 
-											<a href="<?php echo $permalink ?>">
-												<?php
-												if ($post_type == 'clienti' && $logo = get_field('logo')):
-													echo wp_get_attachment_image($logo, '800x600');
-												else:
-													the_post_thumbnail('800x600');
-												endif;
-												?>
+												<a href="<?php echo $permalink ?>">
+													<?php
+													if ($post_type == 'clienti' && $logo = get_field('logo')):
+														echo wp_get_attachment_image($logo, '800x600');
+													else:
+														the_post_thumbnail('800x600');
+													endif;
+													?>
 
-												<div class="archive-settore-list-item-extra">
-													<?php echo $cliente->post_title ?>
-												</div>
+													<div class="archive-settore-list-item-extra">
+														<?php echo $cliente->post_title ?>
+													</div>
 
-												<h3><?php the_title() ?></h3>
+													<h3><?php the_title() ?></h3>
 
-											</a>
+												</a>
 
-										</article>
+											</article>
+										</div>
+
 									</div>
+								<?php endwhile; ?>
 
-								</div>
-							<?php endwhile; ?>
-
+							</div>
 						</div>
-					</div>
 
-				</div>
+					</div>
+				</section>
 				<?php
 
 			endif;

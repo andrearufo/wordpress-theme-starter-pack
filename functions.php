@@ -228,3 +228,68 @@ add_filter( 'get_the_archive_title', function ($title) {
     }
     return $title;
 });
+
+/* Columns */
+add_filter( 'manage_lavori_posts_columns', 'set_custom_edit_lavori_columns' );
+function set_custom_edit_lavori_columns($columns) {
+    // unset( $columns['author'] );
+
+    $columns['cliente'] = __( 'Cliente', 'wtsp' );
+    $columns['settori'] = __( 'Settori', 'wtsp' );
+    $columns['servizi'] = __( 'Servizi', 'wtsp' );
+
+    return $columns;
+}
+
+add_action( 'manage_lavori_posts_custom_column' , 'custom_lavori_column', 10, 2 );
+function custom_lavori_column( $column, $post_id ) {
+    switch ( $column ) {
+
+        case 'cliente' :
+            $cliente = reset(get_post_meta( $post_id , 'cliente' , true ));
+            $url = '/wp-admin/edit.php?'.http_build_query( array_merge( $_GET, ['cliente' => $cliente] ) );
+            echo '<a href="'.$url.'">'.get_the_title($cliente).'<a/>';
+            break;
+
+        case 'servizi' :
+            $terms = get_the_term_list( $post_id , 'servizi' , '' , ',' , '' );
+            if ( is_string( $terms ) )
+                echo $terms;
+            else
+                _e( 'Unable', 'wtsp' );
+            break;
+
+        case 'settori' :
+            $terms = get_the_term_list( $post_id , 'settori' , '' , ',' , '' );
+            if ( is_string( $terms ) )
+                echo $terms;
+            else
+                _e( 'Unable', 'wtsp' );
+            break;
+
+
+
+    }
+}
+
+/* Filter by client */
+add_filter( 'parse_query', 'prefix_parse_filter' );
+function  prefix_parse_filter($query) {
+    global $pagenow;
+    $current_page = isset( $_GET['post_type'] ) ? $_GET['post_type'] : '';
+
+    if (
+        is_admin()
+        && 'lavori' == $current_page
+        && 'edit.php' == $pagenow
+        && isset( $_GET['cliente'] )
+        && $_GET['cliente'] != ''
+    ) {
+
+        $cliente = $_GET['cliente'];
+
+        $query->query_vars['meta_key'] = 'cliente';
+        $query->query_vars['meta_value'] = '"' . $cliente . '"';
+        $query->query_vars['meta_compare'] = 'LIKE';
+    }
+}

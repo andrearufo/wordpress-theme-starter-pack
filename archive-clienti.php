@@ -8,7 +8,7 @@
 	</div>
 </div>
 
-<div id="archive">
+<div id="archive" class="archive-clienti">
 	<div class="container">
 
 		<?php
@@ -48,74 +48,42 @@
 
 				?>
 
-				<div class="archive-settore" id="<?php echo $settore->slug ?>">
+				<section>
+					<div class="archive-settore" id="<?php echo $settore->slug ?>">
 
-					<h2><?php echo $settore->name ?></h2>
+						<h2><span><?php echo $settore->name ?></span></h2>
 
-					<div class="archive-settore-list">
-						<div class="row">
-
+						<div class="archive-settore-list">
 							<?php while ( $query->have_posts() ) : $query->the_post(); ?>
-								<div class="col-lg-6">
+								<div class="archive-settore-list-item">
+									<article <?php post_class() ?>>
 
-									<?php
+										<a href="<?php the_permalink() ?>">
+											<?php
+											if ($post_type == 'clienti' && $logo = get_field('logo')):
+												echo wp_get_attachment_image($logo, '800x600');
+											else:
+												the_post_thumbnail('800x600');
+											endif;
+											?>
 
-									if ($post_type == 'lavori') {
-										$cliente = get_field('cliente');
-										$cliente = $cliente[0];
-										$pemalink = get_the_permalink($cliente->ID);
-									}else{
-										$permalink = get_the_permalink();
-									}
+											<div class="archive-settore-list-item-extra">
+												<?php $servizi = get_the_terms(get_the_ID(), 'servizi'); ?>
+												<ul>
+													<?php if ($servizi) : foreach ($servizi as $servizio): ?>
+														<li><?php echo $servizio->name ?></li>
+													<?php endforeach; endif; ?>
+												</ul>
+											</div>
+										</a>
 
-									?>
-
-									<div class="archive-settore-list-item">
-										<article <?php post_class() ?>>
-
-											<a href="<?php echo $permalink ?>">
-												<?php
-												if ($post_type == 'clienti' && $logo = get_field('logo')):
-													echo wp_get_attachment_image($logo, '800x600');
-												else:
-													the_post_thumbnail('800x600');
-												endif;
-												?>
-
-												<div class="archive-settore-list-item-extra">
-													<?php if ($post_type == 'lavori') : ?>
-
-														<?php echo $cliente->post_title ?>
-
-													<?php else: ?>
-
-														<?php $servizi = get_the_terms(get_the_ID(), 'servizi'); ?>
-
-														<ul>
-															<?php if ($servizi) : foreach ($servizi as $servizio): ?>
-																<li><?php echo $servizio->name ?></li>
-															<?php endforeach; endif; ?>
-														</ul>
-
-													<?php endif; ?>
-												</div>
-
-												<?php if ($post_type != 'clienti') : ?>
-													<h3><?php the_title() ?></h3>
-												<?php endif; ?>
-
-											</a>
-
-										</article>
-									</div>
-
+									</article>
 								</div>
 							<?php endwhile; ?>
-
 						</div>
-					</div>
 
-				</div>
+					</div>
+				</section>
 				<?php
 
 			endif;
