@@ -23,28 +23,28 @@
 					</a>
 
 				</div>
-				<div class="col-lg">
-
-					<div id="hamburger">
-						<button type="button" class="btn btn-dark">
-							<i class="ri-menu-3-line"></i>
-						</button>
-					</div>
-
-				</div>
 			</div>
 
 		</div>
 	</header>
 
 	<nav>
-		<?php
-		if( has_nav_menu('mainmenu') ) :
-			wp_nav_menu([
-				'theme_location' => 'mainmenu',
-				'container_class' => 'menu-wrapper',
-				'depth' => 1
-			]);
-		endif;
-		?>
+		<div class="row no-gutters">
+			<div class="col-xl-6 col-lg-8 nav-col-menu">
+
+				<?php
+				if( has_nav_menu('mainmenu') ) :
+					wp_nav_menu([
+						'theme_location' => 'mainmenu',
+						'container_class' => 'menu-wrapper',
+						'depth' => 1
+					]);
+				endif;
+				?>
+
+			</div>
+			<div class="col-xl-6 col-lg-4 nav-col-outern d-none d-lg-block"></div>
+		</div>
+
+
 	</nav>

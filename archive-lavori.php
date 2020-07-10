@@ -13,14 +13,14 @@
 
 		<?php
 		$post_type = $wp_query->query['post_type'];
-		$settori = get_terms('settori', ['hide-empty'=>true]);
+		$servizi = get_terms('servizi', ['hide-empty'=>true]);
 		?>
 
-		<ul id="archive-menusettori">
-			<?php foreach ($settori as $settore) : ?>
+		<ul id="archive-menutaxonomy">
+			<?php foreach ($servizi as $servizio) : ?>
 				<li>
-					<a href="#<?php echo $settore->slug ?>">
-						<?php echo $settore->name ?>
+					<a href="#<?php echo $servizio->slug ?>">
+						<?php echo $servizio->name ?>
 					</a>
 				</li>
 			<?php endforeach; ?>
@@ -28,16 +28,16 @@
 
 		<?php
 
-		foreach ($settori as $settore) :
+		foreach ($servizi as $servizio) :
 
 			$args = [
 				'post_type' => $post_type,
 				'posts_per_page' => -1,
 				'tax_query' => [
 					[
-						'taxonomy' => 'settori',
+						'taxonomy' => 'servizi',
 						'field'    => 'slug',
-						'terms'    => $settore->slug,
+						'terms'    => $servizio->slug,
 					],
 				],
 			];
@@ -48,9 +48,9 @@
 
 				?>
 
-				<div class="archive-settore" id="<?php echo $settore->slug ?>">
+				<div class="archive-settore" id="<?php echo $servizio->slug ?>">
 
-					<h2><?php echo $settore->name ?></h2>
+					<h2><?php echo $servizio->name ?></h2>
 
 					<div class="archive-settore-list">
 						<div class="row">
@@ -60,13 +60,9 @@
 
 									<?php
 
-									if ($post_type == 'lavori') {
-										$cliente = get_field('cliente');
-										$cliente = $cliente[0];
-										$pemalink = get_the_permalink($cliente->ID);
-									}else{
-										$permalink = get_the_permalink();
-									}
+									$cliente = get_field('cliente');
+									$cliente = $cliente[0];
+									$permalink = get_the_permalink($cliente->ID) ?: '#';
 
 									?>
 
@@ -83,26 +79,10 @@
 												?>
 
 												<div class="archive-settore-list-item-extra">
-													<?php if ($post_type == 'lavori') : ?>
-
-														<?php echo $cliente->post_title ?>
-
-													<?php else: ?>
-
-														<?php $servizi = get_the_terms(get_the_ID(), 'servizi'); ?>
-
-														<ul>
-															<?php if ($servizi) : foreach ($servizi as $servizio): ?>
-																<li><?php echo $servizio->name ?></li>
-															<?php endforeach; endif; ?>
-														</ul>
-
-													<?php endif; ?>
+													<?php echo $cliente->post_title ?>
 												</div>
 
-												<?php if ($post_type != 'clienti') : ?>
-													<h3><?php the_title() ?></h3>
-												<?php endif; ?>
+												<h3><?php the_title() ?></h3>
 
 											</a>
 

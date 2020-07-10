@@ -1,6 +1,22 @@
 <?php get_header(); ?>
 
 <?php if( have_posts() ) : while( have_posts() ) : the_post(); ?>
+
+	<?php
+
+	$args = [
+		'post_type' => 'lavori',
+		'posts_per_page' => -1,
+		'meta_query' => [
+			[
+				'key' => 'cliente',
+				'value' => '"' . get_the_ID() . '"',
+				'compare' => 'LIKE'
+			]
+		]
+	];
+
+	?>
 	<div id="cliente">
 		<article <?php post_class() ?>>
 
@@ -28,16 +44,46 @@
 						?>
 						<h1><?php the_title() ?></h1>
 
-						<ul>
-							<li>Inserire qui i servizi associati ai lavori sottostanti e linkare con ancora (scroll)</li>
+						<?php
+
+						$query = new WP_Query($args);
+						if ( $query->have_posts() ) :
+							$list = [];
+
+							while ( $query->have_posts() ) :
+								$query->the_post();
+
+								$id = get_the_ID();
+								$servizi = get_the_terms(get_the_ID(), 'servizi');
+
+								foreach ($servizi as $servizo) {
+									if (!in_array($servizo->name, $list)) {
+										$list[$id] = $servizo->name;
+									}
+								}
+
+							endwhile;
+						endif;
+
+						?>
+
+						<ul id="cliente-header-content-elenco">
+							<?php foreach ($list as $key => $value): ?>
+								<li>
+									<a href="#lavoro-<?php echo $key ?>">
+										<?php echo $value ?>
+									</a>
+								</li>
+							<?php endforeach; ?>
 						</ul>
+
 
 					</div>
 				</div>
 
 			</div>
 
-			<div id="cliente-content">
+			<section id="cliente-content">
 				<div class="container">
 
 					<div class="row justify-content-center">
@@ -49,21 +95,9 @@
 					</div>
 
 				</div>
-			</div>
+			</section>
 
 			<?php
-
-			$args = [
-				'post_type' => 'lavori',
-				'posts_per_page' => -1,
-				'meta_query' => [
-					[
-						'key' => 'cliente',
-						'value' => '"' . get_the_ID() . '"',
-						'compare' => 'LIKE'
-					]
-				]
-			];
 
 			// echo '<pre>'.print_r($args, 1).'</pre>';
 
@@ -76,15 +110,16 @@
 					<ul id="cliente-lavori-list">
 						<?php while ( $query->have_posts() ) : $query->the_post(); ?>
 
-							<li class="cliente-lavori-list-item">
-								<article <?php post_class() ?>>
+							<li class="cliente-lavori-list-item" id="lavoro-<?php echo get_the_ID() ?>">
 
+								<section <?php post_class() ?>>
 									<div class="container">
+
 										<div class="row justify-content-between">
 											<div class="col-lg-4">
 
 												<small class="text-uppercase d-block">
-												<?php
+													<?php
 													$servizi = get_the_terms(get_the_ID(), 'servizi');
 													if ($servizi){
 														echo $servizi[0]->name;
@@ -108,49 +143,46 @@
 
 											</div>
 										</div>
+
 									</div>
+								</section>
 
-									<?php $media_type = get_field('media_type') ?>
+								<?php if( have_rows('media') ): ?>
+									<ul class="cliente-lavori-list-item-media">
 
-									<div id="cliente-lavori-list-item-media">
-										<div class="container">
+										<?php while( have_rows('media') ) : the_row(); ?>
+											<li class="cliente-lavori-list-item-media-item">
 
-											<?php if ($media_type == 'immagine'): ?>
+												<?php
 
-												<?php $immagine = get_field('immagine') ?>
-												<div id="cliente-lavori-list-item-media-image">
-													<?php echo wp_get_attachment_image($immagine, '1920') ?>
-												</div>
+												// echo '<pre>'.print_r(get_row_layout(), 1).'</pre>';
 
-											<?php elseif ($media_type == 'galleria'): ?>
+												switch (get_row_layout()) {
+													case 'immagine':
+														get_template_part('part-media-immagine');
+														break;
+													case 'galleria':
+														get_template_part('part-media-galleria');
+														break;
+													case 'video':
+														get_template_part('part-media-video');
+														break;
+													case 'testogrande':
+														get_template_part('part-media-testogrande');
+														break;
+													default:
+														echo 'Errore!';
+														break;
+												}
 
-												<?php $galleria = get_field('galleria') ?>
+												?>
 
-												<div id="cliente-lavori-list-item-media-galleria">
-													<?php foreach ($galleria as $immagine) : ?>
-														<div class="cliente-lavori-list-item-media-galleria-item">
-															<a href="#">
-																<?php echo wp_get_attachment_image($immagine, '1200x1200') ?>
-															</a>
-														</div>
-													<?php endforeach; ?>
-												</div>
+											</li>
+										<?php endwhile; ?>
 
-											<?php elseif ($media_type == 'video'): ?>
+									</ul>
+								<?php endif; ?>
 
-												<?php $video = get_field('video') ?>
-												<div id="cliente-lavori-list-item-media-video">
-													<div class="embed-responsive embed-responsive-16by9">
-														<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/<?php echo $video ?>?rel=0" allowfullscreen></iframe>
-													</div>
-												</div>
-
-											<?php endif; ?>
-
-										</div>
-									</div>
-
-								</article>
 							</li>
 						<?php endwhile; ?>
 					</ul>

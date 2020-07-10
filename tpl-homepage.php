@@ -67,6 +67,13 @@ get_header();
     wp_reset_postdata();
 
     ?>
+
+    <div id="homepage-gotoprojects">
+        <a href="<?php echo get_post_type_archive_link('lavori') ?>">
+            Vedi tutti i progetti
+        </a>
+    </div>
+
 </div>
 
 <?php get_footer() ?>

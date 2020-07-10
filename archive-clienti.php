@@ -16,7 +16,7 @@
 		$settori = get_terms('settori', ['hide-empty'=>true]);
 		?>
 
-		<ul id="archive-menusettori">
+		<ul id="archive-menutaxonomy">
 			<?php foreach ($settori as $settore) : ?>
 				<li>
 					<a href="#<?php echo $settore->slug ?>">
