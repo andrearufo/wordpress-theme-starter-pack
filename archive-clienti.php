@@ -3,92 +3,84 @@
 <div id="heading">
 	<div class="container">
 
-		<h1><span><?php the_archive_title() ?></span></h1>
+		<div class="row">
+			<div class="col-lg-8">
+
+				<h1><span><?php the_archive_title() ?></span></h1>
+
+			</div>
+			<div class="col-lg-4">
+
+				<?php /*/ ?>
+				<?php
+				$post_type = $wp_query->query['post_type'];
+				$settori = get_terms('settori', ['hide-empty'=>true]);
+				?>
+
+				<ul id="heading-submenu">
+				<?php foreach ($settori as $settore) : ?>
+				<li>
+				<a href="#<?php echo $settore->slug ?>">
+				<?php echo $settore->name ?>
+				</a>
+				</li>
+				<?php endforeach; ?>
+				</ul>
+				<?php /*/ ?>
+
+			</div>
+		</div>
 
 	</div>
 </div>
 
-<div id="archive" class="archive-clienti">
+<div id="clienti-clienti">
 	<div class="container">
 
 		<?php
-		$post_type = $wp_query->query['post_type'];
-		$settori = get_terms('settori', ['hide-empty'=>true]);
-		?>
 
-		<ul id="archive-menutaxonomy">
-			<?php foreach ($settori as $settore) : ?>
-				<li>
-					<a href="#<?php echo $settore->slug ?>">
-						<?php echo $settore->name ?>
-					</a>
-				</li>
-			<?php endforeach; ?>
-		</ul>
+		$args = [
+			'post_type' => 'clienti',
+			'posts_per_page' => -1
+		];
 
-		<?php
+		$query = new WP_Query($args);
 
-		foreach ($settori as $settore) :
+		if ( $query->have_posts() ) :
 
-			$args = [
-				'post_type' => $post_type,
-				'posts_per_page' => -1,
-				'tax_query' => [
-					[
-						'taxonomy' => 'settori',
-						'field'    => 'slug',
-						'terms'    => $settore->slug,
-					],
-				],
-			];
+			?>
 
-			$query = new WP_Query($args);
+			<section>
+				<div class="row align-items-center">
 
-			if ( $query->have_posts() ) :
+					<?php while ( $query->have_posts() ) : $query->the_post(); ?>
+						<div class="col-lg-3">
 
-				?>
+							<article <?php post_class() ?>>
+								<a href="<?php the_permalink() ?>">
 
-				<section>
-					<div class="archive-settore" id="<?php echo $settore->slug ?>">
+									<?php
+									if ($logo = get_field('logo')):
+										echo wp_get_attachment_image($logo, '800x600');
+									elseif(has_post_thumbnail()):
+										the_post_thumbnail('800x600');
+									else:
+										echo '<img src="https://placehold.it/800x600&text=Mandarino" />';
+									endif;
+									?>
 
-						<h2><span><?php echo $settore->name ?></span></h2>
+								</a>
+							</article>
 
-						<div class="archive-settore-list">
-							<?php while ( $query->have_posts() ) : $query->the_post(); ?>
-								<div class="archive-settore-list-item">
-									<article <?php post_class() ?>>
-
-										<a href="<?php the_permalink() ?>">
-											<?php
-											if ($post_type == 'clienti' && $logo = get_field('logo')):
-												echo wp_get_attachment_image($logo, '800x600');
-											else:
-												the_post_thumbnail('800x600');
-											endif;
-											?>
-
-											<div class="archive-settore-list-item-extra">
-												<?php $servizi = get_the_terms(get_the_ID(), 'servizi'); ?>
-												<ul>
-													<?php if ($servizi) : foreach ($servizi as $servizio): ?>
-														<li><?php echo $servizio->name ?></li>
-													<?php endforeach; endif; ?>
-												</ul>
-											</div>
-										</a>
-
-									</article>
-								</div>
-							<?php endwhile; ?>
 						</div>
+					<?php endwhile; ?>
 
-					</div>
-				</section>
-				<?php
+				</div>
+			</section>
 
-			endif;
+			<?php
 
-		endforeach;
+		endif;
 
 		?>
 

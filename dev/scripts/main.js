@@ -43,6 +43,40 @@
 				}
 			]
 		});
+
+		$('.lavori-media-galleria-list-center').slick({
+			dots: true,
+			arrows: false,
+			infinite: false,
+			slidesToShow: 1,
+			centerMode: true,
+			variableWidth: true
+		});
+
+		$('.lavori-media-galleria-list-left').slick({
+			dots: true,
+			arrows: false,
+			infinite: false,
+			slidesToShow: 3,
+			variableWidth: true
+		});
+
+		$('.archive-clienti .archive-settore-list').slick({
+			dots: true,
+			arrows: false,
+			infinite: false,
+			slidesToShow: 4,
+		});
+
+		$('#homepage-slider').on('wheel', (function(e) {
+			e.preventDefault();
+
+			if (e.originalEvent.deltaY < 0) {
+				$(this).slick('slickNext');
+			} else {
+				$(this).slick('slickPrev');
+			}
+		}));
 	};
 
 	script.menu = function(){
@@ -51,8 +85,8 @@
 			$('nav').toggleClass('active');
 		});
 
-		$(document).keyup(function() {
-			if (e.keyCode === 27){
+		$(document).keyup(function(event) {
+			if (event.keyCode === 27){
 				$('nav').removeClass('active');
 			}
 		});
@@ -71,33 +105,24 @@
 		});
 	};
 
-	script.galleria = function(){
-		$('.lavori-media-galleria-list-center').slick({
-			dots: true,
-			arrows: false,
-			infinite: false,
-			slidesToShow: 1,
-			centerMode: true,
-			variableWidth: true
-		});
+	script.localscrollnewpage = function(){
+		// store the hash (DON'T put this code inside the $() function, it has to be executed
+		// right away before the browser can start scrolling!
+		var target = window.location.hash,
+			target = target.replace('#', '');
 
-		$('.lavori-media-galleria-list-left').slick({
-			dots: true,
-			arrows: false,
-			infinite: false,
-			slidesToShow: 3,
-			variableWidth: true
-		});
-	};
+		// delete hash so the page won't scroll to it
+		window.location.hash = '';
 
-	script.clienti = function(){
-		$('.archive-clienti .archive-settore-list').slick({
-			dots: true,
-			arrows: false,
-			infinite: false,
-			slidesToShow: 4,
+		// now whenever you are ready do whatever you want
+		// (in this case I use jQuery to scroll to the tag after the page has loaded)
+		$(window).load(function() {
+			if (target) {
+				$('html, body').animate({
+					scrollTop: ($('#' + target).offset().top - 100 )
+				}, 1500);
+			}
 		});
-
 	};
 
 	/* Start Functions */
@@ -108,8 +133,7 @@
 		script.slider();
 		script.menu();
 		script.localscroll();
-		script.galleria();
-		script.clienti();
+		script.localscrollnewpage();
 
 	});
 
@@ -119,8 +143,6 @@
 		setTimeout(function(){
 			$('body').addClass('body-ready');
 		}, 500);
-
-		script.localscroll();
 	});
 
 })(jQuery);

@@ -14,6 +14,8 @@ function register_my_session(){
 }
 add_action('init', 'register_my_session');
 
+show_admin_bar(false);
+
 if ( ! function_exists( 'wtsp_setup' ) ) :
     /**
     * Sets up theme defaults and registers support for various WordPress features.
@@ -292,4 +294,26 @@ function  prefix_parse_filter($query) {
         $query->query_vars['meta_value'] = '"' . $cliente . '"';
         $query->query_vars['meta_compare'] = 'LIKE';
     }
+}
+
+function get_lavoro_infos($post = false){
+
+    if( !is_object( $post ) ){
+        $post = get_post( $post );
+    }
+
+    if ( empty( $post->ID ) ) {
+        return false;
+    }
+
+
+    $cliente = get_field('cliente', $post->ID);
+    $data['cliente'] = $cliente[0];
+
+    $data['permalink'] = get_permalink($cliente->ID).'#lavoro-'.$post->ID ?: '#';
+
+    $settore = false;
+    $data['settore'] = $settore[0];
+
+    return $data;
 }

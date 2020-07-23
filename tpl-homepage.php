@@ -33,20 +33,20 @@ get_header();
 
                                 <?php
 
-        						$settori = get_the_terms(get_the_ID(), 'settori');
-        						if ($settori) :
+                                $settori = get_the_terms(get_the_ID(), 'settori');
+                                if ($settori) :
 
-        							?>
-        							<ul class="homepage-slider-item-content-body-pretitle">
-        								<?php foreach ($settori as $settore): ?>
-        									<li><?php echo $settore->name ?></li>
-        								<?php endforeach; ?>
-        							</ul>
-        							<?php
+                                    ?>
+                                    <ul class="homepage-slider-item-content-body-pretitle">
+                                        <?php foreach ($settori as $settore): ?>
+                                            <li><?php echo $settore->name ?></li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                    <?php
 
-        						endif;
+                                endif;
 
-        						?>
+                                ?>
                                 <div class="homepage-slider-item-content-body-title"><?php the_title() ?></div>
                                 <div class="homepage-slider-item-content-body-discover">Dettagli</div>
 
@@ -67,12 +67,6 @@ get_header();
     wp_reset_postdata();
 
     ?>
-
-    <div id="homepage-gotoprojects">
-        <a href="<?php echo get_post_type_archive_link('lavori') ?>">
-            Vedi tutti i progetti
-        </a>
-    </div>
 
 </div>
 

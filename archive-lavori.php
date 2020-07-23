@@ -3,28 +3,41 @@
 <div id="heading">
 	<div class="container">
 
-		<h1><span><?php the_archive_title() ?></span></h1>
+		<div class="row">
+			<div class="col-lg-8">
+
+				<h1>
+					<span>
+						Cosa facciamo
+					</span>
+				</h1>
+
+			</div>
+			<div class="col-lg-4">
+
+				<?php
+				$post_type = $wp_query->query['post_type'];
+				$servizi = get_terms('servizi', ['hide-empty'=>true]);
+				?>
+
+				<ul id="heading-submenu">
+					<?php foreach ($servizi as $servizio) : ?>
+						<li>
+							<a href="#<?php echo $servizio->slug ?>">
+								<?php echo $servizio->name ?>
+							</a>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+
+			</div>
+		</div>
 
 	</div>
 </div>
 
-<div id="archive" class="archive-lavori">
+<div id="lavori">
 	<div class="container">
-
-		<?php
-		$post_type = $wp_query->query['post_type'];
-		$servizi = get_terms('servizi', ['hide-empty'=>true]);
-		?>
-
-		<ul id="archive-menutaxonomy">
-			<?php foreach ($servizi as $servizio) : ?>
-				<li>
-					<a href="#<?php echo $servizio->slug ?>">
-						<?php echo $servizio->name ?>
-					</a>
-				</li>
-			<?php endforeach; ?>
-		</ul>
 
 		<?php
 
@@ -49,47 +62,46 @@
 				?>
 
 				<section>
-					<div class="archive-settore" id="<?php echo $servizio->slug ?>">
+					<div class="lavori-settore" id="<?php echo $servizio->slug ?>">
 
 						<h2><span><?php echo $servizio->name ?></span></h2>
 
-						<div class="archive-settore-list">
-							<div class="row">
+						<div class="lavori-settore-list">
+							<div class="row justify-content-center">
 
 								<?php while ( $query->have_posts() ) : $query->the_post(); ?>
-									<div class="col-lg-6">
+									<div class="col-lg-4">
+										<div class="lavori-settore-list-item">
 
-										<?php
+											<?php
 
-										$cliente = get_field('cliente');
-										$cliente = $cliente[0];
-										$permalink = get_the_permalink($cliente->ID).'#lavoro-'.get_the_ID() ?: '#';
+											$infos = get_lavoro_infos();
 
-										?>
+											?>
 
-										<div class="archive-settore-list-item">
 											<article <?php post_class() ?>>
+												<a href="<?php echo $infos['permalink'] ?>">
 
-												<a href="<?php echo $permalink ?>">
-													<?php
-													if ($post_type == 'clienti' && $logo = get_field('logo')):
-														echo wp_get_attachment_image($logo, '800x600');
-													else:
-														the_post_thumbnail('800x600');
-													endif;
-													?>
-
-													<div class="archive-settore-list-item-extra">
-														<?php echo $cliente->post_title ?>
+													<div class="lavori-settore-list-item-img">
+														<?php
+														if(has_post_thumbnail()):
+															the_post_thumbnail('800x600');
+														else:
+															echo '<img src="https://placehold.it/800x600&text=Mandarino" />';
+														endif;
+														?>
 													</div>
 
-													<h3><?php the_title() ?></h3>
+													<div class="lavori-settore-list-item-content">
+														<?php echo $infos['cliente']->post_title ?>
+
+														<h3><?php the_title() ?></h3>
+													</div>
 
 												</a>
-
 											</article>
-										</div>
 
+										</div>
 									</div>
 								<?php endwhile; ?>
 
@@ -98,6 +110,7 @@
 
 					</div>
 				</section>
+
 				<?php
 
 			endif;

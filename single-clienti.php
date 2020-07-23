@@ -16,98 +16,100 @@
 		]
 	];
 
+	$query = new WP_Query($args);
+	if ( $query->have_posts() ) :
+		$list = [];
+
+		while ( $query->have_posts() ) :
+			$query->the_post();
+
+			$id = get_the_ID();
+			$servizi = get_the_terms(get_the_ID(), 'servizi');
+
+			foreach ($servizi as $servizio) {
+				if (!isset($list[$servizio->slug])) {
+
+					$list[$servizio->slug] = [
+						'lavoro' => $id,
+						'servizio' => $servizio->name
+					];
+
+				}
+			}
+
+		endwhile;
+
+	else :
+
+		$list = false;
+
+	endif;
+
+	wp_reset_query();
+	wp_reset_postdata();
+
 	?>
+
 	<div id="cliente">
 		<article <?php post_class() ?>>
 
 			<div id="cliente-header">
 
-				<?php the_post_thumbnail('1920') ?>
+				<div id="cliente-header-img">
+					<?php the_post_thumbnail('1920') ?>
+				</div>
+
 				<div id="cliente-header-content">
 					<div class="container">
 
-						<?php
+						<div class="row align-items-center">
+							<div class="col-lg-8">
 
-						$settori = get_the_terms(get_the_ID(), 'settori');
-						if ($settori) :
+								<?php
 
-							?>
-							<ul id="cliente-header-content-pretitle">
-								<?php foreach ($settori as $settore): ?>
-									<li><?php echo $settore->name ?></li>
-								<?php endforeach; ?>
-							</ul>
-							<?php
+								$settori = get_the_terms(get_the_ID(), 'settori');
+								if ($settori) :
 
-						endif;
+									?>
+									<ul id="cliente-header-content-pretitle">
+										<?php foreach ($settori as $settore): ?>
+											<li><?php echo $settore->name ?></li>
+										<?php endforeach; ?>
+									</ul>
+									<?php
 
-						?>
-						<h1><?php the_title() ?></h1>
+								endif;
 
-						<?php
+								?>
 
-						$query = new WP_Query($args);
-						if ( $query->have_posts() ) :
-							$list = [];
+								<h1><?php the_title() ?></h1>
 
-							while ( $query->have_posts() ) :
-								$query->the_post();
+								<?php the_content() ?>
 
-								$id = get_the_ID();
-								$servizi = get_the_terms(get_the_ID(), 'servizi');
-
-								foreach ($servizi as $servizo) {
-									if (!in_array($servizo->name, $list)) {
-										$list[$id] = $servizo->name;
-									}
-								}
-
-							endwhile;
-
-							?>
-
-							<div class="sticky-top">
-								<ul id="cliente-header-content-elenco">
-									<?php foreach ($list as $key => $value): ?>
-										<li>
-											<a href="#lavoro-<?php echo $key ?>">
-												<?php echo $value ?>
-											</a>
-										</li>
-									<?php endforeach; ?>
-								</ul>
 							</div>
+							<div class="col-lg-4">
 
-							<?php
-						endif;
+								<?php if ($list): ?>
+									<ul id="cliente-header-content-elenco">
+										<?php foreach ($list as $value): ?>
+											<li>
+												<a href="#lavoro-<?php echo $value['lavoro'] ?>">
+													<?php echo $value['servizio'] ?>
+												</a>
+											</li>
+										<?php endforeach; ?>
+									</ul>
+								<?php endif; ?>
 
-						wp_reset_query();
-						wp_reset_postdata();
-
-						?>
+							</div>
+						</div>
 
 					</div>
 				</div>
 
 			</div>
 
-			<section id="cliente-content">
-				<div class="container">
-
-					<div class="row justify-content-center">
-						<div class="col-lg-12">
-
-							<?php the_content() ?>
-
-						</div>
-					</div>
-
-				</div>
-			</section>
-
 			<?php
-
-			// echo '<pre>'.print_r($args, 1).'</pre>';
 
 			$query = new WP_Query($args);
 			if ( $query->have_posts() ) :
@@ -120,41 +122,47 @@
 
 							<li class="cliente-lavori-list-item" id="lavoro-<?php echo get_the_ID() ?>">
 
-								<section <?php post_class() ?>>
-									<div class="container">
+								<section>
+									<div <?php post_class() ?>>
+										<div class="container">
 
-										<div class="row justify-content-between">
-											<div class="col-lg-4">
+											<div class="row justify-content-between">
+												<div class="col-lg-12">
 
-												<small class="text-uppercase d-block">
-													<?php
-													$servizi = get_the_terms(get_the_ID(), 'servizi');
-													if ($servizi){
-														echo $servizi[0]->name;
-													}
-													?>
+													<div class="cliente-lavori-list-item-meta">
+														<?php
+														$servizi = get_the_terms(get_the_ID(), 'servizi');
+														if ($servizi){
+															$s = [];
+															foreach ($servizi as $servizio) {															// code...
+																$s[] = $servizio->name;
+															}
+															echo implode(', ', $s);
+														}
+														?>
 
-													<?php if (get_field('anno')): ?>
-														—
-														<?php the_field('anno') ?>
-													<?php endif; ?>
-												</small>
+														<?php if (get_field('anno')): ?>
+															<span class="px-1">—</span>
+															<?php the_field('anno') ?>
+														<?php endif; ?>
+													</div>
 
+												</div>
 											</div>
+											<div class="row justify-content-between">
+												<div class="col-lg-4">
+
+													<h3><?php the_title() ?></h3>
+
+												</div>
+												<div class="col-lg-6">
+
+													<?php the_content() ?>
+
+												</div>
+											</div>
+
 										</div>
-										<div class="row justify-content-between">
-											<div class="col-lg-4">
-
-												<h3><?php the_title() ?></h3>
-
-											</div>
-											<div class="col-lg-6">
-
-												<?php the_content() ?>
-
-											</div>
-										</div>
-
 									</div>
 								</section>
 
@@ -164,32 +172,7 @@
 										<?php while( have_rows('media') ) : the_row(); ?>
 											<li class="cliente-lavori-list-item-media-item">
 
-												<?php
-
-												// echo '<pre>'.print_r(get_row_layout(), 1).'</pre>';
-
-												switch (get_row_layout()) {
-													case 'immagine':
-														get_template_part('part-media-immagine');
-														break;
-													case 'galleria':
-														get_template_part('part-media-galleria');
-														break;
-													case 'video':
-														get_template_part('part-media-video');
-														break;
-													case 'galleriavideo':
-														get_template_part('part-media-galleriavideo');
-														break;
-													case 'testogrande':
-														get_template_part('part-media-testogrande');
-														break;
-													default:
-														echo 'Errore!';
-														break;
-												}
-
-												?>
+												<?php get_template_part('part-media-'.get_row_layout()); ?>
 
 											</li>
 										<?php endwhile; ?>
@@ -212,6 +195,60 @@
 			?>
 
 		</article>
+
+		<?php
+
+		$query = new WP_Query([
+			'post_type' => 'clienti',
+			'posts_per_page' => 2,
+			'post__not_in' => [get_the_ID()],
+			'orderby' => 'rand',
+		]);
+
+		if ( $query->have_posts() ) :
+
+			?>
+
+			<div id="cliente-nav">
+				<div class="container text-center">
+					<h4>Altri lavori interessanti</h4>
+				</div>
+
+				<div class="row no-gutters">
+
+					<?php while ( $query->have_posts() ) : $query->the_post(); ?>
+						<div class="col-md">
+
+							<div class="cliente-nav-item">
+								<a href="<?php the_permalink() ?>">
+
+									<?php echo the_post_thumbnail('1200') ?>
+
+									<div class="cliente-nav-item-label">
+										<div>
+											<div><?php the_title() ?></div>
+											<div class="discover">Dettagli</div>
+										</div>
+									</div>
+
+								</a>
+							</div>
+
+						</div>
+					<?php endwhile; ?>
+
+				</div>
+			</div>
+
+			<?php
+
+		endif;
+
+		wp_reset_query();
+		wp_reset_postdata();
+
+		?>
+
 	</div>
 <?php endwhile; endif; ?>
 
