@@ -68,13 +68,23 @@
 			slidesToShow: 4,
 		});
 
+		$('#cliente #cliente-nav-slider').slick({
+			dots: true,
+			arrows: false,
+			infinite: true,
+			slidesToShow: 6,
+			slidesToScroll: 1,
+			autoplay: true,
+			autoplaySpeed: 4000,
+		});
+
 		$('#homepage-slider').on('wheel', (function(e) {
 			e.preventDefault();
 
 			if (e.originalEvent.deltaY < 0) {
-				$(this).slick('slickNext');
-			} else {
 				$(this).slick('slickPrev');
+			} else {
+				$(this).slick('slickNext');
 			}
 		}));
 	};

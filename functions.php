@@ -99,7 +99,7 @@ function wtsp_my_styles_method() {
         'icons',
         get_template_directory_uri() . '/dist/icons/icons.css',
         ['style'],
-        '20200709'
+        '202007283'
     );
 
     wp_enqueue_style(
@@ -127,7 +127,7 @@ function wtsp_my_styles_method() {
         'main',
         get_template_directory_uri() . '/dist/styles/main.css',
         ['style', 'fontawesome', 'icons'],
-        '20200709'
+        '202007283'
     );
 
 }
@@ -175,7 +175,7 @@ function wtsp_my_scripts_method() {
         'main',
         get_template_directory_uri() . '/dist/scripts/main.js',
         ['jquery', 'bootstrap', 'slick'],
-        '20200709',
+        '202007283',
         true
     );
 
@@ -296,7 +296,7 @@ function  prefix_parse_filter($query) {
     }
 }
 
-function get_lavoro_infos($post = false){
+function get_lavoro_infos($post = 0){
 
     if( !is_object( $post ) ){
         $post = get_post( $post );
@@ -312,8 +312,24 @@ function get_lavoro_infos($post = false){
 
     $data['permalink'] = get_permalink($cliente->ID).'#lavoro-'.$post->ID ?: '#';
 
-    $settore = false;
-    $data['settore'] = $settore[0];
+    $settori = get_the_terms($cliente->ID, 'settori');
+    $data['settori'] = $settori;
+    if ($data['settori']){
+        $s = [];
+        foreach ($data['settori'] as $servizio) {
+            $s[] = $servizio->name;
+        }
+        $data['settorilist'] = implode(', ', $s);
+    }
+
+    $data['servizi'] = get_the_terms($post->ID, 'servizi');
+    if ($data['servizi']){
+        $s = [];
+        foreach ($data['servizi'] as $servizio) {
+            $s[] = $servizio->name;
+        }
+        $data['servizilist'] = implode(', ', $s);
+    }
 
     return $data;
 }

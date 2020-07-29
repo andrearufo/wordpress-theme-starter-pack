@@ -1,4 +1,3 @@
-<?php /*/ ?>
 <div id="loader">
 
     <div id="loader-logo">
@@ -13,7 +12,6 @@
     </div>
 
 </div>
-<?php /*/ ?>
 
 <?php wp_footer() ?>
 

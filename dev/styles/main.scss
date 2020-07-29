@@ -294,6 +294,7 @@ nav{
                     height: 100%;
                     object-fit: cover;
                     object-position: center;
+                    transition: all .4s;
                 }
 
                 .homepage-slider-item-content{
@@ -317,6 +318,7 @@ nav{
                         top: 0;
                         height: 100%;
                         background: linear-gradient(0, rgba(black, .8) 0%, rgba(black, .6) 40%,rgba(black, 0) 80%);
+                        transition: all .4s;
                     }
 
                     .homepage-slider-item-content-body{
@@ -329,6 +331,18 @@ nav{
 
                         .homepage-slider-item-content-body-discover{
                             @extend .discover;
+                        }
+                    }
+                }
+
+                &:hover{
+                    img.wp-post-image{
+                        transform: scale(1.1);
+                    }
+
+                    .homepage-slider-item-content{
+                        &::before{
+                            transform: translateY(30%);
                         }
                     }
                 }
@@ -563,7 +577,7 @@ nav{
     #cliente-nav{
         margin: 1px;
 
-        .cliente-nav-item{
+        .cliente-nav-slider-item{
             margin: 1px;
             background: $gray-200;
             color: white;
@@ -572,6 +586,7 @@ nav{
                 display: block;
                 position: relative;
                 text-decoration: none;
+                overflow: hidden;
 
                 img{
                     display: block;
@@ -582,15 +597,17 @@ nav{
                     height: 100%;
                     object-fit: cover;
                     object-position: center;
+                    transition: all .4s;
                 }
 
-                .cliente-nav-item-label{
+                .cliente-nav-slider-item-label{
                     position: relative;
                     padding: $spacer;
-                    padding-top: $spacer * 4;
+                    height: 50vh;
+                    min-height: 400px;
                     font-weight: 600;
                     color: white;
-                    font-size: $h2-font-size;
+                    font-size: $font-size-lg;
                     background: linear-gradient(0, rgba(black, .8) 0%, rgba(black, .6) 40%,rgba(black, 0) 100%);
                     transition: all .4s;
                     display: flex;
@@ -598,9 +615,8 @@ nav{
                 }
 
                 &:hover{
-                    .cliente-nav-item-label{
-                        padding-top: $spacer * 3;
-                        padding-bottom: $spacer * 2;
+                    img{
+                        transform: scale(1.1);
                     }
                 }
             }
@@ -609,7 +625,7 @@ nav{
 }
 
 #heading{
-    margin: ($spacer * 2) 0;
+    margin: ($spacer * 4) 0;
 
     @include media-breakpoint-up(lg){
         margin-top: ($spacer * 8);
@@ -667,6 +683,48 @@ nav{
                                 margin-top: 10px;
                             }
                         }
+                    }
+                }
+            }
+        }
+    }
+}
+
+#clienti{
+    section{
+        margin: $spacer 0;
+
+        .clienti-list{
+            .clienti-list-item{
+                background: $gray-100;
+                margin-bottom: $grid-gutter-width / 2;
+                margin-top: $grid-gutter-width / 2;
+                position: relative;
+
+                &::before{
+                    content: '';
+                    display: block;
+                    padding-top: 100%;
+                }
+
+                a{
+                    position: absolute;
+                    left: 0;
+                    width: 100%;
+                    top: 0;
+                    height: 100%;
+                    text-decoration: none;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    transition: all .4s;
+
+                    .clienti-list-item-name{
+
+                    }
+
+                    &:hover{
+                        @extend .shadow;
                     }
                 }
             }

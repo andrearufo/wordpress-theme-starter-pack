@@ -12,8 +12,12 @@ get_header();
     <?php
     $args = [
         'post_type' => 'clienti',
-        'posts_per_page' => -1,
+        'post__in' => get_field('clienti'),
+        'orderby' => 'post__in',
+        'posts_per_page' => -1
     ];
+
+    // echo '<pre>'.print_r($args, 1).'</pre>';
 
     $query = new WP_Query($args);
     if ( $query->have_posts() ) :

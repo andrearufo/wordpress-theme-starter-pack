@@ -11,22 +11,17 @@
 			</div>
 			<div class="col-lg-4">
 
-				<?php /*/ ?>
-				<?php
-				$post_type = $wp_query->query['post_type'];
-				$settori = get_terms('settori', ['hide-empty'=>true]);
-				?>
+				<?php $settori = get_terms('settori', ['hide-empty'=>true]); ?>
 
 				<ul id="heading-submenu">
-				<?php foreach ($settori as $settore) : ?>
-				<li>
-				<a href="#<?php echo $settore->slug ?>">
-				<?php echo $settore->name ?>
-				</a>
-				</li>
-				<?php endforeach; ?>
+					<?php foreach ($settori as $settore) : ?>
+						<li>
+							<a href="#<?php echo $settore->slug ?>">
+								<?php echo $settore->name ?>
+							</a>
+						</li>
+					<?php endforeach; ?>
 				</ul>
-				<?php /*/ ?>
 
 			</div>
 		</div>
@@ -34,55 +29,67 @@
 	</div>
 </div>
 
-<div id="clienti-clienti">
+<div id="clienti">
 	<div class="container">
 
-		<?php
+		<?php foreach ($settori as $settore): ?>
 
-		$args = [
-			'post_type' => 'clienti',
-			'posts_per_page' => -1
-		];
+			<section id="<?php echo $settore->slug ?>">
 
-		$query = new WP_Query($args);
+				<h2><?php echo $settore->name ?></h2>
 
-		if ( $query->have_posts() ) :
+				<?php
 
-			?>
+				$args = [
+					'post_type' => 'clienti',
+					'posts_per_page' => -1,
+					'tax_query' => [
+						[
+							'taxonomy' => 'settori',
+							'field'    => 'slug',
+							'terms'    => $settore->slug,
+						],
+					],
+				];
 
-			<section>
-				<div class="row align-items-center">
+				$query = new WP_Query($args);
 
-					<?php while ( $query->have_posts() ) : $query->the_post(); ?>
-						<div class="col-lg-3">
+				if ( $query->have_posts() ) :
 
-							<article <?php post_class() ?>>
-								<a href="<?php the_permalink() ?>">
+					?>
 
-									<?php
-									if ($logo = get_field('logo')):
-										echo wp_get_attachment_image($logo, '800x600');
-									elseif(has_post_thumbnail()):
-										the_post_thumbnail('800x600');
-									else:
-										echo '<img src="https://placehold.it/800x600&text=Mandarino" />';
-									endif;
-									?>
+					<div class="clienti-list">
 
-								</a>
-							</article>
+						<div class="row">
+							<?php while ( $query->have_posts() ) : $query->the_post(); ?>
 
+								<div class="col-6 col-lg-3">
+
+									<div class="clienti-list-item">
+										<a href="<?php the_permalink() ?>" <?php post_class() ?>>
+
+											<div class="clienti-list-item-name">
+												<?php the_title() ?>
+											</div>
+
+										</a>
+									</div>
+
+								</div>
+
+							<?php endwhile; ?>
 						</div>
-					<?php endwhile; ?>
 
-				</div>
+					</div>
+
+					<?php
+
+				endif;
+
+				?>
 			</section>
 
-			<?php
-
-		endif;
-
-		?>
+		<?php endforeach; ?>
 
 	</div>
 </div>

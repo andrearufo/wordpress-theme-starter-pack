@@ -122,6 +122,11 @@
 
 							<li class="cliente-lavori-list-item" id="lavoro-<?php echo get_the_ID() ?>">
 
+								<?php
+								$infos = get_lavoro_infos();
+								// echo '<pre>'.print_r($infos, 1).'</pre>';
+								?>
+
 								<section>
 									<div <?php post_class() ?>>
 										<div class="container">
@@ -130,16 +135,7 @@
 												<div class="col-lg-12">
 
 													<div class="cliente-lavori-list-item-meta">
-														<?php
-														$servizi = get_the_terms(get_the_ID(), 'servizi');
-														if ($servizi){
-															$s = [];
-															foreach ($servizi as $servizio) {															// code...
-																$s[] = $servizio->name;
-															}
-															echo implode(', ', $s);
-														}
-														?>
+														<?php echo $infos['servizilist']; ?>
 
 														<?php if (get_field('anno')): ?>
 															<span class="px-1">—</span>
@@ -200,7 +196,7 @@
 
 		$query = new WP_Query([
 			'post_type' => 'clienti',
-			'posts_per_page' => 2,
+			'posts_per_page' => 10,
 			'post__not_in' => [get_the_ID()],
 			'orderby' => 'rand',
 		]);
@@ -214,26 +210,22 @@
 					<h4>Altri lavori interessanti</h4>
 				</div>
 
-				<div class="row no-gutters">
+				<div id="cliente-nav-slider">
 
 					<?php while ( $query->have_posts() ) : $query->the_post(); ?>
-						<div class="col-md">
+						<div class="cliente-nav-slider-item">
+							<a href="<?php the_permalink() ?>">
 
-							<div class="cliente-nav-item">
-								<a href="<?php the_permalink() ?>">
+								<?php echo the_post_thumbnail('1200') ?>
 
-									<?php echo the_post_thumbnail('1200') ?>
-
-									<div class="cliente-nav-item-label">
-										<div>
-											<div><?php the_title() ?></div>
-											<div class="discover">Dettagli</div>
-										</div>
+								<div class="cliente-nav-slider-item-label">
+									<div>
+										<div><?php the_title() ?></div>
+										<div class="discover">Dettagli</div>
 									</div>
+								</div>
 
-								</a>
-							</div>
-
+							</a>
 						</div>
 					<?php endwhile; ?>
 

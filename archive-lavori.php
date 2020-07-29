@@ -16,7 +16,6 @@
 			<div class="col-lg-4">
 
 				<?php
-				$post_type = $wp_query->query['post_type'];
 				$servizi = get_terms('servizi', ['hide-empty'=>true]);
 				?>
 
@@ -44,7 +43,7 @@
 		foreach ($servizi as $servizio) :
 
 			$args = [
-				'post_type' => $post_type,
+				'post_type' => 'lavori',
 				'posts_per_page' => -1,
 				'tax_query' => [
 					[
@@ -114,7 +113,6 @@
 				<?php
 
 			endif;
-
 		endforeach;
 
 		?>
