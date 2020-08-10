@@ -7,48 +7,54 @@
 
 	<?php wp_head() ?>
 
-	<link rel="apple-touch-icon" sizes="180x180" href="<?php echo get_template_directory_uri() ?>/images/favicons/apple-touch-icon.png">
-	<link rel="shortcut icon" type="image/png" sizes="32x32" href="<?php echo get_template_directory_uri() ?>/images/favicons/favicon-32x32.png">
-	<link rel="shortcut icon" type="image/png" sizes="16x16" href="<?php echo get_template_directory_uri() ?>/images/favicons/favicon-16x16.png">
-	<link rel="manifest" href="<?php echo get_template_directory_uri() ?>/images/favicons/site.webmanifest">
-	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="msapplication-TileImage" content="<?php echo get_template_directory_uri() ?>/images/favicons/mstile-144x144.png">
-	<meta name="theme-color" content="#ffffff">
+	<link rel="icon" type="image/svg+xml" href="<?php echo get_template_directory_uri() ?>/images/logo.svg">
 
 </head>
 <body <?php body_class() ?>>
 
 	<header>
-		<div class="container">
+		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" id="logo">
+			<img src="<?php echo get_template_directory_uri() ?>/images/logo.svg" alt="<?php bloginfo('name'); ?>">
+		</a>
+	</header>
 
-			<div class="row">
-				<div class="col-lg-1">
+	<nav>
+		<div class="row no-gutters">
+			<div class="col-xl-6 col-lg-8 nav-col-menu">
 
-					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
-						<img src="<?php echo get_template_directory_uri() ?>/images/logo.svg" alt="<?php bloginfo('name'); ?>">
-					</a>
-
-				</div>
-				<div class="col-lg-11">
-
-					<nav>
+				<div class="nav-col-menu-inner">
+					<div class="nav-col-menu-inner-wrapper">
 						<?php
 						if( has_nav_menu('mainmenu') ) :
 							wp_nav_menu([
 								'theme_location' => 'mainmenu',
+								'container_class' => 'mainmenu-wrapper',
 								'depth' => 1
 							]);
-						else:
-							echo 'Accedi al pannello per popolare il menu...';
 						endif;
 						?>
-					</nav>
 
+						<div id="nav-footer">
+							<div id="nav-footer-info">
+								Mandarino Adv - P.I. 02345120592
+							</div>
+
+							<?php
+							if( has_nav_menu('footermenu') ) :
+								wp_nav_menu([
+									'theme_location' => 'footermenu',
+									'container_class' => 'footermenu-wrapper',
+									'depth' => 1
+								]);
+							endif;
+							?>
+						</div>
+					</div>
 				</div>
+
 			</div>
-
+			<div class="col-xl-6 col-lg-4 nav-col-outern d-none d-lg-block"></div>
 		</div>
-	</header>
 
-	<main>
-		<div class="container">
+
+	</nav>
