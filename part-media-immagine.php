@@ -4,7 +4,7 @@ $immagine = get_sub_field('file');
 $visualizzazione = get_sub_field('visualizzazione');
 
 $container = 'container';
-if ($visualizzazione == 'full') $container = null;
+if ($visualizzazione == 'full') $container = 'fullscreen';
 elseif ($visualizzazione == 'fluid') $container = 'container-fluid';
 
 ?>

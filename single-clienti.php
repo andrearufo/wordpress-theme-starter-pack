@@ -150,6 +150,13 @@
 
 													<h3><?php the_title() ?></h3>
 
+													<?php if (is_user_logged_in()): ?>
+														<a href="<?php echo get_edit_post_link() ?>" class="btn btn-sm btn-outline-secondary">
+															<small>Solo loggati:</small>
+															Modifica lavoro #<?php the_ID() ?>
+														</a>
+													<?php endif; ?>
+
 												</div>
 												<div class="col-lg-6">
 
@@ -196,7 +203,7 @@
 
 		$query = new WP_Query([
 			'post_type' => 'clienti',
-			'posts_per_page' => 10,
+			'posts_per_page' => 12,
 			'post__not_in' => [get_the_ID()],
 			'orderby' => 'rand',
 		]);

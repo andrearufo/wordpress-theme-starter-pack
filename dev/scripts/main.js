@@ -57,7 +57,7 @@
 			dots: true,
 			arrows: false,
 			infinite: false,
-			slidesToShow: 3,
+			slidesToShow: 4,
 			variableWidth: true
 		});
 
@@ -73,9 +73,24 @@
 			arrows: false,
 			infinite: true,
 			slidesToShow: 6,
-			slidesToScroll: 1,
+			slidesToScroll: 6,
 			autoplay: true,
 			autoplaySpeed: 4000,
+			responsive: [
+				{
+					breakpoint: 1200,
+					settings: {
+						slidesToShow: 3,
+						slidesToScroll: 3
+					}
+				},{
+					breakpoint: 768,
+					settings: {
+						slidesToShow: 1,
+						slidesToScroll: 1
+					}
+				}
+			]
 		});
 
 		$('#homepage-slider').on('wheel', (function(e) {

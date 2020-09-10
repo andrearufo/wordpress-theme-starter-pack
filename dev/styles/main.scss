@@ -7,6 +7,10 @@
 @import 'defaults';
 @import 'pagination';
 
+*, *:hover, *:focus{
+    outline: 0;
+}
+
 #loader{
     position: fixed;
     left: 0;
@@ -20,24 +24,26 @@
     z-index: 2000;
 
     #loader-logo{
-        width: 120px;
-        height: 120px;
+        display: none;
 
-        svg{
-            .cls-1{ fill: $body-bg; }
-            .cls-2{ fill: $body-color; }
-        }
-
-        animation: reveal 4s ease infinite;
-        transform-style: preserve-3d;
-
-        @keyframes reveal {
-            0%    { opacity: 0; transform: rotateX(-90deg); }
-            20%   { opacity: 1; transform: rotateX(0); }
-            70%   { opacity: 1; transform: rotateX(0); }
-            90%   { opacity: 0; transform: rotateX(90deg); }
-            100%  { opacity: 0; transform: rotateX(90deg); }
-        }
+        // width: 120px;
+        // height: 120px;
+        //
+        // svg{
+        //     .cls-1{ fill: $body-bg; }
+        //     .cls-2{ fill: $body-color; }
+        // }
+        //
+        // animation: reveal 4s ease infinite;
+        // transform-style: preserve-3d;
+        //
+        // @keyframes reveal {
+        //     0%    { opacity: 0; transform: rotateX(-90deg); }
+        //     20%   { opacity: 1; transform: rotateX(0); }
+        //     70%   { opacity: 1; transform: rotateX(0); }
+        //     90%   { opacity: 0; transform: rotateX(90deg); }
+        //     100%  { opacity: 0; transform: rotateX(90deg); }
+        // }
     }
 }
 
@@ -488,33 +494,51 @@ nav{
         }
 
         .lavori-media-immagine{
-            img{
-                width: 100%;
+            .container, .container-fluid{
+                img{
+                    max-height: 80vh;
+                    width: auto;
+                    display: block;
+                    margin: auto;
+                }
+            }
+
+            .fullscreen{
+                img{
+                    width: 100%;
+                    height: auto;
+                }
             }
         }
 
         .lavori-media-galleria{
             .lavori-media-galleria-list{
+
+                // sliders
                 &.lavori-media-galleria-list-center,
                 &.lavori-media-galleria-list-left{
-                    img{
-                        margin: $spacer;
-                        height: 340px;
-                        width: auto;
-                        max-height: 60vh;
+                    .lavori-media-galleria-list-item{
+                        padding: $spacer;
 
-                        @include media-breakpoint-up(lg){
-                            height: 600px;
+                        .lavori-media-galleria-list-item-image{
+                            img{
+                                max-height: 80vh;
+                                display: block;
+                                margin: auto;
+                                width: auto;
+                            }
                         }
                     }
                 }
 
+                // images
                 &.lavori-media-galleria-list-full{
                     img{
                         width: 100%;
                     }
                 }
 
+                // grids
                 &.lavori-media-galleria-list-grid{
                     display: grid;
                     grid-template-columns: 1fr;
@@ -530,6 +554,22 @@ nav{
 
                     .lavori-media-galleria-list-item{
                         place-self: stretch;
+
+                        .lavori-media-galleria-list-item-image{
+                            padding-top: 100%;
+                            position: relative;
+
+                            img{
+                                display: block;
+                                position: absolute;
+                                left: 0;
+                                width: 100%;
+                                top: 0;
+                                height: 100%;
+                                object-fit: contain;
+                                object-position: center;
+                            }
+                        }
                     }
 
                     &.lavori-media-galleria-list-grid-grid{
@@ -568,6 +608,13 @@ nav{
                         .lavori-media-galleria-list-item{
                             grid-column: span 2;
                         }
+                    }
+                }
+
+                &.lavori-media-galleria-list-list{
+                    img{
+                        display: block;
+                        margin: auto;
                     }
                 }
             }

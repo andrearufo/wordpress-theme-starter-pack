@@ -2,6 +2,7 @@
 
 $immagini = get_sub_field('immagini');
 $visualizzazione = get_sub_field('visualizzazione');
+$contenitore = get_sub_field('contenitore');
 
 ?>
 <section>
@@ -13,7 +14,9 @@ $visualizzazione = get_sub_field('visualizzazione');
                 <?php foreach ($immagini as $immagine): ?>
 
                     <div class="lavori-media-galleria-list-item">
-                        <?php echo wp_get_attachment_image($immagine, '1200'); ?>
+                        <div class="lavori-media-galleria-list-item-image">
+                            <?php echo wp_get_attachment_image($immagine, '1200'); ?>
+                        </div>
                     </div>
 
                 <?php endforeach; ?>
@@ -25,7 +28,9 @@ $visualizzazione = get_sub_field('visualizzazione');
                 <?php foreach ($immagini as $immagine): ?>
 
                     <div class="lavori-media-galleria-list-item">
-                        <?php echo wp_get_attachment_image($immagine, '1200'); ?>
+                        <div class="lavori-media-galleria-list-item-image">
+                            <?php echo wp_get_attachment_image($immagine, '1200'); ?>
+                        </div>
                     </div>
 
                 <?php endforeach; ?>
@@ -59,12 +64,20 @@ $visualizzazione = get_sub_field('visualizzazione');
 
         <?php elseif ( in_array($visualizzazione, ['grid2', 'grid3', 'grid4', 'grid6', 'grid']) ): ?>
 
-            <div class="container">
+            <?php
+            $container = 'container';
+            if ($contenitore == 'full') $container = 'fullscreen';
+            elseif ($contenitore == 'fluid') $container = 'container-fluid';
+            ?>
+
+            <div class="<?php echo $container ?>">
                 <div class="lavori-media-galleria-list lavori-media-galleria-list-grid lavori-media-galleria-list-grid-<?php echo $visualizzazione ?>">
 
                     <?php foreach ($immagini as $immagine): ?>
                         <div class="lavori-media-galleria-list-item">
-                            <?php echo wp_get_attachment_image($immagine, '1200x1200'); ?>
+                            <div class="lavori-media-galleria-list-item-image">
+                                <?php echo wp_get_attachment_image($immagine, '1200'); ?>
+                            </div>
                         </div>
                     <?php endforeach; ?>
 

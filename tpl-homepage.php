@@ -30,7 +30,7 @@ get_header();
                 <div class="homepage-slider-item">
                     <a href="<?php the_permalink() ?>">
 
-                        <?php the_post_thumbnail('1920') ?>
+                        <?php the_post_thumbnail('1200') ?>
 
                         <div class="homepage-slider-item-content">
                             <div class="homepage-slider-item-content-body">
