@@ -1,7 +1,16 @@
 <?php get_header(); ?>
 
-	<h1>404</h1>
+<div id="error404">
+	<div class="container">
 
-	<p>Page not found</p>
+		<article>
+
+			<h1><?php _e('404 error', 'wtsp') ?></h1>
+			<div><?php _e('Content not found', 'wtsp') ?></div>
+
+		</article>
+
+	</div>
+</div>
 
 <?php get_footer(); ?>

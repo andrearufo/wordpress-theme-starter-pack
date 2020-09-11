@@ -1,6 +1,6 @@
 var paths = {
     sync: {
-        proxy: 'mandarino2020.gyu.space',
+        proxy: 'wordpress.test',
         delay: 2000
     },
     styles: {

@@ -13,48 +13,32 @@
 <body <?php body_class() ?>>
 
 	<header>
-		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" id="logo">
-			<img src="<?php echo get_template_directory_uri() ?>/images/logo.svg" alt="<?php bloginfo('name'); ?>">
-		</a>
-	</header>
+		<div class="container">
 
-	<nav>
-		<div class="row no-gutters">
-			<div class="col-xl-6 col-lg-8 nav-col-menu">
+			<div class="row">
+				<div class="col-lg-1">
 
-				<div class="nav-col-menu-inner">
-					<div class="nav-col-menu-inner-wrapper">
+					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" id="logo">
+						<img src="<?php echo get_template_directory_uri() ?>/images/logo.svg" alt="<?php bloginfo('name'); ?>">
+					</a>
+
+				</div>
+				<div class="col-lg">
+
+					<nav>
 						<?php
-						if( has_nav_menu('mainmenu') ) :
-							wp_nav_menu([
-								'theme_location' => 'mainmenu',
-								'container_class' => 'mainmenu-wrapper',
-								'depth' => 1
-							]);
-						endif;
-						?>
-
-						<div id="nav-footer">
-							<div id="nav-footer-info">
-								Mandarino Adv - P.I. 02345120592
-							</div>
-
-							<?php
-							if( has_nav_menu('footermenu') ) :
+							if( has_nav_menu('mainmenu') ) :
 								wp_nav_menu([
-									'theme_location' => 'footermenu',
-									'container_class' => 'footermenu-wrapper',
+									'theme_location' => 'mainmenu',
+									'container_class' => 'mainmenu-wrapper',
 									'depth' => 1
 								]);
 							endif;
-							?>
-						</div>
-					</div>
+						?>
+					</nav>
+
 				</div>
-
 			</div>
-			<div class="col-xl-6 col-lg-4 nav-col-outern d-none d-lg-block"></div>
+
 		</div>
-
-
-	</nav>
+	</header>

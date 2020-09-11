@@ -117,13 +117,6 @@ function wtsp_my_styles_method() {
     );
 
     wp_enqueue_style(
-        'remixicon',
-        'https://cdn.jsdelivr.net/npm/remixicon@2.4.0/fonts/remixicon.css',
-        [ ],
-        '2.4.0'
-    );
-
-    wp_enqueue_style(
         'main',
         get_template_directory_uri() . '/dist/styles/main.css',
         ['style', 'fontawesome', 'icons'],
@@ -137,15 +130,6 @@ add_action( 'wp_enqueue_scripts', 'wtsp_my_scripts_method');
 function wtsp_my_scripts_method() {
 
     wp_enqueue_script( 'jquery' );
-    wp_enqueue_script( 'lodash' );
-
-    wp_enqueue_script(
-        'pace',
-        'https://cdnjs.cloudflare.com/ajax/libs/pace/0.7.8/pace.min.js',
-        [ ],
-        '0.7.8',
-        true
-    );
 
     wp_enqueue_script(
         'popper.js',
@@ -199,7 +183,6 @@ function wtsp_new_excerpt_more( $more ) {
 add_action( 'init', 'wtsp_register_my_menu' );
 function wtsp_register_my_menu( ) {
     register_nav_menu( 'mainmenu', 'Main menu of the theme');
-    register_nav_menu( 'footermenu', 'Footer menu of the theme');
 }
 
 function wtsp_content_width() {
@@ -230,106 +213,3 @@ add_filter( 'get_the_archive_title', function ($title) {
     }
     return $title;
 });
-
-/* Columns */
-add_filter( 'manage_lavori_posts_columns', 'set_custom_edit_lavori_columns' );
-function set_custom_edit_lavori_columns($columns) {
-    // unset( $columns['author'] );
-
-    $columns['cliente'] = __( 'Cliente', 'wtsp' );
-    $columns['settori'] = __( 'Settori', 'wtsp' );
-    $columns['servizi'] = __( 'Servizi', 'wtsp' );
-
-    return $columns;
-}
-
-add_action( 'manage_lavori_posts_custom_column' , 'custom_lavori_column', 10, 2 );
-function custom_lavori_column( $column, $post_id ) {
-    switch ( $column ) {
-
-        case 'cliente' :
-            $cliente = reset(get_post_meta( $post_id , 'cliente' , true ));
-            $url = '/wp-admin/edit.php?'.http_build_query( array_merge( $_GET, ['cliente' => $cliente] ) );
-            echo '<a href="'.$url.'">'.get_the_title($cliente).'<a/>';
-            break;
-
-        case 'servizi' :
-            $terms = get_the_term_list( $post_id , 'servizi' , '' , ',' , '' );
-            if ( is_string( $terms ) )
-                echo $terms;
-            else
-                _e( 'Unable', 'wtsp' );
-            break;
-
-        case 'settori' :
-            $terms = get_the_term_list( $post_id , 'settori' , '' , ',' , '' );
-            if ( is_string( $terms ) )
-                echo $terms;
-            else
-                _e( 'Unable', 'wtsp' );
-            break;
-
-
-
-    }
-}
-
-/* Filter by client */
-add_filter( 'parse_query', 'prefix_parse_filter' );
-function  prefix_parse_filter($query) {
-    global $pagenow;
-    $current_page = isset( $_GET['post_type'] ) ? $_GET['post_type'] : '';
-
-    if (
-        is_admin()
-        && 'lavori' == $current_page
-        && 'edit.php' == $pagenow
-        && isset( $_GET['cliente'] )
-        && $_GET['cliente'] != ''
-    ) {
-
-        $cliente = $_GET['cliente'];
-
-        $query->query_vars['meta_key'] = 'cliente';
-        $query->query_vars['meta_value'] = '"' . $cliente . '"';
-        $query->query_vars['meta_compare'] = 'LIKE';
-    }
-}
-
-function get_lavoro_infos($post = 0){
-
-    if( !is_object( $post ) ){
-        $post = get_post( $post );
-    }
-
-    if ( empty( $post->ID ) ) {
-        return false;
-    }
-
-
-    $cliente = get_field('cliente', $post->ID);
-    $data['cliente'] = $cliente[0];
-
-    $data['permalink'] = get_permalink($cliente->ID).'#lavoro-'.$post->ID ?: '#';
-
-    $settori = get_the_terms($cliente->ID, 'settori');
-    $data['settori'] = $settori;
-    if ($data['settori']){
-        $s = [];
-        foreach ($data['settori'] as $servizio) {
-            $s[] = $servizio->name;
-        }
-        $data['settorilist'] = implode(', ', $s);
-    }
-
-    $data['servizi'] = get_the_terms($post->ID, 'servizi');
-    if ($data['servizi']){
-        $s = [];
-        foreach ($data['servizi'] as $servizio) {
-            $s[] = $servizio->name;
-        }
-        $data['servizilist'] = implode(', ', $s);
-    }
-
-    return $data;
-}

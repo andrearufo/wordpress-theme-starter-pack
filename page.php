@@ -1,25 +1,20 @@
 <?php get_header(); ?>
 
-<?php if( have_posts() ) : while( have_posts() ) : the_post(); ?>
-	
-	<div id="heading">
-		<div class="container">
+<div id="homepage">
+    <div class="container">
 
-			<h1><span><?php the_title() ?></span></h1>
+        <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 
-		</div>
-	</div>
+            <article <?php post_class() ?>>
 
-	<div id="page">
-		<div class="container">
+    			<h1><?php the_title() ?></h1>
+    			<div><?php the_excerpt() ?></div>
 
-			<?php the_content() ?>
+			</article>
 
-		</div>
-	</div>
+        <?php endwhile; endif; ?>
 
-<?php endwhile; endif; ?>
+    </div>
+</div>
 
-<?php get_template_part('part', 'footerpage') ?>
-
-<?php get_footer(); ?>
+<?php get_footer() ?>

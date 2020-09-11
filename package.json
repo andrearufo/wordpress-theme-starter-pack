@@ -16,10 +16,10 @@
     "url": "https://github.com/andrearufo/wordpress-theme-starter-pack/issues"
   },
   "homepage": "https://github.com/andrearufo/wordpress-theme-starter-pack#readme",
-  "devDependencies": {
-    "autoprefixer": "^9.6.5",
-    "bootstrap": "^4.3.1",
-    "browser-sync": "^2.26.7",
+  "dependencies": {
+    "autoprefixer": "^9.8.6",
+    "bootstrap": "^4.5.2",
+    "browser-sync": "^2.26.12",
     "console-clear": "^1.1.1",
     "cssnano": "^4.1.10",
     "fancy-log": "^1.3.3",
@@ -29,7 +29,7 @@
     "gulp-iconfont-css": "^3.0.0",
     "gulp-notify": "^3.2.0",
     "gulp-postcss": "^8.0.0",
-    "gulp-sass": "^4.0.2",
+    "gulp-sass": "^4.1.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-uglify": "^3.0.2"
   }
