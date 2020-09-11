@@ -173,6 +173,16 @@ if ( function_exists( 'add_image_size' ) ) {
     add_image_size( '800x600', 800, 600, true );
 }
 
+function unset_images_sizes( $sizes ){
+    unset( $sizes[ 'thumbnail' ]);
+    unset( $sizes[ 'medium' ]);
+    unset( $sizes[ 'large' ]);
+    unset( $sizes[ 'full' ] );
+
+    return $sizes;
+}
+add_filter( 'intermediate_image_sizes_advanced', 'unset_images_sizes' );
+
 /* Customize the excerpt lenght */
 add_filter( 'excerpt_more', 'wtsp_new_excerpt_more' );
 function wtsp_new_excerpt_more( $more ) {
