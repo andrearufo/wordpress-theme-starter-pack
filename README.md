@@ -1,7 +1,3 @@
-# Mandarino Adv 2020
+# Wordpress Theme Starter Pack
 
-Nuovo tema sito web
-
-## Ispirazione
-
-https://github.com/sampotts/plyr
+A simple Wordpress theme made for developers to easy start a new project.
