@@ -3,7 +3,7 @@
 <div class="container">
 	<?php if ( have_posts() ) : ?>
 
-		<ul>
+		<ul class="posts-list">
 			<?php while ( have_posts() ) : the_post(); ?>
 				<li>
 

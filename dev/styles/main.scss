@@ -34,4 +34,32 @@ $container-max-widths: (
 
 header{
     background: $gray-200;
+    padding: $spacer 0;
+    margin-bottom: $spacer;
+}
+
+ul.posts-list{
+    margin: 0;
+    list-style: none;
+    padding: 0;
+
+    > li{
+        &:not(:last-child){
+            margin-bottom: $spacer;
+            padding-bottom: $spacer;
+            border-bottom: 1px solid $border-color;
+        }
+    }
+}
+
+footer{
+    background: $primary;
+    color: $white;
+    padding: $spacer 0;
+    margin-top: $spacer;
+
+    a{
+        color: inherit;
+        text-decoration: underline;
+    }
 }
