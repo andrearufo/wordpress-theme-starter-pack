@@ -5,16 +5,32 @@
 	/* Define Functions */
 
 	script.slider = function(){
-		$('#slider').slick();
+		$('#slider').slick({
+			infinite: true,
+			slidesToShow: 3,
+			slidesToScroll: 1,
+			autoplay: true,
+			autoplaySpeed: 2000,
+			arrows: false,
+			dots: true,
+			responsive: [
+				{
+					breakpoint: 992,
+					settings: {
+						slidesToShow: 1
+					}
+				}
+			]
+		});
 	};
 
 	script.localscroll = function(){
 		$(document).on('click', 'a[href^="#"]', function (event) {
 			event.preventDefault();
-			
+
 			var a = $.attr(this, 'href');
 			$('html, body').animate({
-				scrollTop: $(a).offset().top;
+				scrollTop: $(a).offset().top
 			}, 500);
 		});
 	};

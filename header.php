@@ -15,29 +15,25 @@
 	<header>
 		<div class="container">
 
-			<div class="row">
-				<div class="col-lg-1">
+			<div class="header-wrapper">
+				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" id="logo">
+					<img src="<?php echo get_template_directory_uri() ?>/images/logo.svg" alt="<?php bloginfo('name'); ?>">
+				</a>
 
-					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" id="logo">
-						<img src="<?php echo get_template_directory_uri() ?>/images/logo.svg" alt="<?php bloginfo('name'); ?>">
-					</a>
+				<?php
 
-				</div>
-				<div class="col-lg">
+				if( has_nav_menu('mainmenu') ) :
+					wp_nav_menu([
+						'menu' => 'mainmenu',
+						'theme_location' => 'mainmenu',
+						'menu_id' => 'mainmenu',
+						'container' => 'nav',
+						'container_class' => 'mainmenu-wrapper',
+						'depth' => 1
+					]);
+				endif;
 
-					<nav>
-						<?php
-							if( has_nav_menu('mainmenu') ) :
-								wp_nav_menu([
-									'theme_location' => 'mainmenu',
-									'container_class' => 'mainmenu-wrapper',
-									'depth' => 1
-								]);
-							endif;
-						?>
-					</nav>
-
-				</div>
+				?>
 			</div>
 
 		</div>

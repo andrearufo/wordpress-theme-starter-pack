@@ -2,28 +2,33 @@ $primary: #546de5;
 
 $font-family-sans-serif: 'Inter', sans-serif;
 
-$font-size-base: 1rem;
+$spacer: 2rem;
+
+$font-size-base: 1.1rem;
+$font-size-ul: $font-size-base * 2.2;
 $font-size-xl: $font-size-base * 1.2;
 $font-size-sm:  $font-size-base * 0.8;
 $font-size-xs:  $font-size-base * 0.6;
 
+$line-height-base: 1.8;
+
 $grid-breakpoints: (
-    xs: 0,
-    sm: 576px,
-    md: 768px,
-    lg: 992px,
-    xl: 1200px,
-    ol: 1600px,
-    ul: 1740px
+xs: 0,
+sm: 576px,
+md: 768px,
+lg: 992px,
+xl: 1200px,
+ol: 1600px,
+ul: 1740px
 );
 
 $container-max-widths: (
-    sm: 540px,
-    md: 720px,
-    lg: 960px,
-    xl: 1140px,
-    ol: 1300px,
-    ul: 1600px
+sm: 540px,
+md: 720px,
+lg: 960px,
+xl: 1140px,
+ol: 1300px,
+ul: 1600px
 );
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
@@ -32,10 +37,72 @@ $container-max-widths: (
 @import 'defaults';
 @import 'pagination';
 
+img{
+    @extend .img-fluid;
+}
+
 header{
-    background: $gray-200;
     padding: $spacer 0;
     margin-bottom: $spacer;
+    border-bottom: $border-width solid $border-color;
+
+    .header-wrapper{
+        @extend .navbar;
+        @extend .navbar-expand-lg;
+
+        #logo{
+            @extend .navbar-brand;
+
+            img{
+                width: 120px;
+            }
+        }
+
+        nav{
+            ul#mainmenu{
+                @extend .navbar-nav;
+
+                > li{
+                    @extend .nav-item;
+
+                    > a{
+                        @extend .nav-link;
+                    }
+
+                    &.current_menu_item{
+                        > a{
+                            @extend .active;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.content{
+    article{
+        .content-thumbnail{
+            text-align: center;
+            margin-bottom: $spacer;
+        }
+
+        .content-main{
+            @include media-breakpoint-up(lg){
+                width: 100% / 12 * 8;
+                margin: auto;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            time{
+                display: block;
+                font-size: $font-size-sm;
+                color: $text-muted;
+            }
+        }
+    }
 }
 
 ul.posts-list{
@@ -53,13 +120,7 @@ ul.posts-list{
 }
 
 footer{
-    background: $primary;
-    color: $white;
     padding: $spacer 0;
     margin-top: $spacer;
-
-    a{
-        color: inherit;
-        text-decoration: underline;
-    }
+    border-top: $border-width solid $border-color;
 }

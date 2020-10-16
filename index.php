@@ -3,20 +3,36 @@
 <div class="container">
 	<?php if ( have_posts() ) : ?>
 
-		<ul class="posts-list">
-			<?php while ( have_posts() ) : the_post(); ?>
-				<li>
+		<div class="content">
 
-					<article <?php post_class() ?>>
+			<ul class="posts-list">
+				<?php while ( have_posts() ) : the_post(); ?>
+					<li>
 
-						<h3><?php the_title() ?></h3>
-						<div><?php the_excerpt() ?></div>
+						<article <?php post_class() ?>>
 
-					</article>
+							<?php if (has_post_thumbnail()): ?>
+								<div class="content-thumbnail"><?php the_post_thumbnail('large') ?></div>
+							<?php endif; ?>
 
-				</li>
-			<?php endwhile; ?>
-		</ul>
+							<div class="content-main">
+								<div class="content-main-inner">
+
+									<time><?php echo get_the_date() ?></time>
+									<h1><?php the_title() ?></h1>
+									<div><?php the_excerpt() ?></div>
+									<a href="<?php the_permalink() ?>" class="btn btn-outline-primary"><?php _e('Read more...', 'wtsp') ?></a>
+
+								</div>
+							</div>
+
+						</article>
+
+					</li>
+				<?php endwhile; ?>
+			</ul>
+
+		</div>
 
 	<?php endif; ?>
 </div>

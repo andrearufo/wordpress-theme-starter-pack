@@ -3,7 +3,7 @@
 <div class="container">
     <?php if ( have_posts() ) : ?>
 
-        <div class="content content__page">
+        <div class="content content__single">
             <?php while ( have_posts() ) : the_post(); ?>
 
                 <article <?php post_class() ?>>
@@ -17,7 +17,7 @@
 
                             <h1><?php the_title() ?></h1>
                             <div><?php the_content() ?></div>
-
+                            
                         </div>
                     </div>
 
