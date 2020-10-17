@@ -59,3 +59,5 @@ $ gulp icons
 ```
 
 Tutte le opzioni di configurazione sono in testa al file `gulpfile.js`.
+
+![La pagina degli articoli](https://i.ibb.co/hytL9XC/screencapture-wordpress-test-articoli-2020-10-18-00-08-10.png)
