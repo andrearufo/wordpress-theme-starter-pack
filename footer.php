@@ -2,9 +2,23 @@
 <footer>
     <div class="container">
 
-        <span class="pr-3"><?php bloginfo('name'); ?> &copy; <?php echo date('Y') ?></span>
-        <span class="pr-3">Made by <a href="https://www.andrearufo.it/">andrearufo.it</a></span>
-        <span class="pr-3"><a href="https://github.com/andrearufo/wordpress-theme-starter-pack">Visit the repo</a></span>
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-3">
+
+                <?php bloginfo('name'); ?> &copy; <?php echo date('Y') ?>
+
+            </div>
+            <div class="col-lg-3">
+
+                Made by <a href="https://www.andrearufo.it/">andrearufo.it</a>
+
+            </div>
+            <div class="col-lg-3">
+
+                <a href="https://github.com/andrearufo/wordpress-theme-starter-pack">Visit the repo</a>
+
+            </div>
+        </div>
 
     </div>
 </footer>

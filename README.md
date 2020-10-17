@@ -10,6 +10,8 @@ Installalo nella directory dei temi del tuo Wordpress in `/wp-content/themes/` e
 
 _È altamente consigliato uno sviluppo in locale e l'upload dei soli file compilati tramite Gulp alla fine dello sviluppo._
 
+![](https://raw.githubusercontent.com/andrearufo/wordpress-theme-starter-pack/master/screenshot.png)
+
 ## Inizializzazione
 
 Tutti i pacchetti necessari ad avviare lo sviluppo del tema si installano via **yarn**.

@@ -9,7 +9,11 @@
                 <article <?php post_class() ?>>
 
                     <?php if (has_post_thumbnail()): ?>
-                        <div class="content-thumbnail"><?php the_post_thumbnail('large') ?></div>
+
+                        <div class="content-thumbnail">
+                            <?php the_post_thumbnail('1200') ?>
+                        </div>
+
                     <?php endif; ?>
 
                     <div class="content-main">
@@ -17,7 +21,7 @@
 
                             <h1><?php the_title() ?></h1>
                             <div><?php the_content() ?></div>
-                            
+
                         </div>
                     </div>
 

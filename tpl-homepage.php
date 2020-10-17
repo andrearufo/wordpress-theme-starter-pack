@@ -17,7 +17,11 @@ get_header();
                 <article <?php post_class() ?>>
 
                     <?php if (has_post_thumbnail()): ?>
-                        <div class="content-thumbnail"><?php the_post_thumbnail('large') ?></div>
+
+                        <div class="content-thumbnail">
+                            <?php the_post_thumbnail('1200') ?>
+                        </div>
+
                     <?php endif; ?>
 
                     <div class="content-main">
@@ -53,6 +57,7 @@ get_header();
                 <div class="px-1">
 
                     <div class="card">
+                        <?php the_post_thumbnail('800x600', ['class' => 'card-img-top']) ?>
                         <div class="card-body">
 
                             <h5 class="card-title"><?php the_title() ?></h5>

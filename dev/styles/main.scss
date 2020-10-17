@@ -91,15 +91,22 @@ header{
             @include media-breakpoint-up(lg){
                 width: 100% / 12 * 8;
                 margin: auto;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
             }
 
             time{
                 display: block;
                 font-size: $font-size-sm;
                 color: $text-muted;
+            }
+        }
+
+        .extrainfo{
+            font-size: $font-size-sm;
+            color: $text-muted;
+
+            a{
+                color: inherit;
+                text-decoration: underline;
             }
         }
     }
@@ -123,4 +130,5 @@ footer{
     padding: $spacer 0;
     margin-top: $spacer;
     border-top: $border-width solid $border-color;
+    font-size: $font-size-sm;
 }

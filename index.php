@@ -12,16 +12,38 @@
 						<article <?php post_class() ?>>
 
 							<?php if (has_post_thumbnail()): ?>
-								<div class="content-thumbnail"><?php the_post_thumbnail('large') ?></div>
+
+								<div class="content-thumbnail">
+									<?php the_post_thumbnail('1200') ?>
+								</div>
+
 							<?php endif; ?>
 
 							<div class="content-main">
 								<div class="content-main-inner">
 
 									<time><?php echo get_the_date() ?></time>
-									<h1><?php the_title() ?></h1>
-									<div><?php the_excerpt() ?></div>
-									<a href="<?php the_permalink() ?>" class="btn btn-outline-primary"><?php _e('Read more...', 'wtsp') ?></a>
+									<h2><?php the_title() ?></h2>
+
+									<div>
+										<?php the_excerpt() ?>
+									</div>
+
+									<div class="row aling-items-end">
+										<div class="col-lg-9 col-6">
+
+											<div class="extrainfo"><strong><?php the_author() ?></strong> in <?php the_category('; ') ?></div>
+											<div class="extrainfo"><?php the_tags('', '; ', '') ?></div>
+
+										</div>
+										<div class="col-lg-3 col-6">
+
+											<a href="<?php the_permalink() ?>" class="btn btn-outline-primary btn-block">
+												<?php _e('Read more...', 'wtsp') ?>
+											</a>
+
+										</div>
+									</div>
 
 								</div>
 							</div>
