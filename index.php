@@ -23,7 +23,11 @@
 								<div class="content-main-inner">
 
 									<time><?php echo get_the_date() ?></time>
-									<h2><?php the_title() ?></h2>
+									<h2>
+										<a href="<?php the_permalink() ?>">
+											<?php the_title() ?>
+										</a>
+									</h2>
 
 									<div>
 										<?php the_excerpt() ?>
@@ -36,9 +40,9 @@
 											<div class="extrainfo"><?php the_tags('', '; ', '') ?></div>
 
 										</div>
-										<div class="col-lg-3 col-6">
+										<div class="col-lg-3 col-6 text-end">
 
-											<a href="<?php the_permalink() ?>" class="btn btn-outline-primary btn-block">
+											<a class="btn btn-primary" href="<?php the_permalink() ?>">
 												<?php _e('Read more...', 'wtsp') ?>
 											</a>
 

@@ -8,13 +8,13 @@ ul.page-numbers {
         &:first-child {
             .page-numbers {
                 margin-left: 0;
-                @include border-left-radius($border-radius);
+                // @include border-left-radius($border-radius);
             }
         }
 
         &:last-child {
             .page-numbers {
-                @include border-right-radius($border-radius);
+                // @include border-right-radius($border-radius);
             }
         }
 

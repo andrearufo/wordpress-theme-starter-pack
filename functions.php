@@ -14,8 +14,6 @@ function register_my_session(){
 }
 add_action('init', 'register_my_session');
 
-show_admin_bar(false);
-
 if ( ! function_exists( 'wtsp_setup' ) ) :
     /**
     * Sets up theme defaults and registers support for various WordPress features.

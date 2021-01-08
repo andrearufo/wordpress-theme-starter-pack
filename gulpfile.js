@@ -1,6 +1,20 @@
+var gulp = require('gulp');
+var log = require('fancy-log');
+var sourcemaps = require('gulp-sourcemaps');
+var sass = require('gulp-dart-sass');
+var postcss = require('gulp-postcss');
+var autoprefixer = require('autoprefixer');
+var cssnano = require('cssnano');
+var uglify = require('gulp-uglify');
+var eslint = require('gulp-eslint');
+var notify = require('gulp-notify');
+var browserSync = require('browser-sync').create();
+var clear = require('console-clear');
+var dotenv = require('dotenv').config();
+
 var paths = {
     sync: {
-        proxy: 'wordpress.test',
+        proxy: process.env.SERVER_NAME+':'+process.env.SERVER_PORT,
         delay: 2000
     },
     styles: {
@@ -10,28 +24,8 @@ var paths = {
     scripts: {
         src: 'dev/scripts/**/*.js',
         dest: 'dist/scripts'
-    },
-    icons: {
-        src: 'assets/icons/*.svg',
-        template: 'dev/templates/icons.css',
-        dest: 'dist/icons/'
     }
 };
-
-var gulp = require('gulp');
-var log = require('fancy-log');
-var sourcemaps = require('gulp-sourcemaps');
-var sass = require('gulp-sass');
-var postcss = require('gulp-postcss');
-var autoprefixer = require('autoprefixer');
-var cssnano = require('cssnano');
-var uglify = require('gulp-uglify');
-var eslint = require('gulp-eslint');
-var iconfont = require('gulp-iconfont');
-var iconfontCss = require('gulp-iconfont-css');
-var notify = require('gulp-notify');
-var browserSync = require('browser-sync').create();
-var clear = require('console-clear');
 
 function styles(done) {
     clear(true);
@@ -85,34 +79,6 @@ function scripts(done) {
 }
 exports.scripts = scripts;
 
-function icons(done) {
-    clear(true);
-    log.info('Starting icons!');
-    return (
-        gulp
-            .src(paths.icons.src)
-            .pipe( iconfontCss({
-    			fontName: 'icons',
-    			path: paths.icons.template,
-    			targetPath: 'icons.css',
-    			fontPath: ''
-    		}) )
-    		.pipe( iconfont({
-    			fontName: 'icons',
-    			normalize: true,
-    			fontHeight: 1001,
-    			prependUnicode: true,
-    			formats: ['ttf', 'eot', 'woff'],
-    			timestamp: Math.round(Date.now()/1000)
-    		}) )
-    		.pipe( gulp.dest(paths.icons.dest) )
-            .pipe(browserSync.stream())
-            .pipe(notify('Complete icons!'))
-    );
-	done();
-}
-exports.icons = icons;
-
 function serve(){
     clear(true);
     browserSync.init({
@@ -129,11 +95,10 @@ function watch(){
     log.info('Starting watch!');
     gulp.watch(paths.styles.src, gulp.series('styles'));
     gulp.watch(paths.scripts.src, gulp.series('scripts'));
-    gulp.watch(paths.icons.src, gulp.series('icons'));
 }
 exports.watch = watch;
 
-exports.build = gulp.parallel(scripts, styles, icons);
+exports.build = gulp.parallel(scripts, styles);
 
 function start(){
     serve();
