@@ -26,6 +26,7 @@ services:
            WORDPRESS_DB_NAME: wordpress
         volumes:
             - .:/var/www/html/wp-content/themes/${THEME_NAME}
+            - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
 
 volumes:
     db_data: {}
