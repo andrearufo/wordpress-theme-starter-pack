@@ -4,9 +4,9 @@
 	"description": "A starter pack for create a new Wordpress Theme based on Bootstrap 4 and Gulp",
 	"main": "gulpfile.js",
 	"scripts": {
-		"start": "docker-compose up -d",
-		"stop": "docker-compose down",
-		"serve": "docker-compose up -d && gulp serve",
+		"start": "docker compose up -d",
+		"stop": "docker compose down",
+		"serve": "docker compose up -d && gulp serve",
 		"watch": "gulp watch",
 		"build": "gulp build"
 	},

@@ -18,7 +18,7 @@ Per lo sviluppo locale è possibile sfruttare le potenzialità di **Docker** o m
 
 Il pacchetto contiene un `dockerfile` che permette di creare un container senza il bisogno di installare tutto l'ambiente e quindi avere a disposizione solo la cartella del tema.
 
-Puoi lanciare e usare il container tramite il comando `docker-composer up -d` (fai riferimento alla guida di Docker per altri dettagli).
+Puoi lanciare e usare il container tramite il comando `docker composer up -d` (fai riferimento alla guida di Docker per altri dettagli).
 
 ### Sviluppo in locale
 

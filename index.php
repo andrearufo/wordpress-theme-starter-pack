@@ -1,17 +1,17 @@
 <?php get_header(); ?>
 
 <div class="container">
-	<?php if ( have_posts() ) : ?>
+	<?php if (have_posts()) : ?>
 
 		<div class="content">
 
 			<ul class="posts-list">
-				<?php while ( have_posts() ) : the_post(); ?>
+				<?php while (have_posts()) : the_post(); ?>
 					<li>
 
 						<article <?php post_class() ?>>
 
-							<?php if (has_post_thumbnail()): ?>
+							<?php if (has_post_thumbnail()) : ?>
 
 								<div class="content-thumbnail">
 									<?php the_post_thumbnail('1200') ?>
@@ -57,6 +57,17 @@
 					</li>
 				<?php endwhile; ?>
 			</ul>
+
+			<hr>
+
+			<div class="row text-center">
+				<div class="col-lg">
+					<?php previous_posts_link('Older posts'); ?>
+				</div>
+				<div class="col-lg">
+					<?php next_posts_link('Newer posts'); ?>
+				</div>
+			</div>
 
 		</div>
 

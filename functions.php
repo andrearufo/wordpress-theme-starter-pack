@@ -3,16 +3,16 @@
 * wtsp functions and definitions
 *
 * @link https://developer.wordpress.org/themes/basics/theme-functions/
-*
 * @package wtsp
 */
 
-function register_my_session(){
-    if( !session_id() ) {
-        session_start();
-    }
-}
-add_action('init', 'register_my_session');
+// /* Starting the session... if you need */
+// function register_my_session(){
+//     if( !session_id() ) {
+//         session_start();
+//     }
+// }
+// add_action('init', 'register_my_session');
 
 if ( ! function_exists( 'wtsp_setup' ) ) :
     /**
@@ -97,7 +97,7 @@ function wtsp_my_styles_method() {
         'icons',
         get_template_directory_uri() . '/dist/icons/icons.css',
         ['style'],
-        '202007283'
+        '20210422'
     );
 
     wp_enqueue_style(
@@ -118,7 +118,7 @@ function wtsp_my_styles_method() {
         'main',
         get_template_directory_uri() . '/dist/styles/main.css',
         ['style', 'fontawesome', 'icons'],
-        '202007283'
+        '20210422'
     );
 
 }
@@ -157,7 +157,7 @@ function wtsp_my_scripts_method() {
         'main',
         get_template_directory_uri() . '/dist/scripts/main.js',
         ['jquery', 'bootstrap', 'slick'],
-        '202007283',
+        '20210422',
         true
     );
 

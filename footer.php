@@ -10,12 +10,12 @@
             </div>
             <div class="col-lg-3">
 
-                Made by <a href="https://www.andrearufo.it/">andrearufo.it</a>
+                Made by <a href="https://axio.studio/">axio.studio</a>
 
             </div>
             <div class="col-lg-3">
 
-                <a href="https://github.com/andrearufo/wordpress-theme-starter-pack">Visit the repo</a>
+                <a href="https://github.com/axiostudio/wordpress-theme-starter-pack">Visit the repo</a>
 
             </div>
         </div>
