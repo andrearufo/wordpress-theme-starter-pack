@@ -1,4 +1,7 @@
-(function($){
+import '@popperjs/core';
+import 'bootstrap';
+
+(function ($) {
 
 	var script = {};
 

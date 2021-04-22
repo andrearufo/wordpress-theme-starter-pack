@@ -52,6 +52,8 @@ get_header();
 
         ?>
 
+        <hr>
+
         <div id="slider">
             <?php while ( $query->have_posts() ) : $query->the_post(); ?>
                 <div class="px-1">
@@ -61,6 +63,7 @@ get_header();
                         <div class="card-body">
 
                             <h5 class="card-title"><?php the_title() ?></h5>
+                            <?php the_excerpt() ?>
                             <a href="<?php the_permalink() ?>" class="btn btn-outline-primary"><?php _e('Read more...', 'wtsp') ?></a>
 
                         </div>
