@@ -14,7 +14,7 @@
 
 <body <?php body_class() ?>>
 
-	<header>
+	<header id="header">
 		<div class="container">
 
 			<div class="row align-items-center justify-content-between">

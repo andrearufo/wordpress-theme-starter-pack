@@ -25,6 +25,12 @@
                         </div>
                     </div>
 
+                    <?php if ( comments_open() || get_comments_number() ) : ?>
+                        <div class="content-comments">
+                            <?php comments_template(); ?>
+                        </div>
+                    <?php endif; ?>
+
                 </article>
 
             <?php endwhile; ?>

@@ -1,0 +1,108 @@
+.comments-area {
+    margin-top: $spacer * 2;
+
+    ol.comment-list {
+        padding: 0;
+        list-style: none;
+        margin: 0;
+
+        li {
+            .comment-body {
+                padding: $spacer;
+                background-color: $gray-100;
+                border-radius: $border-radius;
+
+                .comment-meta {
+                    padding-bottom: $spacer;
+                    margin-bottom: $spacer;
+                    border-bottom: $border-width solid $border-color;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    .comment-author {}
+
+                    .comment-metadata {}
+                }
+            }
+
+            &:not(:last-child) {
+                margin-bottom: $spacer;
+            }
+
+            ol {
+                list-style: none;
+                padding: $spacer;
+                padding-right: 0;
+                padding-bottom: 0;
+                margin: $spacer 0;
+                border-left: $border-width solid$border-color;
+            }
+        }
+    }
+
+    .comment-respond {
+        margin-top: $spacer * 2;
+
+        .logged-in-as {
+            display: none !important;
+        }
+
+        .comment-form{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-auto-rows: auto;
+            // grid-template-rows: 1fr 1fr;
+            gap: $grid-gutter-width;
+            grid-template-areas:
+                "notes notes notes"
+                "comment comment comment"
+                "author email url"
+                "cookies cookies submit";
+
+            .comment-notes { grid-area: notes; }
+            .comment-form-comment { grid-area: comment; }
+            .comment-form-author { grid-area: author; }
+            .comment-form-email { grid-area: email; }
+            .comment-form-url { grid-area: url; }
+            .comment-form-cookies-consent { grid-area: cookies; }
+            .form-submit { grid-area: submit; }
+
+            p{
+                margin: 0;
+                display: block;
+            }
+
+            label {
+                @extend .form-label;
+
+                span.required{
+                    color: $danger;
+                }
+            }
+
+            .comment-form-cookies-consent{
+                label{
+                    display: inline
+                }
+            }
+
+            textarea#comment,
+            input#author,
+            input#email,
+            input#url {
+                @extend .form-control;
+            }
+        }
+
+        .form-submit {
+            input#submit {
+                @extend .btn;
+                @extend .btn-primary;
+                width: 100%;
+            }
+        }
+
+    }
+}

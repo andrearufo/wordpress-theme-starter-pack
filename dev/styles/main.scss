@@ -18,13 +18,14 @@ sans-serif;
 @import 'bootstrap';
 
 @import 'defaults';
+@import 'comments';
 // @import 'pagination';
 
 img {
     @extend .img-fluid;
 }
 
-header {
+#header {
     padding: $spacer 0;
     border-bottom: $border-width solid $border-color;
 
@@ -113,7 +114,7 @@ ul.posts-list {
     }
 }
 
-footer {
+#footer {
     padding: $spacer 0;
     margin-top: $spacer;
     border-top: $border-width solid $border-color;

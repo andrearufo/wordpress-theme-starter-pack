@@ -8,13 +8,21 @@ mix
         jquery: ['$', 'window.jQuery']
     })
     .sass('dev/styles/main.scss', 'styles')
+    .options({
+        processCssUrls: false
+    })
     .sourceMaps()
     .setPublicPath('dist')
     .browserSync({
         proxy: process.env.SERVER_NAME + ':' + process.env.SERVER_PORT,
-        files: ["dist/**/*", "**/*.php"]
+        files: [
+            "languages/**/*",
+            "images/**/*",
+            "dist/**/*",
+            "**/*.php"
+        ]
     });
 
-// if (mix.inProduction()) {
-//     mix.version();
-// }
+if (mix.inProduction()) {
+    mix.version();
+}

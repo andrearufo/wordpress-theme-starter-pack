@@ -1,8 +1,7 @@
 {
 	"name": "wordpress-theme-starter-pack",
 	"version": "1.0.0",
-	"description": "A starter pack for create a new Wordpress Theme based on Bootstrap 4 and Gulp",
-	"main": "gulpfile.js",
+	"description": "A starter pack for create a new Wordpress Theme based on Bootstrap 5, Mix and Docker",
 	"scripts": {
 		"start": "docker compose up -d",
 		"stop": "docker compose down",
@@ -13,15 +12,16 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://andrearufo@github.com/andrearufo/wordpress-theme-starter-pack.git"
+		"url": "git+https://axiostudio@github.com/axiostudio/wordpress-theme-starter-pack.git"
 	},
-	"author": "andrearufo",
+	"author": "axiostudio",
 	"license": "ISC",
 	"bugs": {
-		"url": "https://github.com/andrearufo/wordpress-theme-starter-pack/issues"
+		"url": "https://github.com/axiostudio/wordpress-theme-starter-pack/issues"
 	},
-	"homepage": "https://github.com/andrearufo/wordpress-theme-starter-pack#readme",
+	"homepage": "https://github.com/axiostudio/wordpress-theme-starter-pack#readme",
 	"devDependencies": {
+		"@popperjs/core": "^2.9.2",
 		"bootstrap": "^5.0.0-beta1",
 		"browser-sync": "^2.26.14",
 		"browser-sync-webpack-plugin": "^2.3.0",
@@ -30,8 +30,5 @@
 		"resolve-url-loader": "^3.1.2",
 		"sass": "^1.32.11",
 		"sass-loader": "^11.0.1"
-	},
-	"dependencies": {
-		"@popperjs/core": "^2.9.2"
 	}
 }
