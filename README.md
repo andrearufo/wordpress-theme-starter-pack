@@ -6,8 +6,6 @@ Già installandolo sarebbe possibile usarlo così come è, ma la vera forza di q
 
 È possibile svilupparlo come un normale tema ma sotto il cofano con **Bootstrap**, **Mix**, **SASS** e **Docker** è tutto più facile!
 
-![](https://raw.githubusercontent.com/axiostudio/wordpress-theme-starter-pack/master/screenshot.png)
-
 ## Configurazione locale
 
 Per lo sviluppo locale è possibile sfruttare le potenzialità di **Docker** o, manualmente, nella cartella dei temi della tua installazione di Wordpress.
