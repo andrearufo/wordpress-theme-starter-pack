@@ -1,18 +1,11 @@
-$primary: #0a3d62;
+// $primary: #00b894;
+// $spacer: 2rem;
 
-$spacer: 2rem;
+// $font-size-base: 1rem;
+// $line-height-base: 1.8;
 
-$font-size-base: 1rem;
-$font-size-ul: $font-size-base * 2.2;
-$font-size-xl: $font-size-base * 1.6;
-$font-size-lg: $font-size-base * 1.2;
-$font-size-sm: $font-size-base * 0.8;
-$font-size-xs: $font-size-base * 0.6;
-
-$line-height-base: 1.8;
-
-@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap');
-$font-family-sans-serif: 'Atkinson Hyperlegible', sans-serif;
+// @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+// $font-family-sans-serif: 'Atkinson Hyperlegible', sans-serif;
 
 @import 'bootstrap';
 

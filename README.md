@@ -10,7 +10,7 @@ Già installandolo sarebbe possibile usarlo così come è, ma la vera forza di q
 
 Per lo sviluppo locale è possibile sfruttare le potenzialità di **Docker** o, manualmente, nella cartella dei temi della tua installazione di Wordpress.
 
->  È altamente consigliato uno sviluppo in locale e l'upload dei soli file compilati tramite Gulp alla fine dello sviluppo.
+>  È altamente consigliato uno sviluppo in locale e l'upload dei soli file compilati alla fine dello sviluppo.
 
 ### Sviluppo via Docker
 
