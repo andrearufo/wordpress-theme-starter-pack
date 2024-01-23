@@ -3,9 +3,8 @@
 	"version": "1.0.0",
 	"description": "A starter pack for create a new Wordpress Theme based on Bootstrap 5, Mix and Docker",
 	"scripts": {
-		"start": "docker compose up -d",
+		"start": "docker compose up -d && npx mix watch",
 		"stop": "docker compose down",
-		"serve": "docker compose up -d && npx mix watch",
 		"watch": "npx mix watch",
 		"build": "npx mix --production",
 		"hot": "npx mix watch --hot"
