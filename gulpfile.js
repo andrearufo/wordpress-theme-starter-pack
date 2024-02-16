@@ -1,35 +1,27 @@
 const gulp = require('gulp');
-const sass = require('gulp-sass');
-const autoprefixer = require('gulp-autoprefixer');
+const sass = require('gulp-sass')(require('sass'));
 const browserSync = require('browser-sync').create();
 const concat = require('gulp-concat');
 const terser = require('gulp-terser');
 
-// Percorso dei file SCSS
-const scssFiles = './src/styles/**/*.scss';
-
-// Percorso del file JavaScript principale
-const jsFiles = './src/scripts/main.js';
-
-// Compila i file SCSS in CSS
-function compileSCSS() {
-    return gulp.src(scssFiles)
+// Funzione per compilare i file SCSS in CSS
+function styles() {
+    return gulp.src('./src/styles/**/*.scss')
         .pipe(sass().on('error', sass.logError))
-        .pipe(autoprefixer())
-        .pipe(gulp.dest('./dist/css'))
+        .pipe(gulp.dest('./dist/styles'))
         .pipe(browserSync.stream());
 }
 
-// Compila e minifica il file JavaScript
-function compileJS() {
-    return gulp.src(jsFiles)
-        .pipe(concat('main.min.js'))
+// Funzione per compilare e minificare i file JavaScript
+function scripts() {
+    return gulp.src('./src/scripts/main.js')
+        .pipe(concat('main.js'))
         .pipe(terser())
-        .pipe(gulp.dest('./dist/js'))
+        .pipe(gulp.dest('./dist/scripts'))
         .pipe(browserSync.stream());
 }
 
-// Inizializza il server di sviluppo locale e abilita l'hot reload
+// Funzione per inizializzare il server di sviluppo locale e abilitare l'hot reload
 function serve() {
     browserSync.init({
         proxy: 'localhost:8000', // Indirizzo del server WordPress Docker
@@ -37,10 +29,14 @@ function serve() {
         open: false
     });
 
-    gulp.watch(scssFiles, compileSCSS);
-    gulp.watch(jsFiles, compileJS);
+    gulp.watch('./src/styles/**/*.scss', styles);
+    gulp.watch('./src/scripts/main.js', scripts);
     gulp.watch('./dist/**/*').on('change', browserSync.reload);
 }
 
 // Compila i file SCSS e JavaScript e avvia il server di sviluppo locale con l'hot reload
-exports.default = gulp.series(gulp.parallel(compileSCSS, compileJS), serve);
+exports['styles'] = styles;
+exports['scripts'] = scripts;
+exports['build'] = gulp.parallel(styles, scripts);
+
+exports.default = gulp.series(gulp.parallel(styles, scripts), serve);
