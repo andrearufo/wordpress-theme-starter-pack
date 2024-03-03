@@ -23,7 +23,7 @@ ul.page-numbers {
             display: block;
             padding: $pagination-padding-y $pagination-padding-x;
             margin-left: -$pagination-border-width;
-            line-height: $pagination-line-height;
+            // line-height: $pagination-line-height;
             color: $pagination-color;
             background-color: $pagination-bg;
             border: $pagination-border-width solid $pagination-border-color;
@@ -67,16 +67,4 @@ ul.page-numbers {
             }
         }
     }
-}
-
-//
-// Sizing
-//
-
-.pagination-lg {
-    @include pagination-size($pagination-padding-y-lg, $pagination-padding-x-lg, $font-size-lg, $line-height-lg, $border-radius-lg);
-}
-
-.pagination-sm {
-    @include pagination-size($pagination-padding-y-sm, $pagination-padding-x-sm, $font-size-sm, $line-height-sm, $border-radius-sm);
 }

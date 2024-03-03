@@ -3,9 +3,10 @@
 	"version": "1.0.0",
 	"description": "A starter pack for create a new Wordpress Theme based on Bootstrap 5, Mix and Docker",
 	"scripts": {
+		"start": "docker compose up -d && gulp",
 		"rebuild": "rm -rf node_modules dist && yarn install && yarn build",
 		"dev": "gulp",
-		"build": "gulp"
+		"build": "gulp build"
 	},
 	"repository": {
 		"type": "git",
@@ -23,6 +24,7 @@
 	},
 	"devDependencies": {
 		"browser-sync": "^3.0.2",
+		"dotenv": "^16.4.5",
 		"gulp": "^4.0.2",
 		"gulp-autoprefixer": "^9.0.0",
 		"gulp-concat": "^2.6.1",

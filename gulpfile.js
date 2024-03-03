@@ -3,6 +3,7 @@ const sass = require('gulp-sass')(require('sass'));
 const browserSync = require('browser-sync').create();
 const concat = require('gulp-concat');
 const terser = require('gulp-terser');
+const dotenv = require('dotenv').config();
 
 // Funzione per compilare i file SCSS in CSS
 function styles() {
@@ -24,14 +25,14 @@ function scripts() {
 // Funzione per inizializzare il server di sviluppo locale e abilitare l'hot reload
 function serve() {
     browserSync.init({
-        proxy: 'localhost:8000', // Indirizzo del server WordPress Docker
+        proxy: process.env.SERVER_NAME+':'+process.env.SERVER_PORT, // Indirizzo del server WordPress Docker
         files: ['./dist/**/*'],
         open: false
     });
 
     gulp.watch('./src/styles/**/*.scss', styles);
     gulp.watch('./src/scripts/main.js', scripts);
-    gulp.watch('./dist/**/*').on('change', browserSync.reload);
+    gulp.watch(['*.php', './dist/**/*']).on('change', browserSync.reload);
 }
 
 // Compila i file SCSS e JavaScript e avvia il server di sviluppo locale con l'hot reload
