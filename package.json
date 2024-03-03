@@ -3,8 +3,6 @@
 	"version": "1.0.0",
 	"description": "A starter pack for create a new Wordpress Theme based on Bootstrap 5, Mix and Docker",
 	"scripts": {
-		"start": "docker compose up -d && npx mix watch",
-		"stop": "docker compose down",
 		"rebuild": "rm -rf node_modules dist && yarn install && yarn build",
 		"dev": "gulp",
 		"build": "gulp"
