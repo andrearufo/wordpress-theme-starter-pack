@@ -78,8 +78,10 @@ function wpb_sender_name( $original_email_from ) {
 add_filter( 'wp_mail_from_name', 'wpb_sender_name' );
 
 /* Add the default style and some other */
-add_action( 'wp_enqueue_scripts', 'wtsp_my_styles_method');
-function wtsp_my_styles_method() {
+add_action( 'wp_enqueue_scripts', 'wtsp_enqueue_scripts');
+function wtsp_enqueue_scripts() {
+    $theme_version = wp_get_theme()->get('Version');
+    // echo $theme_version;
 
     wp_enqueue_style(
         'style',
@@ -90,15 +92,9 @@ function wtsp_my_styles_method() {
         'main',
         get_template_directory_uri() . '/dist/styles/main.css',
         ['style'],
-        '20240122'
+        $theme_version
     );
-
-}
-
-/* Add some js scripts */
-add_action( 'wp_enqueue_scripts', 'wtsp_my_scripts_method');
-function wtsp_my_scripts_method() {
-
+    
     wp_enqueue_script(
         'main',
         get_template_directory_uri() . '/dist/scripts/main.js',

@@ -24,13 +24,13 @@ Installalo nella directory dei temi del tuo Wordpress in `/wp-content/themes/` e
 
 ## Inizializzazione
 
-Nel pacchetto è presente un file `.env.example`: duplicalo e rinominalo in `.env`. Nel file sono riportate una serie di variabili di sistema utili a Docker, a Mix e a Browsersync:
+Nel pacchetto è presente un file `.env.example`: duplicalo e rinominalo in `.env`. Nel file sono riportate una serie di variabili di sistema utili a Docker e a Vite:
 
 - `THEME_NAME` è il nome del tuo tema e cartella a cui si farà riferimento per i file (`wordpress-theme-starter-pack` di standard come da nome pacchetto)
-- `SERVER_NAME` è l'indirizzo locale della tua installazione (`localhost` per Docker)
-- `SERVER_PORT` e la porta di ascolto della tua installazione locale (`8000` per Docker)
+- `SERVER_PORT` è la porta di ascolto della tua installazione locale (`8000` per Docker)
+- `VITE_PORT` è la porta di gestione del server live di Vite (`5173` di standard)
 
-### Compilazione tramite Gulp
+### Compilazione tramite Vite
 
 Tutti i pacchetti necessari ad avviare lo sviluppo del tema si installano via **yarn** (oppure **npm** se preferite).
 
@@ -42,28 +42,3 @@ $ yarn install
 ```
 
 È quindi possibile ora avviare i task utili all'esecuzione e alla compilazione.
-
-Se hai installato un server locale e vedi il tuo Wordpress su un indirizzo di prova tipo `wordpress.test` ricordati di aggiornare il file `.env` con questo parametro (che verrà poi usato da **Browsersync**).
-
-I file sorgenti di styles e scripts sono presenti nella cartella `dev` e tramite i task di Gulp vengono compilati e portati nella cartella `dist`.
-
-### Comandi di gestione
-
-Tutti i comandi sono lanciati tramite gli script presenti nel file `package.json` ma possono ovviamente essere lanciati anche indipendentemente.
-
-#### start
-
-Usa `yarn start` per avviare il container di Docker e raggiungere il tuo sito su http://localhost:8000 (o come da configurazione in file `.env`). Viene avviato quindi il watcher sui file del tema.
-
-
-#### dev
-
-Con `yarn dev` attiverai Gulp che compilerà automaticamente i file di styles e scripts quando verranno modificati.
-
-#### build
-
-Il comando `yarn build` compilerà styles e scripts per la produzione.
-
-#### rebuild
-
-Lanciando `yarn serve` attiverai il container di Docker e lancerai Browsersync tramite Mix: il tuo sito verrà compilato e aggiornato automaticamente quando modificherai un file.

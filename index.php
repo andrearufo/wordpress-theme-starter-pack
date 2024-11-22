@@ -1,77 +1,80 @@
-<?php get_header(); ?>
+<?php get_header() ?>
 
-<div class="container">
-	<?php if (have_posts()) : ?>
+<header>
+	<div class="container">
 
-		<div class="content">
+		<div class="row align-items-center">
+			<div class="col-lg-1">
 
-			<ul class="posts-list">
-				<?php while (have_posts()) : the_post(); ?>
-					<li>
+				<a href="<?php echo esc_url(home_url('/')); ?>" rel="home">
+					<?php bloginfo('name'); ?>
+					<!-- <img src="<?php echo get_template_directory_uri() ?>/images/logo.svg" alt="<?php bloginfo('name'); ?>"> -->
+				</a>
 
-						<article <?php post_class() ?>>
-
-							<?php if (has_post_thumbnail()) : ?>
-
-								<div class="content-thumbnail">
-									<?php the_post_thumbnail('1200') ?>
-								</div>
-
-							<?php endif; ?>
-
-							<div class="content-main">
-								<div class="content-main-inner">
-
-									<time><?php echo get_the_date() ?></time>
-									<h2>
-										<a href="<?php the_permalink() ?>">
-											<?php the_title() ?>
-										</a>
-									</h2>
-
-									<div>
-										<?php the_excerpt() ?>
-									</div>
-
-									<div class="row aling-items-end">
-										<div class="col-lg-9 col-6">
-
-											<div class="extrainfo"><strong><?php the_author() ?></strong> in <?php the_category('; ') ?></div>
-											<div class="extrainfo"><?php the_tags('', '; ', '') ?></div>
-
-										</div>
-										<div class="col-lg-3 col-6 text-end">
-
-											<a class="btn btn-primary" href="<?php the_permalink() ?>">
-												<?php _e('Read more...', 'wtsp') ?>
-											</a>
-
-										</div>
-									</div>
-
-								</div>
-							</div>
-
-						</article>
-
-					</li>
-				<?php endwhile; ?>
-			</ul>
-
-			<hr>
-
-			<div class="row text-center">
-				<div class="col-lg">
-					<?php previous_posts_link('Older posts'); ?>
-				</div>
-				<div class="col-lg">
-					<?php next_posts_link('Newer posts'); ?>
-				</div>
 			</div>
+			<div class="col">
 
+				<?php
+				if (has_nav_menu('mainmenu')) :
+					wp_nav_menu([
+						'menu' => 'mainmenu',
+						'theme_location' => 'mainmenu',
+						'menu_id' => 'mainmenu',
+						'depth' => 1
+					]);
+				endif;
+				?>
+
+			</div>
+			<div class="col-lg-3">
+
+				<form id="searchform" class="d-flex" role="search" method="get" action="<?php echo esc_url(home_url('/')); ?>">
+					<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="s" value="<?php echo get_search_query(); ?>">
+					<button class="btn btn-outline-primary" type="submit">Search</button>
+				</form>
+
+			</div>
 		</div>
 
-	<?php endif; ?>
-</div>
+	</div>
+</header>
 
-<?php get_footer(); ?>
+<hr>
+
+<main>
+
+	<div>
+
+		<h1>Theme</h1>
+
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore autem nihil deserunt in ad non veritatis voluptatibus consequatur repudiandae consequuntur! Expedita id repellendus consequuntur! Quidem temporibus odit laudantium quisquam excepturi.</p>
+
+	</div>
+
+
+</main>
+
+<footer id="footer">
+	<div class="container">
+
+		<div class="row justify-content-center text-center">
+			<div class="col-lg-3">
+
+				<?php bloginfo('name'); ?> &copy; <?php echo date('Y') ?>
+
+			</div>
+			<div class="col-lg-3">
+
+				Made by <a href="https://axio.studio/">axio.studio</a>
+
+			</div>
+			<div class="col-lg-3">
+
+				<a href="https://github.com/axiostudio/wordpress-theme-starter-pack">Visit the repo</a>
+
+			</div>
+		</div>
+
+	</div>
+</footer>
+<?php get_footer() ?>

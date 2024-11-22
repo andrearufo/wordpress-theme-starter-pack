@@ -1,17 +1,24 @@
 import { defineConfig } from 'vite';
 import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
+import FullReload from 'vite-plugin-full-reload';
 import dotenv from 'dotenv';
 
-// Carica il file .env
 dotenv.config();
 
 export default defineConfig({
   root: './',
-  base: `/`,
+  base: '/', // Base semplificata per evitare conflitti
   server: {
-    host: true,
+    host: process.env.VITE_HOST,
     port: parseInt(process.env.VITE_PORT, 10) || 5173,
+    hmr: {
+      host: 'localhost', // Host usato per i WebSocket
+      port: parseInt(process.env.VITE_PORT, 10) || 5173,
+    },
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
     proxy: {
       '/': {
         target: `http://localhost:${process.env.SERVER_PORT}`,
@@ -20,6 +27,9 @@ export default defineConfig({
       },
     },
   },
+  plugins: [
+    FullReload(['**/*.php'], { delay: 300 }), // Aggiungi un delay per stabilizzare il reload
+  ],
   build: {
     outDir: 'dist',
     emptyOutDir: true,

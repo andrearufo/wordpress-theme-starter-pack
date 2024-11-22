@@ -1,7 +1,6 @@
-// Rimuovi l'importazione CSS da qui se presente
-// import '../styles/main.scss'; // NON NECESSARIO
+import '../styles/main.scss';
 
 // JavaScript personalizzato
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('Hello, WordPress + Vite!');
+  console.log('Hello to WordPress + Vite!');
 });
