@@ -1,28 +1,42 @@
 import { defineConfig } from 'vite';
 import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
+import dotenv from 'dotenv';
+
+// Carica il file .env
+dotenv.config();
 
 export default defineConfig({
-  root: './', // Radice del tema
-  base: '/wp-content/themes/your-theme/', // URL base del tema
+  root: './',
+  base: `/`,
+  server: {
+    host: true,
+    port: parseInt(process.env.VITE_PORT, 10) || 5173,
+    proxy: {
+      '/': {
+        target: `http://localhost:${process.env.SERVER_PORT}`,
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
   build: {
-    outDir: 'dist', // Output nella cartella dist
+    outDir: 'dist',
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        main: 'src/scripts/main.js', // Ingresso principale per JS
-        styles: 'src/styles/main.scss', // Ingresso principale per CSS
+        main: 'src/scripts/main.js',
+        styles: 'src/styles/main.scss',
       },
       output: {
         assetFileNames: ({ name }) => {
-          // Cambia i nomi degli asset in base al file di input
-          if (name === 'styles.css') {
-            return 'styles/main.css'; // Output CSS come main.css
+          if (name && name.endsWith('.css')) {
+            return 'styles/main.css';
           }
-          return '[name].[ext]'; // Lascia invariati altri asset
+          return 'scripts/[name].js';
         },
-        chunkFileNames: 'scripts/[name].js', // Chunk JS in dist/scripts/
-        entryFileNames: 'scripts/[name].js', // Ingressi JS in dist/scripts/
+        chunkFileNames: 'scripts/[name].js',
+        entryFileNames: 'scripts/[name].js',
       },
     },
   },

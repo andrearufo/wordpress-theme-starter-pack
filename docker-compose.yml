@@ -1,11 +1,11 @@
 services:
     db:
-        image: mariadb:10.5.8
+        image: mariadb:10.6.0
         volumes:
-            - db_data:/var/lib/mysql
+            - ./_volumes/db/data:/var/lib/mysql
         restart: "no"
         environment:
-           MYSQL_ROOT_PASSWORD: rootpassword
+           MYSQL_ROOT_PASSWORD: powerfull
            MYSQL_DATABASE: wordpress
            MYSQL_USER: wordpress
            MYSQL_PASSWORD: wordpress
@@ -15,7 +15,7 @@ services:
             - db
         image: wordpress:latest
         ports:
-            - "${SERVER_PORT}:80"
+            - "${SERVER_PORT}:80"  # Porta configurata in .env
         restart: "no"
         environment:
            WORDPRESS_DB_HOST: db:3306

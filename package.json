@@ -3,11 +3,11 @@
 	"version": "2.0.0",
 	"description": "A starter pack for create a new Wordpress Theme based on Tailwind, Vite and Docker",
 	"scripts": {
-		"start": "docker compose up -d && vite",
-		"rebuild": "rm -rf node_modules dist && yarn install && yarn build",
-		"dev": "vite",
-		"build": "vite build",
-		"serve": "vite preview"
+		"docker:start": "docker compose up -d",
+		"docker:stop": "docker compose down",
+		"dev": "docker compose up -d && vite",
+		"serve": "docker compose up -d && vite preview",
+		"build": "vite build"
 	},
 	"repository": {
 		"type": "git",
@@ -19,8 +19,10 @@
 		"url": "https://github.com/axiostudio/wordpress-theme-starter-pack/issues"
 	},
 	"homepage": "https://github.com/axiostudio/wordpress-theme-starter-pack#readme",
-	"dependencies": {},
+	"dependencies": {
+	},
 	"devDependencies": {
+		"dotenv": "^16.4.5",
 		"autoprefixer": "^10.4.20",
 		"postcss": "^8.4.49",
 		"sass": "^1.81.0",
