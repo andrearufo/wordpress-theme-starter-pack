@@ -1,14 +1,5 @@
-// Importa Bootstrap
-@import '../../node_modules/bootstrap/scss/bootstrap';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@import 'defaults';
-@import 'comments';
-@import 'pagination';
-
-ul.menu{
-    @extend .list-inline;
-
-    > li{
-        @extend .list-inline-item;
-    }
-}
+/* Aggiungi solo gli stili personalizzati qui */

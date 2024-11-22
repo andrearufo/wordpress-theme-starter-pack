@@ -1,5 +1,3 @@
-version: '3.3'
-
 services:
     db:
         image: mariadb:10.5.8
@@ -26,7 +24,8 @@ services:
            WORDPRESS_DB_NAME: wordpress
         volumes:
             - .:/var/www/html/wp-content/themes/${THEME_NAME}
-            - ./.override/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+            - ./_volumes/plugins:/var/www/html/wp-content/plugins
+            - ./_volumes/uploads:/var/www/html/wp-content/uploads
 
 volumes:
     db_data: {}

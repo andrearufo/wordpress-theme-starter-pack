@@ -87,30 +87,9 @@ function wtsp_my_styles_method() {
     );
 
     wp_enqueue_style(
-        'fontawesome',
-        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css',
-        false,
-        '6.5.1'
-    );
-
-    wp_enqueue_style(
-        'slick-carousel',
-        'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css',
-        false,
-        '1.9.0'
-    );
-
-    wp_enqueue_style(
-        'slick-carousel-theme',
-        'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.css',
-        ['slick-carousel'],
-        '1.9.0'
-    );
-
-    wp_enqueue_style(
         'main',
         get_template_directory_uri() . '/dist/styles/main.css',
-        ['style', 'fontawesome'],
+        ['style'],
         '20240122'
     );
 
@@ -120,20 +99,10 @@ function wtsp_my_styles_method() {
 add_action( 'wp_enqueue_scripts', 'wtsp_my_scripts_method');
 function wtsp_my_scripts_method() {
 
-    wp_enqueue_script( 'jquery' );
-
-    wp_enqueue_script(
-        'slick',
-        'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js',
-        ['jquery'],
-        '1.9.0',
-        true
-    );
-
     wp_enqueue_script(
         'main',
         get_template_directory_uri() . '/dist/scripts/main.js',
-        ['jquery', 'slick'],
+        [],
         '20240122',
         true
     );
@@ -143,20 +112,8 @@ function wtsp_my_scripts_method() {
 /* Enamble custom thumbnail sizes */
 if ( function_exists( 'add_image_size' ) ) {
     add_image_size( '1920', 1920 );
-    add_image_size( '1200', 1200 );
-    add_image_size( '1200x1200', 1200, 1200, true );
     add_image_size( '800x600', 800, 600, true );
 }
-
-function unset_images_sizes( $sizes ){
-    unset( $sizes[ 'thumbnail' ]);
-    unset( $sizes[ 'medium' ]);
-    unset( $sizes[ 'large' ]);
-    unset( $sizes[ 'full' ] );
-
-    return $sizes;
-}
-add_filter( 'intermediate_image_sizes_advanced', 'unset_images_sizes' );
 
 /* Customize the excerpt lenght */
 add_filter( 'excerpt_more', 'wtsp_new_excerpt_more' );
