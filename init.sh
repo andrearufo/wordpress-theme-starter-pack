@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Let's start 🚀
-echo "🚀 Let's start building!"
+echo "🚀 Let's start building with TailPress!"
 
 # Check if Docker is running 🐳
 if ! docker info >/dev/null 2>&1; then
@@ -11,7 +11,7 @@ fi
 echo "🐳 Docker is running! Proceeding..."
 
 # Check if required commands are available 🔍
-for cmd in docker wget unzip composer; do
+for cmd in docker composer yarn; do
   if ! command -v $cmd &> /dev/null; then
     echo "❌ Error: $cmd is not installed. Please install it and try again."
     exit 1
@@ -27,13 +27,14 @@ fi
 echo "🔓 No initialization lock found. Continuing..."
 
 # Confirm installation 🔍
-read -p "🛠️ Are you sure you want to continue? (y/n) " -n 1 -r
+read -p "🛠️ Are you sure you want to continue? (Y/n) " -n 1 -r
 echo
-if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+if [[ -z "$REPLY" || "$REPLY" =~ ^[Yy]$ ]]; then
+  echo "✅ Proceeding with initialization..."
+else
   echo "❌ Initialization cancelled."
   exit 1
 fi
-echo "✅ Proceeding with initialization..."
 
 # Copy the .env file if it doesn't exist 🗂️
 if [ -f .env ]; then
@@ -60,55 +61,33 @@ docker compose build --no-cache --force-rm
 docker compose up -d
 echo "✅ Docker containers started successfully."
 
-# Download the Bathe master pack 📦
-if wget https://github.com/wp-bathe/bathe/archive/master.zip; then
-  echo "🎉 Master pack downloaded successfully."
-else
-  echo "❌ Error: Failed to download the master pack. Exiting."
-  exit 1
-fi
+# Create the TailPress theme in a temporary directory inside the container
+echo "📦 Creating new TailPress theme in temporary directory..."
+docker compose exec web bash -c "
+  export PATH=\$PATH:\$HOME/.composer/vendor/bin:\$HOME/.config/composer/vendor/bin &&
+  composer global require jeffreyvanrossum/tailpress-installer &&
+  tailpress new wp-content/themes/$THEME_NAME/temp --no-interaction
+"
 
-# Unzip the master pack and move contents to root 📂
-unzip master.zip
+# Sync files from container to host
+echo "🔄 Syncing files from container to host..."
+docker cp web:/var/www/html/wp-content/themes/$THEME_NAME/temp ./temp
 
-if [ -d bathe-main ]; then
-  mv bathe-main/* ./
-  rm -rf bathe-main
-  echo "✅ Extracted and moved contents of 'bathe-main' to the root."
-else
-  echo "❌ Error: Expected folder 'bathe-main' not found. Exiting."
-  exit 1
-fi
+# Move files from temp to the final destination on the host
+echo "🚚 Moving files..."
+mv temp/* ./
+rm -rf temp
 
-# Remove the zip file 🧹
-rm master.zip
-echo "🧹 Zip file removed."
-
-# Create lock file 🔒
-touch init.lock
-echo "🔒 Initialization lock file created."
-
-# Check if the container is running 🚦
-if ! docker compose ps | grep -q "web.*Up"; then
-  echo "❌ Error: The 'web' container is not running. Exiting."
-  exit 1
-fi
-echo "✅ The 'web' container is running."
-
-# # Install Composer dependencies inside the container 🧩
-# COMPOSER_DIR="/var/www/html/wp-content/themes/$THEME_NAME"
-# echo "🧩 Installing Composer dependencies in $COMPOSER_DIR..."
-# docker compose exec web bash -c "cd $COMPOSER_DIR && composer install"
-# if [ $? -eq 0 ]; then
-#   echo "✅ Composer dependencies installed successfully."
-# else
-#   echo "❌ Error: Failed to install Composer dependencies."
-#   exit 1
-# fi
+# Clean up TailPress Installer (optional)
+echo "🧹 Cleaning up TailPress Installer..."
+docker compose exec web bash -c "
+  composer global remove jeffreyvanrossum/tailpress-installer
+"
 
 # Install Yarn dependencies locally 🧶
-if [ -f package.json ]; then
+if [ -f "package.json" ]; then
   echo "🧶 Installing Yarn dependencies locally..."
+  rm package-lock.json
   yarn install
   if [ $? -eq 0 ]; then
     echo "✅ Yarn dependencies installed successfully."
@@ -117,8 +96,12 @@ if [ -f package.json ]; then
     exit 1
   fi
 else
-  echo "ℹ️ No package.json found. Skipping Yarn installation."
+  echo "ℹ️ No package.json found in $THEME_DIR. Skipping Yarn installation."
 fi
 
+# Create lock file 🔒
+touch init.lock
+echo "🔒 Initialization lock file created."
+
 # Print completion message 🎉
-echo "🚀 Initialization completed! Happy coding!"
+echo "🚀 Initialization completed! Happy coding with TailPress!"
