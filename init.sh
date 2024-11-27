@@ -11,7 +11,7 @@ fi
 echo "🐳 Docker is running! Proceeding..."
 
 # Check if required commands are available 🔍
-for cmd in docker wget unzip; do
+for cmd in docker wget unzip composer; do
   if ! command -v $cmd &> /dev/null; then
     echo "❌ Error: $cmd is not installed. Please install it and try again."
     exit 1
@@ -42,6 +42,14 @@ else
   cp .env.example .env
   echo "✅ .env file created from .env.example."
 fi
+
+# Load THEME_NAME from .env 🔍
+THEME_NAME=$(grep -E "^THEME_NAME=" .env | cut -d '=' -f 2 | xargs)
+if [ -z "$THEME_NAME" ]; then
+  echo "❌ Error: THEME_NAME is not set in .env. Please configure it and try again."
+  exit 1
+fi
+echo "🎨 Using theme: $THEME_NAME"
 
 # Set permissions 🔒
 chmod -R 777 ./_volumes
@@ -80,16 +88,37 @@ echo "🧹 Zip file removed."
 touch init.lock
 echo "🔒 Initialization lock file created."
 
-# Check if the container is running before executing yarn 🚦
+# Check if the container is running 🚦
 if ! docker compose ps | grep -q "web.*Up"; then
   echo "❌ Error: The 'web' container is not running. Exiting."
   exit 1
 fi
 echo "✅ The 'web' container is running."
 
-# Initialize the theme with Yarn 🧶
-docker compose exec web --workdir=/var/www/html/wp-content/themes/my-theme yarn install
-echo "✅ Yarn dependencies installed for the theme."
+# # Install Composer dependencies inside the container 🧩
+# COMPOSER_DIR="/var/www/html/wp-content/themes/$THEME_NAME"
+# echo "🧩 Installing Composer dependencies in $COMPOSER_DIR..."
+# docker compose exec web bash -c "cd $COMPOSER_DIR && composer install"
+# if [ $? -eq 0 ]; then
+#   echo "✅ Composer dependencies installed successfully."
+# else
+#   echo "❌ Error: Failed to install Composer dependencies."
+#   exit 1
+# fi
+
+# Install Yarn dependencies locally 🧶
+if [ -f package.json ]; then
+  echo "🧶 Installing Yarn dependencies locally..."
+  yarn install
+  if [ $? -eq 0 ]; then
+    echo "✅ Yarn dependencies installed successfully."
+  else
+    echo "❌ Error: Failed to install Yarn dependencies."
+    exit 1
+  fi
+else
+  echo "ℹ️ No package.json found. Skipping Yarn installation."
+fi
 
 # Print completion message 🎉
 echo "🚀 Initialization completed! Happy coding!"
