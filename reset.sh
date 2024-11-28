@@ -23,11 +23,22 @@ else
   echo "❌ Error: Failed to remove Docker containers or volumes. Please check Docker."
 fi
 
+# Clean up _volumes directory, preserving .gitignore
+if [ -d "_volumes" ]; then
+  echo "🗑️ Cleaning up mounted directories in _volumes, preserving .gitignore..."
+
+  # Trova tutti i file e le directory da rimuovere tranne .gitignore
+  find ./_volumes -mindepth 1 \( ! -name '.gitignore' \) -exec rm -rf {} +
+
+  echo "✅ Mounted directories cleaned, but .gitignore preserved."
+else
+  echo "ℹ️ _volumes directory not found. Skipping mounted directory cleanup."
+fi
+
 # List of files/directories to keep
 KEEP=(
   ".env.example"
   ".git"
-  ".gitignore"
   "_volumes"
   "docker-compose.yml"
   "dockerfile"

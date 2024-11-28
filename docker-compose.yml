@@ -33,9 +33,10 @@ services:
       context: .
       dockerfile: dockerfile
     volumes:
-      - .:/var/www/html/wp-content/themes/${THEME_NAME}:delegated
-      # - ./_volumes/plugins:/var/www/html/wp-content/plugins
-      # - ./_volumes/uploads:/var/www/html/wp-content/uploads
+      - core_data:/var/www/html               # Volume nominato per il core di WordPress
+      - .:/var/www/html/wp-content/themes/${THEME_NAME}:delegated  # Tema montato localmente
+      - ./_volumes/plugins:/var/www/html/wp-content/plugins        # Plugin montati localmente
+      - ./_volumes/uploads:/var/www/html/wp-content/uploads        # Upload montati localmente
     networks:
       - boilerplate
 
@@ -45,24 +46,25 @@ services:
     depends_on:
       - web
     volumes:
-      - .:/var/www/html/wp-content/themes/${THEME_NAME}:delegated
-      # - ./_volumes/plugins:/var/www/html/wp-content/plugins
-      # - ./_volumes/uploads:/var/www/html/wp-content/uploads
+      - core_data:/var/www/html               # Volume nominato per il core di WordPress
     working_dir: /var/www/html
     entrypoint: ["wp"]
     networks:
       - boilerplate
 
-  # mailpit:
-  #   container_name: mailpit
-  #   image: 'axllent/mailpit:latest'
-  #   ports:
-  #     - '${DOCKER_MAILPIT_PORT:-1025}:1025'
-  #     - '${DOCKER_MAILPIT_DASHBOARD_PORT:-8025}:8025'
-  #   restart: unless-stopped
-  #   networks:
-  #     - boilerplate
+  mailpit:
+    container_name: mailpit
+    image: 'axllent/mailpit:latest'
+    ports:
+      - '${DOCKER_MAILPIT_PORT:-1025}:1025'
+      - '${DOCKER_MAILPIT_DASHBOARD_PORT:-8025}:8025'
+    restart: unless-stopped
+    networks:
+      - boilerplate
 
 networks:
   boilerplate:
     driver: bridge
+
+volumes:
+  core_data: {}  # Volume Docker per il core di WordPress
