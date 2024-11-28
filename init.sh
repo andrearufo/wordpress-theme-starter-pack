@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Let's start 🚀
-echo "🚀 Let's start building with TailPress!"
+echo "🚀 Let's start building with Wordpress!"
 
 # Check if Docker is running 🐳
 if ! docker info >/dev/null 2>&1; then
@@ -11,7 +11,7 @@ fi
 echo "🐳 Docker is running! Proceeding..."
 
 # Check if required commands are available 🔍
-for cmd in docker composer yarn; do
+for cmd in docker composer yarn wget unzip; do
   if ! command -v $cmd &> /dev/null; then
     echo "❌ Error: $cmd is not installed. Please install it and try again."
     exit 1
@@ -56,47 +56,51 @@ echo "🎨 Using theme: $THEME_NAME"
 chmod -R 777 ./_volumes
 echo "✅ Permissions set for ./_volumes."
 
+# Download and extract theme ZIP 📦
+ZIP_URL="https://github.com/wp-bathe/bathe/archive/master.zip"
+ZIP_FILE="theme.zip"
+TEMP_DIR="bathe-main"
+
+echo "📥 Downloading theme from $ZIP_URL..."
+wget -O "$ZIP_FILE" "$ZIP_URL"
+
+echo "📂 Extracting theme..."
+unzip -q "$ZIP_FILE" -d .
+if [ -d "$THEME_NAME" ]; then
+  echo "⚠️ Directory '$THEME_NAME' already exists. Removing it..."
+  rm -rf "$THEME_NAME"
+fi
+mv "$TEMP_DIR" "$THEME_NAME"
+rm "$ZIP_FILE"
+echo "✅ Theme extracted and renamed to '$THEME_NAME'."
+
 # Start the containers 🛳️
 docker compose build --no-cache --force-rm
 docker compose up -d
 echo "✅ Docker containers started successfully."
 
-# Create the TailPress theme in a temporary directory inside the container
-echo "📦 Creating new TailPress theme in temporary directory..."
+# Run composer install in Docker 🐳
+echo "📦 Running composer install in the container..."
 docker compose exec web bash -c "
-  export PATH=\$PATH:\$HOME/.composer/vendor/bin:\$HOME/.config/composer/vendor/bin &&
-  composer global require jeffreyvanrossum/tailpress-installer &&
-  tailpress new wp-content/themes/$THEME_NAME/temp --no-interaction
+  cd wp-content/themes/$THEME_NAME &&
+  composer install
 "
-
-# Sync files from container to host
-echo "🔄 Syncing files from container to host..."
-docker cp web:/var/www/html/wp-content/themes/$THEME_NAME/temp ./temp
-
-# Move files from temp to the final destination on the host
-echo "🚚 Moving files..."
-mv temp/* ./
-rm -rf temp
-
-# Clean up TailPress Installer (optional)
-echo "🧹 Cleaning up TailPress Installer..."
-docker compose exec web bash -c "
-  composer global remove jeffreyvanrossum/tailpress-installer
-"
-
-# Install Yarn dependencies locally 🧶
-if [ -f "package.json" ]; then
-  echo "🧶 Installing Yarn dependencies locally..."
-  rm package-lock.json
-  yarn install
-  if [ $? -eq 0 ]; then
-    echo "✅ Yarn dependencies installed successfully."
-  else
-    echo "❌ Error: Failed to install Yarn dependencies."
-    exit 1
-  fi
+if [ $? -eq 0 ]; then
+  echo "✅ Composer dependencies installed successfully."
 else
-  echo "ℹ️ No package.json found in $THEME_DIR. Skipping Yarn installation."
+  echo "❌ Error: Composer install failed."
+  exit 1
+fi
+
+# Run yarn install locally 🧶
+echo "🧶 Installing Yarn dependencies locally..."
+cd "./$THEME_NAME"
+yarn install
+if [ $? -eq 0 ]; then
+  echo "✅ Yarn dependencies installed successfully."
+else
+  echo "❌ Error: Yarn install failed."
+  exit 1
 fi
 
 # Create lock file 🔒
@@ -104,4 +108,4 @@ touch init.lock
 echo "🔒 Initialization lock file created."
 
 # Print completion message 🎉
-echo "🚀 Initialization completed! Happy coding with TailPress!"
+echo "🚀 Initialization completed! Happy coding with Wordpress!"

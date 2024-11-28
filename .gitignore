@@ -1,7 +1,31 @@
-/node_modules
-/vendor
-/public
-.env
-.budfiles
-npm-debug.log
-yarn-error.log
+# Maps
+assets/css/*.map
+
+# Apache
+.htaccess
+.htpasswd
+
+# WordPress
+wp-config.php
+*.sql
+
+# PHP
+vendor/
+
+# Node.js
+node_modules/
+
+# Logfiles and tempfiles
+/log/*
+!/log/.keep
+/tmp
+*.log
+
+# Other unneeded files
+doc/
+*.swp
+*~
+.project
+.DS_Store
+.idea
+.secret

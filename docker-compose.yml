@@ -1,54 +1,54 @@
 services:
-    db:
-        container_name: db
-        image: mariadb:10.6.0
-        command: --default-authentication-plugin=mysql_native_password
-        volumes:
-            - ./_volumes/db/data:/var/lib/mysql
-        restart: unless-stopped
-        ports:
-            - "${DOCKER_DB_PORT}:3306"
-        environment:
-           MYSQL_ROOT_PASSWORD: rootpassword
-           MYSQL_DATABASE: wordpress
-           MYSQL_USER: wordpress
-           MYSQL_PASSWORD: wordpress
-        networks:
-            - boilerplate
+  db:
+    container_name: db
+    image: mariadb:10.6.0
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./_volumes/db/data:/var/lib/mysql
+    restart: unless-stopped
+    ports:
+      - "${DOCKER_DB_PORT:-3306}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    networks:
+      - boilerplate
 
-    web:
-        container_name: web
-        depends_on:
-            - db
-        image: wordpress:latest
-        ports:
-            - "${DOCKER_WORDPRESS_PORT-80}:80"
-        restart: unless-stopped
-        environment:
-           WORDPRESS_DB_HOST: db:${DOCKER_DB_PORT-3306}
-           WORDPRESS_DB_USER: wordpress
-           WORDPRESS_DB_PASSWORD: wordpress
-           WORDPRESS_DB_NAME: wordpress
-        build:
-            context: .
-            dockerfile: dockerfile
-        volumes:
-            - .:/var/www/html/wp-content/themes/${THEME_NAME}:delegated
-            - ./_volumes/plugins:/var/www/html/wp-content/plugins
-            - ./_volumes/uploads:/var/www/html/wp-content/uploads
-        networks:
-            - boilerplate
+  web:
+    container_name: web
+    depends_on:
+      - db
+    image: wordpress:latest
+    ports:
+      - "${DOCKER_WORDPRESS_PORT:-80}:80"
+    restart: unless-stopped
+    environment:
+      WORDPRESS_DB_HOST: db:${DOCKER_DB_PORT:-3306}
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+    build:
+      context: .
+      dockerfile: dockerfile
+    volumes:
+      - ./${THEME_NAME}:/var/www/html/wp-content/themes/${THEME_NAME}:delegated
+      - ./_volumes/plugins:/var/www/html/wp-content/plugins
+      - ./_volumes/uploads:/var/www/html/wp-content/uploads
+    networks:
+      - boilerplate
 
-    # mailpit:
-    #     container_name: mailpit
-    #     image: 'axllent/mailpit:latest'
-    #     ports:
-    #         - '${DOCKER_MAILPIT_PORT:-1022}:1025'
-    #         - '${DOCKER_MAILPIT_DASHBOARD_PORT:-8022}:8025'
-    #     restart: unless-stopped
-    #     networks:
-    #         - boilerplate
+  mailpit:
+    container_name: mailpit
+    image: 'axllent/mailpit:latest'
+    ports:
+      - '${DOCKER_MAILPIT_PORT:-1025}:1025'
+      - '${DOCKER_MAILPIT_DASHBOARD_PORT:-8025}:8025'
+    restart: unless-stopped
+    networks:
+      - boilerplate
 
 networks:
-    boilerplate:
-        driver: bridge
+  boilerplate:
+    driver: bridge
