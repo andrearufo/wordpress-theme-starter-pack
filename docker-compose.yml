@@ -33,8 +33,8 @@ services:
       context: .
       dockerfile: dockerfile
     volumes:
-      - core_data:/var/www/html               # Volume nominato per il core di WordPress
       - .:/var/www/html/wp-content/themes/${THEME_NAME}:delegated  # Tema montato localmente
+      - ./_volumes/core:/var/www/html                              # Volume nominato per il core di WordPress
       - ./_volumes/plugins:/var/www/html/wp-content/plugins        # Plugin montati localmente
       - ./_volumes/uploads:/var/www/html/wp-content/uploads        # Upload montati localmente
     networks:
@@ -46,7 +46,8 @@ services:
     depends_on:
       - web
     volumes:
-      - core_data:/var/www/html               # Volume nominato per il core di WordPress
+      - ./_volumes/core:/var/www/html                              # Volume nominato per il core di WordPress
+      - ./_volumes/plugins:/var/www/html/wp-content/plugins        # Plugin montati localmente
     working_dir: /var/www/html
     entrypoint: ["wp"]
     networks:
@@ -65,6 +66,3 @@ services:
 networks:
   boilerplate:
     driver: bridge
-
-volumes:
-  core_data: {}  # Volume Docker per il core di WordPress

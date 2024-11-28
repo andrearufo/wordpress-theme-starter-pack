@@ -16,10 +16,6 @@ ADMIN_USER="${WP_ADMIN_USER:-admin}"
 ADMIN_PASSWORD="${WP_ADMIN_PASSWORD:-password}"
 ADMIN_EMAIL="${WP_ADMIN_EMAIL:-admin@example.com}"
 SITE_TITLE="${WP_SITE_TITLE:-My WordPress Site}"
-SMTP_HOST="${SMTP_HOST:-mailpit}"
-SMTP_PORT="${SMTP_PORT:-1025}"
-SMTP_FROM_EMAIL="${SMTP_FROM_EMAIL:-noreply@localhost}"
-SMTP_FROM_NAME="${SMTP_FROM_NAME:-WordPress}"
 
 # Controllo dello stato del database
 echo "⏳ Waiting for database to be ready..."
@@ -34,15 +30,19 @@ echo "🗑️ Cleaning database..."
 docker compose exec db mysql -u${DB_USER} -p${DB_PASS} -e "DROP DATABASE IF EXISTS ${DB_NAME}; CREATE DATABASE ${DB_NAME};"
 
 # Rimuovi wp-config.php esistente
-echo "🗑️ Removing existing wp-config.php (if exists)..."
-docker compose exec web bash -c "rm -f $WP_PATH/wp-config.php"
+echo "🗑️ Checking and removing existing wp-config.php..."
+docker compose exec web bash -c "if [ -f $WP_PATH/wp-config.php ]; then rm -f $WP_PATH/wp-config.php; fi"
 if [ $? -eq 0 ]; then
     echo "✅ Existing wp-config.php removed."
 else
-    echo "❌ Error: Failed to remove wp-config.php."
+    echo "⚠️ wp-config.php not found or could not be removed. Continuing..."
 fi
 
-# Genera wp-config.php
+# Debug: Verifica se il file esiste ancora
+echo "🔍 Debugging wp-config.php removal..."
+docker compose exec web ls -l $WP_PATH/wp-config.php
+
+# Creazione del file wp-config.php
 echo "⚙️ Creating wp-config.php..."
 docker compose run --rm cli config create \
     --dbname="${DB_NAME}" \
@@ -76,7 +76,7 @@ else
 fi
 
 # Installazione e attivazione plugin
-PLUGINS=("bottom-admin-toolbar" "disable-comments" "force-regenerate-thumbnails" "intuitive-custom-post-order" "limit-login-attempts-reloaded" "redirection" "show-current-template")
+PLUGINS=("bottom-admin-toolbar" "disable-comments" "force-regenerate-thumbnails" "intuitive-custom-post-order" "limit-login-attempts-reloaded" "redirection" "show-current-template" "wp-mail-smtp")
 echo "📦 Installing plugins..."
 for PLUGIN in "${PLUGINS[@]}"; do
     docker compose run --rm cli plugin install "$PLUGIN" --activate --allow-root
@@ -87,23 +87,21 @@ for PLUGIN in "${PLUGINS[@]}"; do
     fi
 done
 
-# Installazione e configurazione plugin SMTP
-SMTP_PLUGIN="wp-mail-smtp"
-echo "📦 Installing and configuring SMTP plugin ($SMTP_PLUGIN)..."
-docker compose run --rm cli plugin install "$SMTP_PLUGIN" --activate --allow-root
+# Configurazione del plugin SMTP
+SMTP_HOST="${SMTP_HOST:-mailpit}"
+SMTP_PORT="${SMTP_PORT:-1025}"
+SMTP_FROM_EMAIL="${SMTP_FROM_EMAIL:-noreply@localhost}"
+SMTP_FROM_NAME="${SMTP_FROM_NAME:-WordPress}"
+
+echo "📧 Configuring WP Mail SMTP plugin (Other SMTP)..."
+docker compose run --rm cli option update wp_mail_smtp \
+    "{\"mailer\":\"smtp\",\"from_email\":\"$SMTP_FROM_EMAIL\",\"from_name\":\"$SMTP_FROM_NAME\",\"smtp\":{\"host\":\"$SMTP_HOST\",\"port\":$SMTP_PORT,\"encryption\":\"none\",\"auth\":false}}" \
+    --format=json --allow-root
 if [ $? -eq 0 ]; then
-    echo "✅ SMTP plugin installed and activated."
-    # Configura SMTP tramite WP-CLI
-    docker compose run --rm cli option update wp_mail_smtp \
-        "{\"mailer\":\"smtp\",\"from_email\":\"$SMTP_FROM_EMAIL\",\"from_name\":\"$SMTP_FROM_NAME\",\"smtp\":{\"host\":\"$SMTP_HOST\",\"port\":$SMTP_PORT,\"encryption\":\"none\",\"auth\":false}}" \
-        --format=json --allow-root
-    if [ $? -eq 0 ]; then
-        echo "✅ SMTP plugin configured successfully."
-    else
-        echo "❌ Error: Failed to configure SMTP plugin."
-    fi
+    echo "✅ SMTP plugin configured successfully with Other SMTP."
 else
-    echo "❌ Error: Failed to install SMTP plugin."
+    echo "❌ Error: Failed to configure SMTP plugin."
+    exit 1
 fi
 
 # Controlla lo stato dei plugin
