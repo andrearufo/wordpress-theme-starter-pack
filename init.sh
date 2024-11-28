@@ -109,3 +109,13 @@ echo "🔒 Initialization lock file created."
 
 # Print completion message 🎉
 echo "🚀 Initialization completed! Happy coding with Wordpress!"
+
+# Lancia wordpress.sh
+echo "⚙️ Running WordPress setup script..."
+bash wordpress.sh
+if [ $? -eq 0 ]; then
+    echo "✅ WordPress setup completed successfully."
+else
+    echo "❌ Error: WordPress setup failed."
+    exit 1
+fi

@@ -9,10 +9,10 @@ services:
     ports:
       - "${DOCKER_DB_PORT:-3306}:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress
+      MYSQL_ROOT_PASSWORD: "${DB_MYSQL_ROOT_PASSWORD:-rootpassword}"
+      MYSQL_DATABASE: "${DB_MYSQL_DATABASE:-wordpress}"
+      MYSQL_USER: "${DB_MYSQL_USER:-wordpress}"
+      MYSQL_PASSWORD: "${DB_MYSQL_PASSWORD:-wordpress}"
     networks:
       - boilerplate
 
@@ -36,6 +36,20 @@ services:
       - ./${THEME_NAME}:/var/www/html/wp-content/themes/${THEME_NAME}:delegated
       - ./_volumes/plugins:/var/www/html/wp-content/plugins
       - ./_volumes/uploads:/var/www/html/wp-content/uploads
+    networks:
+      - boilerplate
+
+  cli:
+    container_name: cli
+    image: wordpress:cli
+    depends_on:
+      - web
+    volumes:
+      - .:/var/www/html/wp-content/themes/${THEME_NAME}:delegated
+      - ./_volumes/plugins:/var/www/html/wp-content/plugins
+      - ./_volumes/uploads:/var/www/html/wp-content/uploads
+    working_dir: /var/www/html
+    entrypoint: ["wp"]
     networks:
       - boilerplate
 

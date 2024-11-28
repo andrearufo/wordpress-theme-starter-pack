@@ -31,6 +31,7 @@ KEEP=(
   "_volumes"
   "docker-compose.yml"
   "dockerfile"
+  "wordpress.sh"
   "init.sh"
   "reset.sh"
 )
