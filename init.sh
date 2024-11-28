@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Let's start 🚀
-echo "🚀 Let's start building with Wordpress!"
+echo "🚀 Let's start building with WordPress!"
 
 # Check if Docker is running 🐳
 if ! docker info >/dev/null 2>&1; then
@@ -36,12 +36,17 @@ else
   exit 1
 fi
 
-# Copy the .env file if it doesn't exist 🗂️
+# Check and copy the .env file if it doesn't exist 🗂️
 if [ -f .env ]; then
   echo "ℹ️ .env file already exists. Skipping copy."
 else
-  cp .env.example .env
-  echo "✅ .env file created from .env.example."
+  if [ -f .env.example ]; then
+    cp .env.example .env
+    echo "✅ .env file created from .env.example."
+  else
+    echo "❌ Error: .env.example is missing. Please provide a .env file or an example file."
+    exit 1
+  fi
 fi
 
 # Load THEME_NAME from .env 🔍
@@ -66,18 +71,36 @@ wget -O "$ZIP_FILE" "$ZIP_URL"
 
 echo "📂 Extracting theme..."
 unzip -q "$ZIP_FILE" -d .
-if [ -d "$THEME_NAME" ]; then
-  echo "⚠️ Directory '$THEME_NAME' already exists. Removing it..."
-  rm -rf "$THEME_NAME"
+if [ -d "$TEMP_DIR" ]; then
+  echo "✅ Theme extracted to temporary directory: $TEMP_DIR"
+else
+  echo "❌ Error: Failed to extract theme."
+  rm "$ZIP_FILE"
+  exit 1
 fi
-mv "$TEMP_DIR" "$THEME_NAME"
-rm "$ZIP_FILE"
-echo "✅ Theme extracted and renamed to '$THEME_NAME'."
+
+# Move all files (including hidden) from temporary directory to root
+echo "📂 Moving all theme files (including hidden files) to root directory..."
+find "$TEMP_DIR" -mindepth 1 -maxdepth 1 -exec mv -f {} . \;
+rm -rf "$TEMP_DIR" "$ZIP_FILE"
+echo "✅ Theme files moved to root directory."
 
 # Start the containers 🛳️
 docker compose build --no-cache --force-rm
 docker compose up -d
 echo "✅ Docker containers started successfully."
+
+# Configure Git safe.directory in Docker 🐳
+echo "📦 Configuring Git safe.directory in the container..."
+docker compose exec web bash -c "
+  git config --global --add safe.directory /var/www/html/wp-content/themes/$THEME_NAME
+"
+if [ $? -eq 0 ]; then
+  echo "✅ Git safe.directory configured successfully."
+else
+  echo "❌ Error: Failed to configure Git safe.directory."
+  exit 1
+fi
 
 # Run composer install in Docker 🐳
 echo "📦 Running composer install in the container..."
@@ -94,7 +117,6 @@ fi
 
 # Run yarn install locally 🧶
 echo "🧶 Installing Yarn dependencies locally..."
-cd "./$THEME_NAME"
 yarn install
 if [ $? -eq 0 ]; then
   echo "✅ Yarn dependencies installed successfully."
@@ -108,14 +130,14 @@ touch init.lock
 echo "🔒 Initialization lock file created."
 
 # Print completion message 🎉
-echo "🚀 Initialization completed! Happy coding with Wordpress!"
+echo "🚀 Initialization completed! Happy coding with WordPress!"
 
-# Lancia wordpress.sh
-echo "⚙️ Running WordPress setup script..."
-bash wordpress.sh
-if [ $? -eq 0 ]; then
-    echo "✅ WordPress setup completed successfully."
-else
-    echo "❌ Error: WordPress setup failed."
-    exit 1
-fi
+# Uncomment to launch wordpress.sh after init
+# echo "⚙️ Running WordPress setup script..."
+# bash wordpress.sh
+# if [ $? -eq 0 ]; then
+#     echo "✅ WordPress setup completed successfully."
+# else
+#     echo "❌ Error: WordPress setup failed."
+#     exit 1
+# fi

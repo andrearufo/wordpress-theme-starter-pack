@@ -26,16 +26,16 @@ services:
     restart: unless-stopped
     environment:
       WORDPRESS_DB_HOST: db:${DOCKER_DB_PORT:-3306}
-      WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: wordpress
-      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: "${DB_MYSQL_USER}"
+      WORDPRESS_DB_PASSWORD: "${DB_MYSQL_PASSWORD}"
+      WORDPRESS_DB_NAME: "${DB_MYSQL_DATABASE}"
     build:
       context: .
       dockerfile: dockerfile
     volumes:
-      - ./${THEME_NAME}:/var/www/html/wp-content/themes/${THEME_NAME}:delegated
-      - ./_volumes/plugins:/var/www/html/wp-content/plugins
-      - ./_volumes/uploads:/var/www/html/wp-content/uploads
+      - .:/var/www/html/wp-content/themes/${THEME_NAME}:delegated
+      # - ./_volumes/plugins:/var/www/html/wp-content/plugins
+      # - ./_volumes/uploads:/var/www/html/wp-content/uploads
     networks:
       - boilerplate
 
@@ -46,22 +46,22 @@ services:
       - web
     volumes:
       - .:/var/www/html/wp-content/themes/${THEME_NAME}:delegated
-      - ./_volumes/plugins:/var/www/html/wp-content/plugins
-      - ./_volumes/uploads:/var/www/html/wp-content/uploads
+      # - ./_volumes/plugins:/var/www/html/wp-content/plugins
+      # - ./_volumes/uploads:/var/www/html/wp-content/uploads
     working_dir: /var/www/html
     entrypoint: ["wp"]
     networks:
       - boilerplate
 
-  mailpit:
-    container_name: mailpit
-    image: 'axllent/mailpit:latest'
-    ports:
-      - '${DOCKER_MAILPIT_PORT:-1025}:1025'
-      - '${DOCKER_MAILPIT_DASHBOARD_PORT:-8025}:8025'
-    restart: unless-stopped
-    networks:
-      - boilerplate
+  # mailpit:
+  #   container_name: mailpit
+  #   image: 'axllent/mailpit:latest'
+  #   ports:
+  #     - '${DOCKER_MAILPIT_PORT:-1025}:1025'
+  #     - '${DOCKER_MAILPIT_DASHBOARD_PORT:-8025}:8025'
+  #   restart: unless-stopped
+  #   networks:
+  #     - boilerplate
 
 networks:
   boilerplate:
